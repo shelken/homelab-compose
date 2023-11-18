@@ -4,6 +4,10 @@ networks:
   homelab:
     driver: bridge
 
+secrets:
+  ct-token:
+    environment: CT_TOKEN
+
 services:
   alist3:
     image: 'xhofe/alist:latest'
@@ -25,7 +29,9 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: "tunnel --no-autoupdate run --token ${CT_TOKEN}"
+    command: "tunnel --no-autoupdate run --token $(cat /run/secrets/ct-token)"
+    secrets:
+      - ct-token
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
