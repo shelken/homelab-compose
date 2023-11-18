@@ -1,0 +1,48 @@
+version: '3.8'
+env_file:
+  - ./default.env
+  - ./secret.env
+
+networks:
+  homelab:
+    driver: bridge
+
+services:
+  alist3:
+    image: 'xhofe/alist:latest'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    container_name: alist3
+    networks:
+      - homelab
+    volumes:
+      - ${ALIST_DATA_DIR}:/opt/alist/data
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - '5245:5244'
+    restart: unless-stopped
+  dufs:
+    image: sigoden/dufs
+    container_name: dufs
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ${DUFS_DATA_DIR}:/data
+    ports:
+      - '5000:5000'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1

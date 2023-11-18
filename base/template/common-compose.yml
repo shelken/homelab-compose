@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  example:
+    image: example
+    container_name: example
+    depends_on:
+      - example
+    networks:
+      - homelab
+    # network_mode: host
+    restart: unless-stopped
+    command: 'bash'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ${DATA_DIR}:/data
+    ports:
+      - '80:80'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+
+networks:
+  homelab:
+    driver: bridge
