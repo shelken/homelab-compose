@@ -53,7 +53,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: '/data -A -a shelken:$(cat /run/secrets/dufs-password)@/:rw'
+    command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
     secrets:
       - dufs-password
     labels:
