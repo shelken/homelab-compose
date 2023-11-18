@@ -1,0 +1,410 @@
+version: '3.8'
+
+networks:
+  homelab:
+    driver: bridge
+
+services:
+  alist3:
+    image: 'xhofe/alist:latest'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    container_name: alist3
+    networks:
+      - homelab
+    volumes:
+      - "${ALIST3_DATA_DIR}:/opt/alist/data"
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - '5245:5244'
+    restart: unless-stopped
+  AutoBangumi:
+    image: estrellaxd/auto_bangumi:latest
+    container_name: AutoBangumi
+    networks:
+      - homelab
+    dns:
+      - 223.5.5.5
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${AUTO_BANGUMI_CONFIG_DIR}:/app/config"
+      - "${AUTO_BANGUMI_DATA_DIR}:/app/data"
+    ports:
+      - '7892:7892'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  chinesesubfinder:
+    image: allanpk716/chinesesubfinder:v0.46.3
+    container_name: chinesesubfinder
+    networks:
+      - homelab
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      PUID: ${SHELKEN_PUID}
+      PGID: ${SHELKEN_PGID}
+      PERMS: true
+    volumes:
+      - "${CSF_CONFIG}:/config"  # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径"
+      - "${V1_VIDEO}:/media"
+      # - /volume1/Video/Movies:/media/电影
+      # "- /volume1/Video/TVShows:/media/连续剧    # 请修改为你"的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
+      - "${CSF_BROWSER}:/root/.cache/rod/browser"    # 容器重启后无需再次下载 chrome，除非 go-rod 更新
+    ports:
+      - '19035:19035'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  clash:
+    image: dreamacro/clash:latest
+    container_name: clash
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${CLASH_CONFIG_MIAONA}:/root/.config/clash/config.yaml"
+    ports:
+      - '7890:7890'
+      - '7891:7891'
+      - '9090:9090'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  ct:
+    image: cloudflare/cloudflared:latest
+    container_name: ct
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: "tunnel --no-autoupdate run --token ${CT_TOKEN}"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  home-assistant:
+    image: homeassistant/home-assistant:stable
+    container_name: home-assistant
+    network_mode: host
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      HTTPS_PROXY: http://127.0.0.1:7890
+    volumes:
+      - "${HASS_CONFIG_DIR}:/config"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+      resources:
+        limits:
+          memory: 1G
+  jackett:
+    image: lscr.io/linuxserver/jackett:amd64-latest
+    container_name: jackett
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      PUID: ${SHELKEN_PUID}
+      PGID: ${SHELKEN_PGID}
+      AUTO_UPDATE: false
+    volumes:
+      - "${JACKETT_CONFIG_DIR}:/config"
+      - "${JACKETT_DOWNLOADS_DIR}:/downloads"
+    ports:
+      - '9117:9117'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  melody:
+    image: foamzou/melody:latest
+    container_name: melody
+    networks:
+      - homelab
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${MELODY_CONFIG_PROFILE_DIR}:/app/backend/.profile"
+    ports:
+      - '5566:5566'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  navidrome:
+    image: deluan/navidrome:0.49.0
+    container_name: navidrome
+    user: "${SHELKEN_PUID}:${SHELKEN_PGID}"
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      ND_LASTFM_SECRET: "${LASTFM_SECRET}"
+      ND_LASTFM_APIKEY: "${LASTFM_APIKEY}"
+      ND_LASTFM_ENABLED: true
+    volumes:
+      - "${NAVIDROME_DATA_DIR}:/data"
+      - "${SELF_MAIN_MUSIC}:/music:ro"
+    ports:
+      - '4533:4533'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      VERSION: latest
+      PUID: 1034
+      PGID: 100
+    volumes:
+      - "${PLEX_CONFIG_DIR}:/config"
+      - "${SELF_MAIN_MUSIC}:/volume1/Music/music:ro"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:amd64-latest
+    container_name: qbittorrent
+    networks:
+      - homelab
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      PUID: ${SHELKEN_PUID}
+      PGID: ${SHELKEN_PGID}
+      WEBUI_PORT: 8080
+    volumes:
+      - "${QB_CONFIG_DIR}:/config"
+      - "${V1_VIDEO_WATCH}:/downloads/watch"
+      - "${V1_VIDEO_MOVIE_WATCH}:/downloads/MovieWatch"
+      - "${QB_DOWNLOADS_DIR}:/downloads/qb"
+      - "${QB_UI_DIR}:/ui"
+      - "${QB_SCRIPT_DIR}:/script"
+      - "${NASTOOLS_DOWNLOADS_DIR}:/downloads/nastools"
+    ports:
+      - "8086:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  resilio-sync:
+    image: lscr.io/linuxserver/resilio-sync:latest
+    container_name: resilio-sync
+    networks:
+      - homelab
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      PUID: ${SHELKEN_PUID}
+      PGID: ${SHELKEN_PGID}
+    volumes:
+      - "${RSL_SYNC_CONFIG_DIR}:/config"
+      - "${RSL_SYNC_DOWNLOADS_DIR}:/downloads"
+      - "${SELF_MAIN_MUSIC}:/sync/music"
+      - "${V1_VIDEO_BEATSABER}:/sync/Video/BeatSaber"
+    ports:
+      - '8888:8888'
+      - '55555:55555'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    networks:
+      - homelab
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      PUID: 0
+      PGID: 0
+    volumes:
+      - "${SYNCTHING_CONFIG}:/config"
+      - "${DOCKER_DATA_DIR}:/syncthing-nas/volume1/docker"
+    ports:
+      - '8384:8384'
+      - '22000:22000/tcp'
+      - '22000:22000/udp'
+      - '21027:21027/udp'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  tachidesk:
+    image: ghcr.io/suwayomi/tachidesk:v0.7.0
+    container_name: tachidesk
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${TACHIDESK_DATA_DIR}:/home/suwayomi/.local/share/Tachidesk"
+    ports:
+      - '4567:4567'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+      resources:
+        limits:
+           memory: 1G
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: '-c --interval 3600 --label-enable'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  yacd:
+    image: haishanh/yacd:master
+    container_name: yacd
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      YACD_DEFAULT_BACKEND: ${NAS_CLASH_API}
+    ports:
+      - '7080:80'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
