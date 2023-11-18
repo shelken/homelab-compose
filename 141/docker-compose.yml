@@ -7,6 +7,8 @@ networks:
 secrets:
   ct-token:
     environment: CT_TOKEN
+  dufs-password:
+    environment: DUFS_PASSWORD
 
 services:
   alist3:
@@ -52,6 +54,8 @@ services:
       - homelab
     restart: unless-stopped
     command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
+    secrets:
+      - dufs-password
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
