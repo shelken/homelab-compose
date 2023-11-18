@@ -31,7 +31,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: "tunnel --no-autoupdate run --token $(cat /run/secrets/ct-token)"
+    command: "tunnel --no-autoupdate run --token ${CT_TOKEN}"
     secrets:
       - ct-token
     labels:
@@ -53,7 +53,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
+    command: '/data -A -a shelken:$(cat /run/secrets/dufs-password)@/:rw'
     secrets:
       - dufs-password
     labels:
