@@ -57,7 +57,7 @@ services:
       TZ: Asia/Shanghai
       PUID: ${SHELKEN_PUID}
       PGID: ${SHELKEN_PGID}
-      PERMS: true
+      PERMS: 'true'
     volumes:
       - "${CSF_CONFIG}:/config"  # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径"
       - "${V1_VIDEO}:/media"
@@ -156,7 +156,7 @@ services:
       TZ: Asia/Shanghai
       PUID: ${SHELKEN_PUID}
       PGID: ${SHELKEN_PGID}
-      AUTO_UPDATE: false
+      AUTO_UPDATE: 'false'
     volumes:
       - "${JACKETT_CONFIG_DIR}:/config"
       - "${JACKETT_DOWNLOADS_DIR}:/downloads"
@@ -207,7 +207,7 @@ services:
       TZ: Asia/Shanghai
       ND_LASTFM_SECRET: "${LASTFM_SECRET}"
       ND_LASTFM_APIKEY: "${LASTFM_APIKEY}"
-      ND_LASTFM_ENABLED: true
+      ND_LASTFM_ENABLED: 'true'
     volumes:
       - "${NAVIDROME_DATA_DIR}:/data"
       - "${SELF_MAIN_MUSIC}:/music:ro"
