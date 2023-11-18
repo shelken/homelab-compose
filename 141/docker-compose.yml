@@ -1,7 +1,4 @@
 version: '3.8'
-env_file:
-  - ./default.env
-  - ./secret.env
 
 networks:
   homelab:
@@ -16,12 +13,32 @@ services:
     networks:
       - homelab
     volumes:
-      - ${ALIST_DATA_DIR}:/opt/alist/data
+      - "${ALIST3_DATA_DIR}:/opt/alist/data"
     environment:
       - TZ=Asia/Shanghai
     ports:
       - '5245:5244'
     restart: unless-stopped
+  ct:
+    image: cloudflare/cloudflared:latest
+    container_name: ct
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: "tunnel --no-autoupdate run --token ${CT_TOKEN}"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   dufs:
     image: sigoden/dufs
     container_name: dufs
@@ -34,9 +51,269 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - ${DUFS_DATA_DIR}:/data
+      - "${DUFS_DATA_DIR}:/data"
     ports:
       - '5000:5000'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  home-assistant:
+    image: homeassistant/home-assistant:stable
+    container_name: home-assistant
+    # networks:
+    #   - homelab
+    network_mode: host
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${HASS_CONFIG_DIR}:/config"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+      resources:
+        limits:
+          memory: 1G
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      LOG_LEVEL: debug
+    volumes:
+      - "${HOMEPAGE_CONFIG}:/app/config"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '5520:3000'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  memos:
+    image: neosmemo/memos:latest
+    container_name: memos
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${MEMOS_DATA_DIR}:/var/opt/memos"
+    ports:
+      - '5230:5230'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  mysql8:
+    image: mysql:8
+    container_name: mysql8
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: 
+      [
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+        "--default-time-zone=+8:00",
+      ]
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: chanify
+    volumes:
+      - "${MYSQL8_DATA_DIR}:/var/lib/mysql"
+    ports:
+      - '6306:3306'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "${PORTAINER_DATA_DIR}:/data"
+    ports:
+      - '9000:9000'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  shlink:
+    image: shlinkio/shlink:stable
+    container_name: shlink
+    depends_on:
+      - mysql8
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      DEFAULT_DOMAIN: ${SHLINK_DOMAIN}
+      IS_HTTPS_ENABLED: 'true'
+      GEOLITE_LICENSE_KEY: ${GEOLITE_LICENSE_KEY}
+      SKIP_INITIAL_GEOLITE_DOWNLOAD: 'true'
+      DB_DRIVER: mysql
+      DB_NAME: shlink
+      DB_USER: root
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      DB_HOST: mysql8
+      # SHELL_VERBOSITY: 3
+    ports:
+      - '7580:8080'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    networks:
+      - homelab
+    restart: unless-stopped
+    # labels:
+    #   - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+      PUID: 0
+      PGID: 0
+    volumes:
+      - "${SYNCTHING_CONFIG}:/config"
+      - "${SYNCTHING_BACKUP_MAIN_DIR}:/syncthing-141/data"
+    ports:
+      - '8384:8384'
+      - '22000:22000/tcp'
+      - '22000:22000/udp'
+      - '21027:21027/udp'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  uptime-kuma:
+    image: louislam/uptime-kuma
+    container_name: uptime-kuma
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${UPTIME_KUMA_DATA_DIR}:/app/data"
+    ports:
+      - '6300:3001'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: '-c --interval 3600 --label-enable'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  zerotier:
+    image: zerotier/zerotier:latest
+    container_name: zerotier
+    network_mode: host
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    devices:
+      - /dev/net/tun
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${ZEROTIER_DIR}:/var/lib/zerotier-one"
     deploy:
       replicas: 1
       update_config:
