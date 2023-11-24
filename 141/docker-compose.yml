@@ -263,29 +263,6 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  sub-converter:
-    image: shelken/subconverter:latest
-    container_name: sub-converter
-    networks:
-      - homelab
-    restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
-    environment:
-      TZ: Asia/Shanghai
-    # volumes:
-    #   - "${DATA_DIR}:/base/profiles"
-    ports:
-      - '6688:25500'
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
   uptime-kuma:
     image: louislam/uptime-kuma
     container_name: uptime-kuma
