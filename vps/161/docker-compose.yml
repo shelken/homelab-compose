@@ -12,8 +12,8 @@ services:
       TZ: Asia/Shanghai
     # volumes:
     #   - "${DATA_DIR}:/base/profiles"
-    ports:
-      - '6688:25500'
+    # ports:
+    #   - '6688:25500'
     deploy:
       replicas: 1
       update_config:
