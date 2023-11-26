@@ -132,7 +132,7 @@ services:
       - homepage.group=网络
       - homepage.name=Cloudflare Tunnel NAS
       - homepage.icon=cloudflare-zero-trust.png
-      - homepage.href=https://dashboard.cloudflare.com
+      - homepage.href=https://one.dash.cloudflare.com
       - homepage.description=cloudflare-tunnel-home
     environment:
       TZ: Asia/Shanghai
