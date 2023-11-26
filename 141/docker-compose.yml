@@ -40,7 +40,12 @@ services:
     secrets:
       - ct-token
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=Cloudflare Tunnel 141
+      - homepage.icon=cloudflare-zero-trust.png
+      - homepage.href=https://dashboard.cloudflare.com
+      - homepage.description=cloudflare-tunnel
     environment:
       TZ: Asia/Shanghai
     deploy:
