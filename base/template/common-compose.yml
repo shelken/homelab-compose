@@ -15,10 +15,10 @@ services:
       - homepage.group=example
       - homepage.name=example
       - homepage.icon=docker-moby.png
-      - homepage.href="http://${DEPLOY_HOST:127.0.0.1}:80"
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80
       - homepage.description=example
       - homepage.widget.type=example
-      - homepage.widget.url="http://${DEPLOY_HOST:127.0.0.1}:80"
+      - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:80
       - homepage.widget.key=example
     environment:
       TZ: Asia/Shanghai

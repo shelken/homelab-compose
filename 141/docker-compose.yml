@@ -14,11 +14,11 @@ services:
   alist3:
     image: 'xhofe/alist:latest'
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
       - homepage.group=媒体管理
       - homepage.name=云盘
       - homepage.icon=https://cdn.jsdelivr.net/gh/alist-org/logo@main/logo.svg
-      - homepage.href="http://${DEPLOY_HOST:127.0.0.1}:80"
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5245
       - homepage.description=mine-alist3
     container_name: alist3
     networks:
