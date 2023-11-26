@@ -11,8 +11,8 @@ services:
     restart: unless-stopped
     command: 'bash'
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-      - homepage.group=example
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
       - homepage.name=example
       - homepage.icon=docker-moby.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80

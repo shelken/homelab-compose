@@ -62,7 +62,12 @@ services:
     secrets:
       - dufs-password
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=Dufs
+      - homepage.name=Box文件
+      - homepage.icon=https://assets.shelken.top/ali/PicGo/2023-04/8255d189.ico
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5000
+      - homepage.description=Box文件, 包含了/data目录下的文件
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -85,8 +90,13 @@ services:
     #   - homelab
     network_mode: host
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+      # - "com.centurylinklabs.watchtower.enable=true"
+      - homepage.group=智能家居
+      - homepage.name=HASS
+      - homepage.icon=home-assistant-alt.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
+      - homepage.description=home-assistant
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -110,7 +120,7 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
     environment:
       TZ: Asia/Shanghai
       LOG_LEVEL: debug
@@ -135,7 +145,12 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=文章
+      - homepage.name=Memos
+      - homepage.icon=memos.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5230
+      - homepage.description=备忘录，笔记
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -163,8 +178,13 @@ services:
         "--collation-server=utf8mb4_unicode_ci",
         "--default-time-zone=+8:00",
       ]
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+      # - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=mysql8-141
+      - homepage.icon=mysql.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
+      - homepage.description=目前为shlink提供服务
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -189,7 +209,12 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=容器管理
+      - homepage.name=141
+      - homepage.icon=portainer.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9000
+      - homepage.description=portainer
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -215,7 +240,12 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=短链接
+      - homepage.icon=shlink.png
+      - homepage.href=https://app.shlink.io/
+      - homepage.description=短链接管理
     environment:
       TZ: Asia/Shanghai
       DEFAULT_DOMAIN: ${SHLINK_DOMAIN}
@@ -245,8 +275,13 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=文件同步
+      - homepage.name=syncthing-141
+      - homepage.icon=syncthing.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
+      - homepage.description=hk1box-141
     environment:
       TZ: Asia/Shanghai
       PUID: 0
@@ -275,7 +310,15 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=状态汇总
+      - homepage.name=Uptime-Kuma-Public
+      - homepage.icon=uptime-kuma.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:6300
+      - homepage.description=状态监测
+      - homepage.widget.type=uptimekuma
+      - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:6300
+      - homepage.widget.slug=public
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -299,7 +342,11 @@ services:
     restart: unless-stopped
     command: '-c --interval 3600 --label-enable'
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=watchtower-141
+      - homepage.icon=watchtower.png
+      - homepage.description=watchtower
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -324,7 +371,12 @@ services:
     devices:
       - /dev/net/tun
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=zerotier-141
+      - homepage.icon=zerotier.png
+      - homepage.href=https://my.zerotier.com
+      - homepage.description=141 zerotier
     environment:
       TZ: Asia/Shanghai
     volumes:
