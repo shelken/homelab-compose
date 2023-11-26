@@ -96,7 +96,7 @@ services:
     network_mode: host
     restart: unless-stopped
     labels:
-      # - "com.centurylinklabs.watchtower.enable=true"
+      # - com.centurylinklabs.watchtower.enable=true
       - homepage.group=智能家居
       - homepage.name=HASS
       - homepage.icon=home-assistant-alt.png

@@ -8,7 +8,12 @@ services:
   alist3:
     image: 'xhofe/alist:latest'
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=媒体管理
+      - homepage.name=家里云盘
+      - homepage.icon=https://cdn.jsdelivr.net/gh/alist-org/logo@main/logo.svg
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5245
+      - homepage.description=home-alist3
     container_name: alist3
     networks:
       - homelab
@@ -27,8 +32,13 @@ services:
     dns:
       - 223.5.5.5
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+      # - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=媒体管理
+      - homepage.name=AutoBangumi
+      - homepage.icon=https://assets.shelken.top/ali/PicGo/2023-07/84b46518.svg
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:7892
+      - homepage.description=追番
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -51,8 +61,13 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+    #   - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=字幕搜索
+      - homepage.icon=https://cdn.jsdelivr.net/gh/ChineseSubFinder/ChineseSubFinder@master/logo/logo.PNG
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:19035
+      - homepage.description=字幕搜索
     environment:
       TZ: Asia/Shanghai
       PUID: ${SHELKEN_PUID}
@@ -82,7 +97,12 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=clash-nas-core
+      - homepage.icon=clash.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:7080
+      - homepage.description=clash运行
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -108,7 +128,12 @@ services:
     restart: unless-stopped
     command: "tunnel --no-autoupdate run --token ${CT_TOKEN}"
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=Cloudflare Tunnel NAS
+      - homepage.icon=cloudflare-zero-trust.png
+      - homepage.href=https://dashboard.cloudflare.com
+      - homepage.description=cloudflare-tunnel-home
     environment:
       TZ: Asia/Shanghai
     deploy:
@@ -125,8 +150,13 @@ services:
     container_name: home-assistant
     network_mode: host
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+    #   - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=智能家居
+      - homepage.name=Home-HASS
+      - homepage.icon=home-assistant-alt.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
+      - homepage.description=home-assistant
     environment:
       TZ: Asia/Shanghai
       HTTPS_PROXY: http://127.0.0.1:7890
@@ -151,7 +181,12 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=种子搜索
+      - homepage.icon=jackett.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9117
+      - homepage.description=种子搜索, jackett
     environment:
       TZ: Asia/Shanghai
       PUID: ${SHELKEN_PUID}
@@ -177,8 +212,13 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+    #   - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=国内音乐搜索
+      - homepage.icon=https://cdn.jsdelivr.net/gh/foamzou/melody@main/imgs/melody.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5566
+      - homepage.description=音乐搜索
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -202,7 +242,17 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=媒体
+      - homepage.name=Navidrome
+      - homepage.icon=navidrome.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:4533
+      - homepage.description=备用音乐库
+      - homepage.widget.type=navidrome
+      - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:4533
+      - homepage.widget.user=shelken
+      - homepage.widget.salt=${NAVIDROME_SALT}
+      - homepage.widget.token=${NAVIDROME_TOKEN}
     environment:
       TZ: Asia/Shanghai
       ND_LASTFM_SECRET: "${LASTFM_SECRET}"
@@ -227,8 +277,13 @@ services:
     container_name: plex
     network_mode: host
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+    #   - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=媒体
+      - homepage.name=Plex
+      - homepage.icon=plex.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:32400/web/index.html
+      - homepage.description=主音乐库
     environment:
       TZ: Asia/Shanghai
       VERSION: latest
@@ -252,8 +307,18 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+    #   - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=媒体管理
+      - homepage.name=qBittorrent
+      - homepage.icon=qbittorrent.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8086
+      - homepage.description=下载文件
+      - homepage.widget.type=qbittorrent
+      - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:8086
+      - homepage.widget.fields=["leech", "download", "seed", "upload"]
+      - homepage.widget.username=${QB_USERNAME}
+      - homepage.widget.password=${QB_PASSWORD}
     environment:
       TZ: Asia/Shanghai
       PUID: ${SHELKEN_PUID}
@@ -286,8 +351,13 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+    #   - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=文件同步
+      - homepage.name=resilio-sync-nas
+      - homepage.icon=resiliosync.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8888/gui
+      - homepage.description=nas-reilio-sync
     environment:
       TZ: Asia/Shanghai
       PUID: ${SHELKEN_PUID}
@@ -315,8 +385,13 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=文件同步
+      - homepage.name=syncthing-nas
+      - homepage.icon=syncthing.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
+      - homepage.description=nas
     environment:
       TZ: Asia/Shanghai
       PUID: 0
@@ -345,7 +420,12 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=书籍
+      - homepage.name=漫画
+      - homepage.icon=https://assets.shelken.top/ali/PicGo/2023-04/fac91adb.ico
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:4567
+      - homepage.description=Tachidesk
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -372,7 +452,11 @@ services:
     restart: unless-stopped
     command: '-c --interval 3600 --label-enable'
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=watchtower-nas
+      - homepage.icon=watchtower.png
+      - homepage.description=watchtower
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -393,7 +477,12 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=NAS代理
+      - homepage.icon=clash.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:7080/#/proxies
+      - homepage.description=clash-ui
     environment:
       TZ: Asia/Shanghai
       YACD_DEFAULT_BACKEND: ${NAS_CLASH_API}
