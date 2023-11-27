@@ -11,7 +11,7 @@ services:
       - homepage.group=网络
       - homepage.name=vps-161-caddy
       - homepage.icon=caddy.png
-      - homepage.href=https://${MAIN_DOMAIN:www.google.com}
+      - homepage.href=https://${MAIN_DOMAIN:-www.google.com}
       - homepage.description=vps-161反向代理
     environment:
       TZ: Asia/Shanghai
