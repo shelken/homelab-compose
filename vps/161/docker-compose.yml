@@ -1,5 +1,38 @@
 version: "3.8"
 services:
+  caddy:
+    image: caddy:2.7
+    container_name: caddy
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+      - homepage.group=网络
+      - homepage.name=vps-161-caddy
+      - homepage.icon=caddy.png
+      - homepage.href=https://${MAIN_DOMAIN:www.google.com}
+      - homepage.description=vps-161反向代理
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${CADDY_CONFIG_FILE}:/etc/caddy/Caddyfile"
+      - "${CADDY_SITE_DIR}:/srv"
+      - "${CADDY_DATA_DIR}:/data"
+      - "${CADDY_CONFIG_DIR}:/config"
+    ports:
+      - '127.0.0.1:80:80'
+      - '443:443/udp'
+      - '443:443'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   sub-converter:
     image: shelken/subconverter:latest
     container_name: sub-converter
@@ -23,6 +56,109 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  derp:
+    image: fredliang/derper
+    container_name: derp
+    networks:
+      - homelab
+    # network_mode: host
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=derp服务
+      - homepage.icon=tailscale.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80
+      - homepage.description=derp服务
+    environment:
+      TZ: Asia/Shanghai
+      DERP_DOMAIN: ${DERP_DOMAIN}
+      DERP_ADDR: ":8666"
+      DERP_VERIFY_CLIENTS: "true"
+    volumes:
+      - "/var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock"
+    ports:
+     #- 127.0.0.1:8680:80
+      - 3478:3478/udp
+     #- 127.0.0.1:8666:8666
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  headscale:
+    image: headscale/headscale:latest
+    container_name: headscale
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: headscale serve
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=headscale
+      - homepage.icon=tailscale.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80
+      - homepage.description=headscale
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${HEADSCALE_CONFIG_DIR}:/etc/headscale/"
+    ports:
+      - '127.0.0.1:9090:9090'
+      - '127.0.0.1:8080:8080'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  # headscale-webui:
+  #   image: ghcr.io/ifargle/headscale-webui:latest
+  #   container_name: headscale-webui
+  #   depends_on:
+  #     - headscale
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=网络
+  #     - homepage.name=headscale-webui
+  #     - homepage.icon=headscale.png
+  #     - homepage.href=${HEADSCALE_ADMIN_DOMAIN}
+  #     - homepage.description=headscale-webui
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     COLOR: light-blue
+  #     HS_SERVER: http://headscale:8080
+  #     DOMAIN_NAME: http://headscale-webui:5000
+  #     SCRIPT_NAME: /admin
+  #     AUTH_TYPE: 
+  #     LOG_LEVEL: info
+  #   env_file:
+  #     - ./headscale-ui.env
+  #   volumes:
+  #     - "${HEADSCALE_UI_DATA_DIR}:/data"
+  #     - "${HEADSCALE_CONFIG_DIR}:/etc/headscale/:ro"
+  #   ports:
+  #     - '127.0.0.1:8083:5000'
+  #   deploy:
+  #     replicas: 1
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
 
 networks:
   homelab:
