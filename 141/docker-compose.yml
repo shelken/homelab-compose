@@ -387,6 +387,10 @@ services:
       - homepage.description=watchtower
     environment:
       TZ: Asia/Shanghai
+      WATCHTOWER_NOTIFICATIONS: slack
+      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${WATCHTOWER_SLACK_HOOK_URL}
+      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${WATCHTOWER_SLACK_IDENTIFIER}
+      WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
