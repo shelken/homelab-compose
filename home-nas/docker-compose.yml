@@ -174,38 +174,6 @@ services:
       resources:
         limits:
           memory: 1G
-  jackett:
-    image: lscr.io/linuxserver/jackett:amd64-latest
-    container_name: jackett
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=未分类
-      - homepage.name=种子搜索
-      - homepage.icon=jackett.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9117
-      - homepage.description=种子搜索, jackett
-    environment:
-      TZ: Asia/Shanghai
-      PUID: ${SHELKEN_PUID}
-      PGID: ${SHELKEN_PGID}
-      AUTO_UPDATE: 'false'
-    volumes:
-      - "${JACKETT_CONFIG_DIR}:/config"
-      - "${JACKETT_DOWNLOADS_DIR}:/downloads"
-    ports:
-      - '9117:9117'
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
   melody:
     image: foamzou/melody:latest
     container_name: melody
