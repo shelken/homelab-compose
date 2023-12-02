@@ -378,7 +378,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: '-c --interval 3600 --label-enable'
+    command: '-c --interval 3600 --label-enable --remove-volumes --cleanup'
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=未分类
