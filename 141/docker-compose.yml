@@ -307,6 +307,34 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  slash:
+    image: yourselfhosted/slash:latest
+    container_name: slash
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=slash
+      - homepage.icon=docker-moby.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5231
+      - homepage.description=slash
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${SLASH_DATA_DIR}:/var/opt/slash"
+    ports:
+      - '5231:5231'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
