@@ -1,0 +1,36 @@
+version: '3.8'
+
+networks:
+  homelab:
+    driver: bridge
+
+services:
+  bytebase:
+    image: bytebase/bytebase:2.11.1
+    container_name: bytebase
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: --data /var/opt/bytebase --port 8080
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+      - homepage.group=未分类
+      - homepage.name=bytebase
+      - homepage.icon=docker-moby.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80
+      - homepage.description=bytebase
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${BYTEBASE_DATA_DIR}:/var/opt/bytebase"
+    ports:
+      - '5678:8080'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
