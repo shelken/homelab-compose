@@ -34,3 +34,34 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  scrypted:
+    image: koush/scrypted
+    container_name: scrypted
+    networks:
+      - homelab
+    network_mode: host
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=scrypted
+      - homepage.icon=scrypted.png
+      - homepage.href=https://${DEPLOY_HOST:-127.0.0.1}:10443
+      - homepage.description=scrypted
+    environment:
+      TZ: Asia/Shanghai
+      SCRYPTED_WEBHOOK_UPDATE: http://localhost:10444/v1/update
+      SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION: Bearer SET_THIS_TO_SOME_RANDOM_TEXT
+    volumes:
+      - "${SCRYPTED_DATA_DIR}:/server/volume"
+    # ports:
+    #   - '80:80'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
