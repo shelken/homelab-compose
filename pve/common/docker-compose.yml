@@ -37,8 +37,6 @@ services:
   scrypted:
     image: koush/scrypted
     container_name: scrypted
-    networks:
-      - homelab
     network_mode: host
     restart: unless-stopped
     labels:
