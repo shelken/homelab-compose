@@ -63,8 +63,13 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    # labels:
-    #   - "com.centurylinklabs.watchtower.enable=true"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+      - homepage.group=网络
+      - homepage.name=订阅转换
+      - homepage.icon=docker-moby.png
+      - homepage.href=https://${SUB_CONVERTER_DOMAIN:-www.google.com}
+      - homepage.description=订阅转换
     environment:
       TZ: Asia/Shanghai
     # volumes:
@@ -92,7 +97,7 @@ services:
       - homepage.group=网络
       - homepage.name=derp服务
       - homepage.icon=tailscale.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80
+      - homepage.href=https://${DERP_DOMAIN}
       - homepage.description=derp服务
     environment:
       TZ: Asia/Shanghai
@@ -126,7 +131,7 @@ services:
       - homepage.group=网络
       - homepage.name=headscale
       - homepage.icon=tailscale.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80
+      - homepage.href=https://${HEADSCALE_DOMAIN}
       - homepage.description=headscale
     environment:
       TZ: Asia/Shanghai
