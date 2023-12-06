@@ -317,7 +317,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=未分类
       - homepage.name=slash
-      - homepage.icon=docker-moby.png
+      - homepage.icon=https://cdn.jsdelivr.net/gh/yourselfhosted/slash@main/docs/assets/logo.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5231
       - homepage.description=slash
     environment:

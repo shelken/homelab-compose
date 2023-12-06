@@ -16,8 +16,8 @@ services:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=未分类
       - homepage.name=bytebase
-      - homepage.icon=docker-moby.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:80
+      - homepage.icon=https://cdn.jsdelivr.net/gh/bytebase/bytebase@main/frontend/src/assets/logo-icon.svg
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5678
       - homepage.description=bytebase
     environment:
       TZ: Asia/Shanghai
