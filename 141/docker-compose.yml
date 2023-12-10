@@ -184,6 +184,7 @@ services:
     restart: unless-stopped
     labels:
       - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.monitor-only=true
       - homepage.group=文章
       - homepage.name=Memos
       - homepage.icon=memos.png
