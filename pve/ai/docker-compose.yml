@@ -70,8 +70,6 @@ services:
       - homelab
     restart: unless-stopped
     command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
-    secrets:
-      - dufs-password
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=Dufs
