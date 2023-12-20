@@ -103,7 +103,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=AI
       - homepage.name=geminiprochat
-      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@raw/main/public/icon.svg
+      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
       - homepage.description=谷歌gemini对话
     environment:
