@@ -20,7 +20,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=AI
       - homepage.name=chatgpt-next-web
-      - homepage.icon=docker-moby.png
+      - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3006
       - homepage.description=openai 客户端
     environment:
@@ -103,7 +103,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=AI
       - homepage.name=geminiprochat
-      - homepage.icon=docker-moby.png
+      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@raw/main/public/icon.svg
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
       - homepage.description=谷歌gemini对话
     environment:
@@ -135,7 +135,7 @@ services:
       - com.centurylinklabs.watchtower.enable=flase
       - homepage.group=AI
       - homepage.name=ollama-telegram
-      - homepage.icon=docker-moby.png
+      - homepage.icon=https://cdn.jsdelivr.net/gh/ruecat/ollama-telegram@main/res/github/ollama-telegram-readme.png
       # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:11435
       - homepage.description=ollama-telegram-bot
     environment:
@@ -166,7 +166,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=AI
       - homepage.name=ollama-webui
-      - homepage.icon=docker-moby.png
+      - homepage.icon=https://cdn.jsdelivr.net/gh/ollama-webui/ollama-webui@main/static/favicon.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:11435
       - homepage.description=ollama-webui
     environment:
