@@ -26,7 +26,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       CODE: "${CNW_CODE}" # 使用的code
-      OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL} # cloudflare 代理地址
+      BASE_URL: ${OPENAI_API_BASE_URL} # cloudflare 代理地址
       OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
     ports:
       - '3006:3000'
