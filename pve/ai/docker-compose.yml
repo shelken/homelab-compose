@@ -148,6 +148,36 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  lobe-chat:
+    image: lobehub/lobe-chat
+    container_name: lobe-chat
+    networks:
+      - homelab
+      - ai
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=AI
+      - homepage.name=lobe-chat
+      - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3026
+      - homepage.description=lobe-chat
+    environment:
+      TZ: Asia/Shanghai
+      ACCESS_CODE: "${CNW_CODE}" # 使用的code
+      OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL} # cloudflare 代理地址
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
+    ports:
+      - '3026:3210'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   ollama-telegram:
     container_name: ollama-telegram
     build: 
