@@ -121,6 +121,33 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  gemini-proxy:
+    image: zhu327/gemini-openai-proxy:latest
+    container_name: gemini-proxy
+    networks:
+      - homelab
+      - ai
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=AI
+      - homepage.name=gemini-proxy
+      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
+      - homepage.description=将 openai api 转为 gemini api
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '3017:8080'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   ollama-telegram:
     container_name: ollama-telegram
     build: 
