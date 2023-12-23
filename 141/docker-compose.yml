@@ -410,7 +410,7 @@ services:
     command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --remove-volumes --cleanup'
     labels:
       - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=未分类
+      - homepage.group=容器更新
       - homepage.name=watchtower-141
       - homepage.icon=watchtower.png
       - homepage.description=watchtower
