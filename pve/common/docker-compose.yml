@@ -58,6 +58,35 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  dufs:
+    image: sigoden/dufs
+    container_name: dufs
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=Dufs
+      - homepage.name=Winfile文件盘
+      - homepage.icon=https://assets.shelken.top/ali/PicGo/2023-04/8255d189.ico
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5000
+      - homepage.description=winfile文件盘、pve-syncthing同步文件
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${WINFILE_DATA_DIR}:/data/winfile"
+    ports:
+      - '5000:5000'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   scrypted:
     image: koush/scrypted
     container_name: scrypted
@@ -78,6 +107,70 @@ services:
       - "${SCRYPTED_DATA_DIR}:/server/volume"
     # ports:
     #   - '80:80'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=文件同步
+      - homepage.name=syncthing-pve-common
+      - homepage.icon=syncthing.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
+      - homepage.description=pve-common,中央备份
+    environment:
+      TZ: Asia/Shanghai
+      PUID: 0
+      PGID: 0
+    volumes:
+      - "${SYNCTHING_CONFIG}:/config"
+      - "${SYNCTHING_STORE_DATA_DIR}:/pve-sync"
+    ports:
+      - '8384:8384'
+      - '22000:22000/tcp'
+      - '22000:22000/udp'
+      - '21027:21027/udp'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    networks:
+      - homelab
+    restart: unless-stopped
+    command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=${WATCHTOWER_SLACK_IDENTIFIER}
+      - homepage.icon=watchtower.png
+      - homepage.description=watchtower
+    environment:
+      TZ: Asia/Shanghai
+      WATCHTOWER_NOTIFICATIONS: slack
+      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${WATCHTOWER_SLACK_HOOK_URL}
+      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${WATCHTOWER_SLACK_IDENTIFIER}
+      WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 1
       update_config:
