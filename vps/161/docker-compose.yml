@@ -154,7 +154,6 @@ services:
     container_name: lobe-chat
     networks:
       - homelab
-      - ai
     restart: unless-stopped
     labels:
       - com.centurylinklabs.watchtower.enable=true
