@@ -149,6 +149,62 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  lobe-chat:
+    image: lobehub/lobe-chat
+    container_name: lobe-chat
+    networks:
+      - homelab
+      - ai
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=AI
+      - homepage.name=lobe-chat
+      - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
+      - homepage.href=https://${LOBE_CHAT_DOMAIN}
+      - homepage.description=lobe-chat
+    environment:
+      TZ: Asia/Shanghai
+      ACCESS_CODE: "${CNW_CODE}" # 使用的code
+      OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
+    # ports:
+    #   - '3026:3210'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  openai2gemini:
+    image: zhu327/gemini-openai-proxy:latest
+    container_name: openai2gemini
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=AI
+      - homepage.name=openai2gemini
+      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
+      - homepage.description=将 openai api 转为 gemini api
+    environment:
+      TZ: Asia/Shanghai
+    # ports:
+    #   - '127.0.0.1:3017:8080'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   # headscale-webui:
   #   image: ghcr.io/ifargle/headscale-webui:latest
   #   container_name: headscale-webui

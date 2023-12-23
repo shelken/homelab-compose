@@ -140,7 +140,7 @@ services:
     ports:
       - '3017:8080'
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -165,12 +165,12 @@ services:
     environment:
       TZ: Asia/Shanghai
       ACCESS_CODE: "${CNW_CODE}" # 使用的code
-      OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL} # cloudflare 代理地址
+      OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
       OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
     ports:
       - '3026:3210'
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
