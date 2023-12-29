@@ -26,8 +26,10 @@ services:
     environment:
       TZ: Asia/Shanghai
       CODE: "${CNW_CODE}" # 使用的code
-      BASE_URL: ${OPENAI_API_BASE_URL} # cloudflare 代理地址
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
+      # BASE_URL: ${OPENAI_API_BASE_URL} # cloudflare 代理地址
+      # OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
+      # GOOGLE_URL: ${CNW_GOOGLE_URL}
+      GOOGLE_API_KEY: ${GEMINI_API_KEY}
     ports:
       - '3006:3000'
     deploy:
