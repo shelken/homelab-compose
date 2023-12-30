@@ -41,6 +41,9 @@ services:
       - homepage.description=追番
     environment:
       TZ: Asia/Shanghai
+      UMASK: 022
+      PUID: ${SHELKEN_PUID}
+      PGID: ${SHELKEN_PGID}
     volumes:
       - "${AUTO_BANGUMI_CONFIG_DIR}:/app/config"
       - "${AUTO_BANGUMI_DATA_DIR}:/app/data"
