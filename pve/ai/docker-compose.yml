@@ -230,6 +230,7 @@ services:
       - homepage.description=ollama-webui
     environment:
       TZ: Asia/Shanghai
+      OLLAMA_API_BASE_URL: http://${OLLAMA_BASE_URL:-127.0.0.1}:11434/api
     volumes:
       - "${OLLAMA_WEBUI_DATA_DIR}:/app/backend/data"
     extra_hosts:
