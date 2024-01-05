@@ -230,6 +230,8 @@ services:
       - homepage.description=ollama-webui
     environment:
       TZ: Asia/Shanghai
+    volumes:
+      - "${OLLAMA_WEBUI_DATA_DIR}:/app/backend/data"
     extra_hosts:
       - "host.docker.internal:${OLLAMA_BASE_URL:-127.0.0.1}"
     ports:
