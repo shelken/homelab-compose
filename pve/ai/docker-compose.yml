@@ -266,7 +266,7 @@ services:
       GOOGLE_GEMINI_KEY: ${GEMINI_API_KEY}
       TELEGRAM_BOT_TOKEN: ${TG_BOT_COLL_TOKEN}
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
