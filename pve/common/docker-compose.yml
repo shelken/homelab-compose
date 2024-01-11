@@ -87,6 +87,40 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=未分类
+      - homepage.name=n8n
+      - homepage.icon=n8n.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5678
+      - homepage.description=自动化，Workflow
+    environment:
+      TZ: Asia/Shanghai
+      # N8N_HOST: ${SUBDOMAIN}.${DOMAIN_NAME}
+      N8N_PORT: 5678
+      N8N_PROTOCOL: http
+      NODE_ENV: production
+      # WEBHOOK_URL: https://${SUBDOMAIN}.${DOMAIN_NAME}/
+      GENERIC_TIMEZONE: Asia/Shanghai
+    volumes:
+      - "${N8N_DATA_DIR}:/home/node/.n8n"
+    ports:
+      - '5678:5678'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   scrypted:
     image: koush/scrypted
     container_name: scrypted
