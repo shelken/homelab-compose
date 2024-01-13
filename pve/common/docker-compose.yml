@@ -98,7 +98,7 @@ services:
       - homepage.group=未分类
       - homepage.name=n8n
       - homepage.icon=n8n.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5678
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:6789
       - homepage.description=自动化，Workflow
     environment:
       TZ: Asia/Shanghai
