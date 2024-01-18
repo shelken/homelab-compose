@@ -177,13 +177,13 @@ services:
         condition: on-failure
         max_attempts: 1
   memos:
-    image: neosmemo/memos:latest
+    image: neosmemo/memos:0.18.2
     container_name: memos
     networks:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.enable=false
       - com.centurylinklabs.watchtower.monitor-only=false
       - homepage.group=文章
       - homepage.name=Memos
