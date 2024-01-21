@@ -36,7 +36,7 @@ services:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=媒体管理
       - homepage.name=AutoBangumi
-      - homepage.icon=https://assets.shelken.top/ali/PicGo/2023-07/84b46518.svg
+      - homepage.icon=https://gcore.jsdelivr.net/gh/EstrellaXD/Auto_Bangumi@main/webui/public/images/logo.svg
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:7892
       - homepage.description=追番
     environment:
@@ -419,7 +419,7 @@ services:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=书籍
       - homepage.name=漫画
-      - homepage.icon=https://assets.shelken.top/ali/PicGo/2023-04/fac91adb.ico
+      - homepage.icon=https://gcore.jsdelivr.net/gh/Suwayomi/Suwayomi-Server@master/server/src/main/resources/icon/faviconlogo.ico
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:4567
       - homepage.description=Tachidesk
     environment:

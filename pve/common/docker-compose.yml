@@ -69,7 +69,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=Dufs
       - homepage.name=Winfile文件盘
-      - homepage.icon=https://assets.shelken.top/ali/PicGo/2023-04/8255d189.ico
+      - homepage.icon=https://gcore.jsdelivr.net/gh/sigoden/dufs@main/assets/favicon.ico
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5000
       - homepage.description=winfile文件盘、pve-syncthing同步文件
     environment:
