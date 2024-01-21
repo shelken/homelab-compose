@@ -152,13 +152,13 @@ services:
         limits:
           memory: 1G
   homepage:
-    image: ghcr.io/gethomepage/homepage:latest
+    image: ghcr.io/gethomepage/homepage:v0.8.4
     container_name: homepage
     networks:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.enable=false
     environment:
       TZ: Asia/Shanghai
       LOG_LEVEL: debug
