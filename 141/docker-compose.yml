@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 networks:
   homelab:
@@ -12,7 +12,7 @@ secrets:
 
 services:
   alist3:
-    image: 'xhofe/alist:latest'
+    image: "xhofe/alist:latest"
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=媒体管理
@@ -28,7 +28,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     ports:
-      - '5245:5244'
+      - "5245:5244"
     restart: unless-stopped
   caddy:
     image: caddy:latest
@@ -52,8 +52,8 @@ services:
       - "${CADDY_CONFIG_DIR}:/config"
     ports:
       # - '127.0.0.1:80:80'
-      - '443:443/udp'
-      - '443:443'
+      - "443:443/udp"
+      - "443:443"
     deploy:
       replicas: 1
       update_config:
@@ -96,7 +96,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
+    command: "/data -A -a shelken:${DUFS_PASSWORD}@/:rw"
     secrets:
       - dufs-password
     labels:
@@ -111,7 +111,7 @@ services:
     volumes:
       - "${DUFS_DATA_DIR}:/data"
     ports:
-      - '5000:5000'
+      - "5000:5000"
     deploy:
       replicas: 1
       update_config:
@@ -166,7 +166,7 @@ services:
       - "${HOMEPAGE_CONFIG}:/app/config"
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
-      - '5520:3000'
+      - "5520:3000"
     deploy:
       replicas: 1
       update_config:
@@ -182,6 +182,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
+    command: --metric=false
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - com.centurylinklabs.watchtower.monitor-only=false
@@ -195,7 +196,7 @@ services:
     volumes:
       - "${MEMOS_DATA_DIR}:/var/opt/memos"
     ports:
-      - '5230:5230'
+      - "5230:5230"
     deploy:
       replicas: 1
       update_config:
@@ -211,7 +212,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: 
+    command:
       [
         "--character-set-server=utf8mb4",
         "--collation-server=utf8mb4_unicode_ci",
@@ -231,7 +232,7 @@ services:
     volumes:
       - "${MYSQL8_DATA_DIR}:/var/lib/mysql"
     ports:
-      - '6306:3306'
+      - "6306:3306"
     deploy:
       replicas: 1
       update_config:
@@ -260,7 +261,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - "${PORTAINER_DATA_DIR}:/data"
     ports:
-      - '9000:9000'
+      - "9000:9000"
     deploy:
       replicas: 1
       update_config:
@@ -288,9 +289,9 @@ services:
     environment:
       TZ: Asia/Shanghai
       DEFAULT_DOMAIN: ${SHLINK_DOMAIN}
-      IS_HTTPS_ENABLED: 'true'
+      IS_HTTPS_ENABLED: "true"
       GEOLITE_LICENSE_KEY: ${GEOLITE_LICENSE_KEY}
-      SKIP_INITIAL_GEOLITE_DOWNLOAD: 'true'
+      SKIP_INITIAL_GEOLITE_DOWNLOAD: "true"
       DB_DRIVER: mysql
       DB_NAME: shlink
       DB_USER: root
@@ -298,7 +299,7 @@ services:
       DB_HOST: mysql8
       # SHELL_VERBOSITY: 3
     ports:
-      - '7580:8080'
+      - "7580:8080"
     deploy:
       replicas: 1
       update_config:
@@ -326,7 +327,7 @@ services:
     volumes:
       - "${SLASH_DATA_DIR}:/var/opt/slash"
     ports:
-      - '5231:5231'
+      - "5231:5231"
     deploy:
       replicas: 1
       update_config:
@@ -357,10 +358,10 @@ services:
       - "${SYNCTHING_CONFIG}:/config"
       - "${SYNCTHING_BACKUP_MAIN_DIR}:/syncthing-141/data"
     ports:
-      - '8384:8384'
-      - '22000:22000/tcp'
-      - '22000:22000/udp'
-      - '21027:21027/udp'
+      - "8384:8384"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "21027:21027/udp"
     deploy:
       replicas: 1
       update_config:
@@ -391,7 +392,7 @@ services:
     volumes:
       - "${UPTIME_KUMA_DATA_DIR}:/app/data"
     ports:
-      - '6300:3001'
+      - "6300:3001"
     deploy:
       replicas: 1
       update_config:
@@ -407,7 +408,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --remove-volumes --cleanup'
+    command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --remove-volumes --cleanup"
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=容器更新
