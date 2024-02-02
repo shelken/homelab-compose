@@ -206,6 +206,32 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  mosdns:
+    image: ghcr.io/shelken/mosdns:latest
+    container_name: mosdns
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=mosdns
+      - homepage.icon=azure-dns.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:53
+      - homepage.description=dns服务
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "53:5533/udp"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   mysql8:
     image: mysql:8
     container_name: mysql8
