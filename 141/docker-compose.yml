@@ -217,12 +217,12 @@ services:
       - homepage.group=网络
       - homepage.name=mosdns
       - homepage.icon=azure-dns.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:53
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5533
       - homepage.description=dns服务
     environment:
       TZ: Asia/Shanghai
     ports:
-      - "53:5533/udp"
+      - "5533:5533/udp"
     deploy:
       replicas: 1
       update_config:
