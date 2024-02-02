@@ -223,6 +223,7 @@ services:
       TZ: Asia/Shanghai
     ports:
       - "5533:5533/udp"
+      - "5533:5533/tcp"
     deploy:
       replicas: 1
       update_config:
