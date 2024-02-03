@@ -64,7 +64,7 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - "com.centurylinklabs.watchtower.enable=false"
+      - com.centurylinklabs.watchtower.enable=true
       - homepage.group=网络
       - homepage.name=订阅转换
       - homepage.icon=docker-moby.png
