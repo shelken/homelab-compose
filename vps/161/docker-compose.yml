@@ -72,6 +72,9 @@ services:
       - homepage.description=订阅转换
     environment:
       TZ: Asia/Shanghai
+      MANAGED_PREFIX: https://${SUB_CONVERTER_DOMAIN:-www.google.com}
+      API_MODE: false
+      API_TOKEN: password
     # volumes:
     #   - "${DATA_DIR}:/base/profiles"
     # ports:
