@@ -166,10 +166,9 @@ services:
       CFDDNS_TOKEN: ${DDNS_CF_TOKEN}
       CFDDNS_DOMAINS: ${DDNS_DOMAINS}
       CFDDNS_LOG_LEVEL: info
-      CFDDNS_PRIORITY_SUBNETS: "2409::/16"
+      CFDDNS_PRIORITY_SUBNETS: ${DDNS_PRIORITY_SUBNETS}
       CFDDNS_RUN_EVERY: 5m
       CFDDNS_MULTIHOST: ${DDNS_MULTIHOST:-false}
-      CFDDNS_STATE_FILE: /tmp/cfddns-eth0.state
     deploy:
       replicas: 1
       update_config:
