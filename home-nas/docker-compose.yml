@@ -148,6 +148,37 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  ddns:
+    image: ghcr.io/zebradil/cloudflare-dynamic-dns:4.0.2
+    container_name: ddns
+    network_mode: host
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+      - homepage.group=网络
+      - homepage.name=ddns
+      - homepage.icon=docker-moby.png
+      - homepage.href=https://dash.cloudflare.com
+      - homepage.description=ddns-nas
+    environment:
+      TZ: Asia/Shanghai
+      CFDDNS_IFACE: eth0
+      CFDDNS_TOKEN: ${DDNS_CF_TOKEN}
+      CFDDNS_DOMAINS: ${DDNS_DOMAINS}
+      CFDDNS_LOG_LEVEL: info
+      CFDDNS_PRIORITY_SUBNETS: "2409::/16"
+      CFDDNS_RUN_EVERY: 5m
+      CFDDNS_MULTIHOST: ${DDNS_MULTIHOST:-false}
+      CFDDNS_STATE_FILE: /tmp/cfddns-eth0.state
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
