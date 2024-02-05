@@ -167,7 +167,7 @@ services:
       CFDDNS_DOMAINS: ${DDNS_DOMAINS}
       CFDDNS_LOG_LEVEL: info
       CFDDNS_PRIORITY_SUBNETS: ${DDNS_PRIORITY_SUBNETS}
-      CFDDNS_RUN_EVERY: 5m
+      CFDDNS_RUN_EVERY: 10m
       CFDDNS_MULTIHOST: ${DDNS_MULTIHOST:-false}
     deploy:
       replicas: 1
