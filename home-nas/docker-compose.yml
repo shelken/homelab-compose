@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 networks:
   homelab:
@@ -6,7 +6,7 @@ networks:
 
 services:
   alist3:
-    image: 'xhofe/alist:latest'
+    image: "xhofe/alist:latest"
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=媒体管理
@@ -22,7 +22,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     ports:
-      - '5245:5244'
+      - "5245:5244"
     restart: unless-stopped
   AutoBangumi:
     image: estrellaxd/auto_bangumi:3.1.12
@@ -48,7 +48,7 @@ services:
       - "${AUTO_BANGUMI_CONFIG_DIR}:/app/config"
       - "${AUTO_BANGUMI_DATA_DIR}:/app/data"
     ports:
-      - '7892:7892'
+      - "7892:7892"
     deploy:
       replicas: 1
       update_config:
@@ -75,15 +75,15 @@ services:
       TZ: Asia/Shanghai
       PUID: ${SHELKEN_PUID}
       PGID: ${SHELKEN_PGID}
-      PERMS: 'true'
+      PERMS: "true"
     volumes:
-      - "${CSF_CONFIG}:/config"  # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径"
+      - "${CSF_CONFIG}:/config" # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径"
       - "${V1_VIDEO}:/media"
       # - /volume1/Video/Movies:/media/电影
       # "- /volume1/Video/TVShows:/media/连续剧    # 请修改为你"的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
-      - "${CSF_BROWSER}:/root/.cache/rod/browser"    # 容器重启后无需再次下载 chrome，除非 go-rod 更新
+      - "${CSF_BROWSER}:/root/.cache/rod/browser" # 容器重启后无需再次下载 chrome，除非 go-rod 更新
     ports:
-      - '19035:19035'
+      - "19035:19035"
     deploy:
       replicas: 1
       update_config:
@@ -111,9 +111,9 @@ services:
     volumes:
       - "${CLASH_CONFIG_MIAONA}:/root/.config/clash/config.yaml"
     ports:
-      - '7890:7890'
-      - '7891:7891'
-      - '9090:9090'
+      - "7890:7890"
+      - "7891:7891"
+      - "9090:9090"
     deploy:
       replicas: 1
       update_config:
@@ -249,9 +249,9 @@ services:
     volumes:
       - "${MELODY_CONFIG_PROFILE_DIR}:/app/backend/.profile"
     ports:
-      - '5566:5566'
+      - "5566:5566"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -283,12 +283,12 @@ services:
       TZ: Asia/Shanghai
       ND_LASTFM_SECRET: "${LASTFM_SECRET}"
       ND_LASTFM_APIKEY: "${LASTFM_APIKEY}"
-      ND_LASTFM_ENABLED: 'true'
+      ND_LASTFM_ENABLED: "true"
     volumes:
       - "${NAVIDROME_DATA_DIR}:/data"
       - "${SELF_MAIN_MUSIC}:/music:ro"
     ports:
-      - '4533:4533'
+      - "4533:4533"
     deploy:
       replicas: 1
       update_config:
@@ -334,7 +334,7 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-    #   - com.centurylinklabs.watchtower.enable=true
+      #   - com.centurylinklabs.watchtower.enable=true
       - homepage.group=媒体管理
       - homepage.name=qBittorrent
       - homepage.icon=qbittorrent.png
@@ -394,8 +394,8 @@ services:
       - "${SELF_MAIN_MUSIC}:/sync/music"
       - "${V1_VIDEO_BEATSABER}:/sync/Video/BeatSaber"
     ports:
-      - '8888:8888'
-      - '55555:55555'
+      - "8888:8888"
+      - "55555:55555"
     deploy:
       replicas: 1
       update_config:
@@ -455,10 +455,10 @@ services:
       - "${SYNCTHING_CONFIG}:/config"
       - "${DOCKER_DATA_DIR}:/syncthing-nas/volume1/docker"
     ports:
-      - '8384:8384'
-      - '22000:22000/tcp'
-      - '22000:22000/udp'
-      - '21027:21027/udp'
+      - "8384:8384"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "21027:21027/udp"
     deploy:
       replicas: 1
       update_config:
@@ -486,7 +486,7 @@ services:
     volumes:
       - "${TACHIDESK_DATA_DIR}:/home/suwayomi/.local/share/Tachidesk"
     ports:
-      - '4567:4567'
+      - "4567:4567"
     deploy:
       replicas: 1
       update_config:
@@ -498,14 +498,14 @@ services:
         max_attempts: 1
       resources:
         limits:
-           memory: 1G
+          memory: 1G
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     networks:
       - homelab
     restart: unless-stopped
-    command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
+    command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup"
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=容器更新
@@ -546,7 +546,7 @@ services:
       TZ: Asia/Shanghai
       YACD_DEFAULT_BACKEND: ${NAS_CLASH_API}
     ports:
-      - '7080:80'
+      - "7080:80"
     deploy:
       replicas: 1
       update_config:
