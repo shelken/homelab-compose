@@ -299,7 +299,7 @@ services:
         condition: on-failure
         max_attempts: 1
   shlink:
-    image: shlinkio/shlink:stable
+    image: shlinkio/shlink:3
     container_name: shlink
     depends_on:
       - mysql8
@@ -307,7 +307,7 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.enable=false
       - homepage.group=未分类
       - homepage.name=短链接
       - homepage.icon=shlink.png
