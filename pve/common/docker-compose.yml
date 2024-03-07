@@ -88,13 +88,13 @@ services:
         condition: on-failure
         max_attempts: 1
   n8n:
-    image: docker.n8n.io/n8nio/n8n:latest
+    image: docker.n8n.io/n8nio/n8n:1.30.0
     container_name: n8n
     networks:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.enable=false
       - homepage.group=未分类
       - homepage.name=n8n
       - homepage.icon=n8n.png
