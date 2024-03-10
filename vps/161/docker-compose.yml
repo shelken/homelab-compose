@@ -170,6 +170,7 @@ services:
       ACCESS_CODE: "${CNW_CODE}" # 使用的code
       OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
       OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
+      GOOGLE_API_KEY: ${GEMINI_API_KEY:-key}
     # ports:
     #   - '3026:3210'
     deploy:
@@ -182,7 +183,7 @@ services:
         condition: on-failure
         max_attempts: 1
   openai2gemini:
-    image: zhu327/gemini-openai-proxy:latest
+    image: zhu327/gemini-openai-proxy:v1beta
     container_name: openai2gemini
     networks:
       - homelab
