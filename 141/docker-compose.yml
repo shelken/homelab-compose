@@ -429,6 +429,35 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  wallos:
+    image: bellamy/wallos:latest
+    container_name: wallos
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+      - homepage.group=未分类
+      - homepage.name=订阅管理
+      - homepage.icon=bluewallet.png
+      - homepage.description=wallos订阅管理
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8282
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 8282:80 
+    volumes:
+      - "${WALLOS_DATA_DIR}:/var/www/html/db"
+      - "${WALLOS_LOGO_DIR}:/var/www/html/images/uploads/logos"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
