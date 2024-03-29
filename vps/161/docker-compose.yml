@@ -159,7 +159,7 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.enable=false
       - homepage.group=AI
       - homepage.name=lobe-chat
       - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
@@ -183,13 +183,13 @@ services:
         condition: on-failure
         max_attempts: 1
   openai2gemini:
-    image: zhu327/gemini-openai-proxy:v1beta
+    image: zhu327/gemini-openai-proxy:latest
     container_name: openai2gemini
     networks:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.enable=false
       - homepage.group=AI
       - homepage.name=openai2gemini
       - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
