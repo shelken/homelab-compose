@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 networks:
   homelab:
@@ -31,7 +31,7 @@ services:
       # GOOGLE_URL: ${CNW_GOOGLE_URL}
       GOOGLE_API_KEY: ${GEMINI_API_KEY}
     ports:
-      - '3006:3000'
+      - "3006:3000"
     deploy:
       replicas: 1
       update_config:
@@ -71,7 +71,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
+    command: "/data -A -a shelken:${DUFS_PASSWORD}@/:rw"
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=Dufs
@@ -84,7 +84,7 @@ services:
     volumes:
       - "${DUFS_DATA_DIR}:/data"
     ports:
-      - '5000:5000'
+      - "5000:5000"
     deploy:
       replicas: 1
       update_config:
@@ -113,7 +113,7 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY} # gemini api key
       API_BASE_URL: ${GEMINI_API_BASE_URL} # cloudflare 代理地址
     ports:
-      - '3016:3000'
+      - "3016:3000"
     deploy:
       replicas: 0
       update_config:
@@ -140,9 +140,35 @@ services:
     environment:
       TZ: Asia/Shanghai
     ports:
-      - '3017:8080'
+      - "3017:8080"
     deploy:
       replicas: 0
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  kimi-free-api:
+    image: vinlic/kimi-free-api:latest
+    container_name: kimi-free-api
+    networks:
+      - homelab
+      - ai
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+      - homepage.group=AI
+      - homepage.name=kimi-free-api
+      - homepage.icon=docker-moby.png
+      - homepage.description=kimi-free-api
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "6570:8000"
+    deploy:
+      replicas: 1
       update_config:
         parallelism: 1
         delay: 3s
@@ -170,7 +196,7 @@ services:
       OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
       OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
     ports:
-      - '3026:3210'
+      - "3026:3210"
     deploy:
       replicas: 0
       update_config:
@@ -182,7 +208,7 @@ services:
         max_attempts: 1
   ollama-telegram:
     container_name: ollama-telegram
-    build: 
+    build:
       context: ${OLLAMA_BOT_BUILD_PATH}
       dockerfile: dockerfile
     networks:
@@ -236,7 +262,7 @@ services:
     extra_hosts:
       - "host.docker.internal:${OLLAMA_BASE_URL:-127.0.0.1}"
     ports:
-      - '11435:8080'
+      - "11435:8080"
     deploy:
       replicas: 1
       update_config:
@@ -247,7 +273,7 @@ services:
         condition: on-failure
         max_attempts: 1
   tg-bot-collections:
-    build: 
+    build:
       context: ${TG_BOT_BUILD_PATH}
       dockerfile: Dockerfile
     container_name: tg-bot-collections
@@ -280,7 +306,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
+    command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup"
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=容器更新
