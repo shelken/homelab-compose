@@ -26,7 +26,7 @@ services:
     ports:
       - '5678:8080'
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -150,6 +150,11 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+      resources:
+        reservations:
+          memory: "1024m"
+        limits:
+          memory: "1024m"
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
