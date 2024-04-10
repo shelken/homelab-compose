@@ -25,7 +25,7 @@ services:
       - "5245:5244"
     restart: unless-stopped
   AutoBangumi:
-    image: estrellaxd/auto_bangumi:3.1.12
+    image: estrellaxd/auto_bangumi:3.1.13
     container_name: AutoBangumi
     networks:
       - homelab
