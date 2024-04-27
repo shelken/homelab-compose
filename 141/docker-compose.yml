@@ -29,13 +29,13 @@ services:
       - "5245:5244"
     restart: unless-stopped
   caddy:
-    image: caddy:latest
+    image: ghcr.io/shelken/caddy:latest
     container_name: caddy
     networks:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.enable=false
       - homepage.group=网络
       - homepage.name=tvbox-caddy
       - homepage.icon=caddy.png
