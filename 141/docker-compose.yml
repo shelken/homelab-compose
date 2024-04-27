@@ -43,6 +43,7 @@ services:
       - homepage.description=tvbox反向代理
     environment:
       TZ: Asia/Shanghai
+      MAIN_DOMAIN: ${MAIN_DOMAIN}
     volumes:
       - "${CADDY_CONFIG_FILE}:/etc/caddy/Caddyfile"
       - "${CADDY_SITE_DIR}:/srv"
