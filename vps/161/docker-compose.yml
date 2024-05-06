@@ -182,32 +182,6 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  openai2gemini:
-    image: zhu327/gemini-openai-proxy:latest
-    container_name: openai2gemini
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-      - homepage.group=AI
-      - homepage.name=openai2gemini
-      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
-      - homepage.description=将 openai api 转为 gemini api
-    environment:
-      TZ: Asia/Shanghai
-    # ports:
-    #   - '127.0.0.1:3017:8080'
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
