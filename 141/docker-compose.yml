@@ -221,6 +221,8 @@ services:
       - homepage.description=dns服务
     environment:
       TZ: Asia/Shanghai
+    volumes:
+      - "${MOSDNS_CUSTOM_HOSTS}:/etc/mosdns/hosts/custom"
     ports:
       - "5533:5533/udp"
       - "5533:5533/tcp"
