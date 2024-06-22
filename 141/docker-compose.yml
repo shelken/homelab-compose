@@ -49,6 +49,8 @@ services:
       - homepage.icon=caddy.png
       - homepage.href=https://${MAIN_DOMAIN:-caddyserver.com/docs/}
       - homepage.description=tvbox反向代理
+      - homepage.widget.type=caddy
+      - homepage.widget.url=http://${CADDY_HOST:-caddy}:2019
     environment:
       TZ: Asia/Shanghai
       MAIN_DOMAIN: ${MAIN_DOMAIN}
