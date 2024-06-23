@@ -38,6 +38,7 @@ services:
       - homepage.name=AutoBangumi
       - homepage.icon=https://gcore.jsdelivr.net/gh/EstrellaXD/Auto_Bangumi@main/webui/public/images/logo.svg
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:7892
+      - homepage.instance.public.href=https://atbg.${HOME_DOMAIN}
       - homepage.description=追番
     environment:
       TZ: Asia/Shanghai
@@ -213,6 +214,7 @@ services:
       - homepage.name=Home-HASS
       - homepage.icon=home-assistant-alt.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
+      - homepage.instance.public.href=https://hass-home.${HOME_DOMAIN}
       - homepage.description=home-assistant
     environment:
       TZ: Asia/Shanghai
@@ -309,6 +311,7 @@ services:
       - homepage.name=Plex
       - homepage.icon=plex.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:32400/web/index.html
+      - homepage.instance.public.href=https://plex.${HOME_DOMAIN}
       - homepage.description=主音乐库
     environment:
       TZ: Asia/Shanghai
@@ -339,6 +342,7 @@ services:
       - homepage.name=qBittorrent
       - homepage.icon=qbittorrent.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8086
+      - homepage.instance.public.href=https://qbit.${HOME_DOMAIN}
       - homepage.description=下载文件
       - homepage.widget.type=qbittorrent
       - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:8086

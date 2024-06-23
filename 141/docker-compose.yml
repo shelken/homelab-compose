@@ -17,6 +17,7 @@ services:
       - homepage.name=云盘
       - homepage.icon=https://cdn.jsdelivr.net/gh/alist-org/logo@main/logo.svg
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5245
+      - homepage.instance.public.href=https://drive3.${HOME_DOMAIN}
       - homepage.description=mine-alist3
       - "traefik.http.routers.alist3.service=alist3"
       - "traefik.http.routers.alist3.rule=Host(`drive3.${HOME_DOMAIN}`)"
@@ -144,6 +145,7 @@ services:
       - homepage.name=HASS
       - homepage.icon=home-assistant-alt.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
+      - homepage.instance.public.href=https://hass.${HOME_DOMAIN}
       - homepage.description=home-assistant
     environment:
       TZ: Asia/Shanghai
@@ -200,6 +202,7 @@ services:
       - homepage.name=Memos
       - homepage.icon=memos.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5230
+      - homepage.instance.public.href=https://memos.${HOME_DOMAIN}
       - homepage.description=备忘录，笔记
     environment:
       TZ: Asia/Shanghai
@@ -293,6 +296,7 @@ services:
       - homepage.name=141
       - homepage.icon=portainer.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9000
+      - homepage.instance.public.href=https://port.${HOME_DOMAIN}
       - homepage.description=portainer
     environment:
       TZ: Asia/Shanghai
@@ -465,6 +469,7 @@ services:
       - homepage.name=Uptime-Kuma-Public
       - homepage.icon=uptime-kuma.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:6300
+      - homepage.instance.public.href=https://stats.${HOME_DOMAIN}
       - homepage.description=状态监测
       - homepage.widget.type=uptimekuma
       - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:6300
@@ -506,6 +511,7 @@ services:
       - homepage.icon=bluewallet.png
       - homepage.description=wallos订阅管理
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8282
+      - homepage.instance.public.href=https://wallos.${HOME_DOMAIN}
     environment:
       TZ: Asia/Shanghai
     ports:

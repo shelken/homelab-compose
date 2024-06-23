@@ -99,6 +99,7 @@ services:
       - homepage.name=n8n
       - homepage.icon=n8n.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:6789
+      - homepage.instance.public.href=https://n8n.${HOME_DOMAIN}
       - homepage.description=自动化，Workflow
     environment:
       TZ: Asia/Shanghai
