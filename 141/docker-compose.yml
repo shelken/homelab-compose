@@ -198,6 +198,8 @@ services:
       - com.centurylinklabs.watchtower.enable=false
     environment:
       TZ: Asia/Shanghai
+    ports:
+      - '8370:80'
     deploy:
       replicas: 1
       update_config:
