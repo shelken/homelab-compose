@@ -188,6 +188,25 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  headscale-ui:
+    image: goodieshq/headscale-admin:latest
+    container_name: headscale-ui
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+    environment:
+      TZ: Asia/Shanghai
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   memos:
     image: neosmemo/memos:0.21.0
     container_name: memos
