@@ -258,7 +258,7 @@ services:
     volumes:
       - "${MOSDNS_CUSTOM_HOSTS}:/etc/mosdns/hosts/custom"
     ports:
-      - "5533:53/udp"
+      - "53:53/udp"
       # - "5533:53/tcp"
     deploy:
       replicas: 1
