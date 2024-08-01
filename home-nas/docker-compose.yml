@@ -409,6 +409,34 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  restic-server:
+    image: restic/rest-server:0.13
+    container_name: restic-server
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+      - homepage.group=文件同步
+      - homepage.name=restic-server-nas
+      - homepage.icon=docker-moby.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8888
+      - homepage.description=nas-restic-server
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - "${RESTIC_SERVER_DATA_DIR}:/data"
+    # ports:
+    #   - "5376:80"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   scrypted:
     image: koush/scrypted
     container_name: scrypted
