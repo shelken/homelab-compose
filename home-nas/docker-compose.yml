@@ -427,7 +427,7 @@ services:
     volumes:
       - "${RESTIC_SERVER_DATA_DIR}:/data"
     ports:
-      - "5376:80"
+      - "5376:8000"
     deploy:
       replicas: 1
       update_config:
