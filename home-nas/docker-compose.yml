@@ -410,7 +410,7 @@ services:
         condition: on-failure
         max_attempts: 1
   restic-server:
-    image: restic/rest-server:0.13
+    image: restic/rest-server:0.13.0
     container_name: restic-server
     networks:
       - homelab
