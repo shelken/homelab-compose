@@ -166,7 +166,7 @@ services:
     networks:
       - homelab
     restart: unless-stopped
-    command: "tunnel --no-autoupdate run --token ${CT_TOKEN}"
+    command: "tunnel --no-autoupdate run --token ${CT_TOKEN} --protocol http2"
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=网络
