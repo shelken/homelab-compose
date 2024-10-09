@@ -48,7 +48,7 @@ services:
       CONFIG: /config
     volumes:
       - "${ANI_RSS_CONFIG_DIR}:/config"
-      - "${ANIME_VIDEO_DIR}:/Media/anime"
+      - "${ANIME_VIDEO_DIR}:/media/anime"
     ports:
       - "7789:7789"
     deploy:
