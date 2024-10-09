@@ -58,6 +58,8 @@ services:
         delay: 3s
         order: stop-first
       restart_policy:
+        condition: on-failure
+        max_attempts: 1
   AutoBangumi:
     image: estrellaxd/auto_bangumi:3.1.13
     container_name: AutoBangumi
