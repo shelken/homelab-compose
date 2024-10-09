@@ -24,6 +24,40 @@ services:
     ports:
       - "5245:5244"
     restart: unless-stopped
+  ani-rss:
+    image: wushuo894/ani-rss
+    container_name: ani-rss
+    networks:
+      - homelab
+    dns:
+      - 223.5.5.5
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+      - homepage.group=媒体管理
+      - homepage.name=ani-rss
+      - homepage.icon=https://docs.wushuo.top/image/mikan-pic.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:7789
+      - homepage.instance.public.href=https://ani-rss.${HOME_DOMAIN}
+      - homepage.description=追番
+    environment:
+      TZ: Asia/Shanghai
+      UMASK: 022
+      PUID: ${SHELKEN_PUID}
+      PGID: ${SHELKEN_PGID}
+      CONFIG: /config
+    volumes:
+      - "${ANI_RSS_CONFIG_DIR}:/config"
+      - "${ANIME_VIDEO_DIR}:/Media/anime"
+    ports:
+      - "7789:7789"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
   AutoBangumi:
     image: estrellaxd/auto_bangumi:3.1.13
     container_name: AutoBangumi
@@ -51,7 +85,7 @@ services:
     ports:
       - "7892:7892"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -361,7 +395,7 @@ services:
       - "${QB_DOWNLOADS_DIR}:/downloads/qb"
       - "${QB_UI_DIR}:/ui"
       - "${QB_SCRIPT_DIR}:/script"
-      - "${NASTOOLS_DOWNLOADS_DIR}:/downloads/nastools"
+      - "${ANIME_VIDEO_DIR}:/media/anime"
     ports:
       - "8086:8080"
       - "6881:6881"
