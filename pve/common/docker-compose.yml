@@ -5,35 +5,35 @@ networks:
     driver: bridge
 
 services:
-  bytebase:
-    image: bytebase/bytebase:2.11.1
-    container_name: bytebase
-    networks:
-      - homelab
-    restart: unless-stopped
-    command: --data /var/opt/bytebase --port 8080
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-      - homepage.group=未分类
-      - homepage.name=bytebase
-      - homepage.icon=https://cdn.jsdelivr.net/gh/bytebase/bytebase@main/frontend/src/assets/logo-icon.svg
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5678
-      - homepage.description=bytebase
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - "${BYTEBASE_DATA_DIR}:/var/opt/bytebase"
-    ports:
-      - '5678:8080'
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # bytebase:
+  #   image: bytebase/bytebase:2.11.1
+  #   container_name: bytebase
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   command: --data /var/opt/bytebase --port 8080
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=false
+  #     - homepage.group=未分类
+  #     - homepage.name=bytebase
+  #     - homepage.icon=https://cdn.jsdelivr.net/gh/bytebase/bytebase@main/frontend/src/assets/logo-icon.svg
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5678
+  #     - homepage.description=bytebase
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - "${BYTEBASE_DATA_DIR}:/var/opt/bytebase"
+  #   ports:
+  #     - '5678:8080'
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy

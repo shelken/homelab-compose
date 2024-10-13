@@ -94,62 +94,62 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  geminiprochat:
-    image: ghcr.io/babaohuang/geminiprochat:main
-    container_name: geminiprochat
-    networks:
-      - homelab
-      - ai
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=AI
-      - homepage.name=geminiprochat
-      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
-      - homepage.description=谷歌gemini对话
-    environment:
-      TZ: Asia/Shanghai
-      GEMINI_API_KEY: ${GEMINI_API_KEY} # gemini api key
-      API_BASE_URL: ${GEMINI_API_BASE_URL} # cloudflare 代理地址
-    ports:
-      - "3016:3000"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
-  gemini-proxy:
-    image: zhu327/gemini-openai-proxy:latest
-    container_name: gemini-proxy
-    networks:
-      - homelab
-      - ai
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=AI
-      - homepage.name=gemini-proxy
-      - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
-      - homepage.description=将 openai api 转为 gemini api
-    environment:
-      TZ: Asia/Shanghai
-    ports:
-      - "3017:8080"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # geminiprochat:
+  #   image: ghcr.io/babaohuang/geminiprochat:main
+  #   container_name: geminiprochat
+  #   networks:
+  #     - homelab
+  #     - ai
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=AI
+  #     - homepage.name=geminiprochat
+  #     - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
+  #     - homepage.description=谷歌gemini对话
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     GEMINI_API_KEY: ${GEMINI_API_KEY} # gemini api key
+  #     API_BASE_URL: ${GEMINI_API_BASE_URL} # cloudflare 代理地址
+  #   ports:
+  #     - "3016:3000"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
+  # gemini-proxy:
+  #   image: zhu327/gemini-openai-proxy:latest
+  #   container_name: gemini-proxy
+  #   networks:
+  #     - homelab
+  #     - ai
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=AI
+  #     - homepage.name=gemini-proxy
+  #     - homepage.icon=https://cdn.jsdelivr.net/gh/babaohuang/GeminiProChat@main/public/pwa-192.png
+  #     # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3016
+  #     - homepage.description=将 openai api 转为 gemini api
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   ports:
+  #     - "3017:8080"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   kimi-free-api:
     image: vinlic/kimi-free-api:latest
     container_name: kimi-free-api
@@ -176,36 +176,36 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  lobe-chat:
-    image: lobehub/lobe-chat
-    container_name: lobe-chat
-    networks:
-      - homelab
-      - ai
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=AI
-      - homepage.name=lobe-chat
-      - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3026
-      - homepage.description=lobe-chat
-    environment:
-      TZ: Asia/Shanghai
-      ACCESS_CODE: "${CNW_CODE}" # 使用的code
-      OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
-    ports:
-      - "3026:3210"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # lobe-chat:
+  #   image: lobehub/lobe-chat
+  #   container_name: lobe-chat
+  #   networks:
+  #     - homelab
+  #     - ai
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=AI
+  #     - homepage.name=lobe-chat
+  #     - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:3026
+  #     - homepage.description=lobe-chat
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     ACCESS_CODE: "${CNW_CODE}" # 使用的code
+  #     OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
+  #     OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
+  #   ports:
+  #     - "3026:3210"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   ollama-telegram:
     container_name: ollama-telegram
     build:
@@ -272,34 +272,34 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  tg-bot-collections:
-    build:
-      context: ${TG_BOT_BUILD_PATH}
-      dockerfile: Dockerfile
-    container_name: tg-bot-collections
-    networks:
-      - homelab
-      - ai
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-      - homepage.group=AI
-      - homepage.name=tg-bot-collections
-      - homepage.icon=docker-moby.png
-      - homepage.description=tg-bot-collections
-    environment:
-      TZ: Asia/Shanghai
-      GOOGLE_GEMINI_KEY: ${GEMINI_API_KEY}
-      TELEGRAM_BOT_TOKEN: ${TG_BOT_COLL_TOKEN}
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # tg-bot-collections:
+  #   build:
+  #     context: ${TG_BOT_BUILD_PATH}
+  #     dockerfile: Dockerfile
+  #   container_name: tg-bot-collections
+  #   networks:
+  #     - homelab
+  #     - ai
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=false
+  #     - homepage.group=AI
+  #     - homepage.name=tg-bot-collections
+  #     - homepage.icon=docker-moby.png
+  #     - homepage.description=tg-bot-collections
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     GOOGLE_GEMINI_KEY: ${GEMINI_API_KEY}
+  #     TELEGRAM_BOT_TOKEN: ${TG_BOT_COLL_TOKEN}
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower

@@ -435,49 +435,49 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  traefik:
-    image: traefik:v3.0
-    container_name: traefik
-    networks:
-      - homelab
-    restart: unless-stopped
-    command:
-      # - "--log.level=DEBUG"
-      - "--api.insecure=false"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entryPoints.http.address=:80"
-      - "--entryPoints.https.address=:443"
-      - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.myresolver.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
-      - "--certificatesresolvers.myresolver.acme.dnschallenge.resolvers[1]=223.5.5.5:53"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=网络
-      - homepage.name=tvbox-traefik
-      - homepage.icon=traefik.png
-      - homepage.href=https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example
-      - homepage.description=tvbox反向代理
-    environment:
-      TZ: Asia/Shanghai
-      CF_DNS_API_TOKEN: ${CADDY_CLOUDFLARE_API_TOKEN}
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "${BASE_DOCKER_DATA_DIR}/traefik/letsencrypt:/letsencrypt"
-    ports:
-      - '80:80'
-      - "443:443"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # traefik:
+  #   image: traefik:v3.0
+  #   container_name: traefik
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   command:
+  #     # - "--log.level=DEBUG"
+  #     - "--api.insecure=false"
+  #     - "--providers.docker=true"
+  #     - "--providers.docker.exposedbydefault=false"
+  #     - "--entryPoints.http.address=:80"
+  #     - "--entryPoints.https.address=:443"
+  #     - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
+  #     - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
+  #     - "--certificatesresolvers.myresolver.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
+  #     - "--certificatesresolvers.myresolver.acme.dnschallenge.resolvers[1]=223.5.5.5:53"
+  #     - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=网络
+  #     - homepage.name=tvbox-traefik
+  #     - homepage.icon=traefik.png
+  #     - homepage.href=https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example
+  #     - homepage.description=tvbox反向代理
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     CF_DNS_API_TOKEN: ${CADDY_CLOUDFLARE_API_TOKEN}
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #     - "${BASE_DOCKER_DATA_DIR}/traefik/letsencrypt:/letsencrypt"
+  #   ports:
+  #     - '80:80'
+  #     - "443:443"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   uptime-kuma:
     image: louislam/uptime-kuma
     container_name: uptime-kuma
