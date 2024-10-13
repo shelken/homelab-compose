@@ -95,41 +95,41 @@ services:
   #     restart_policy:
   #       condition: on-failure
   #       max_attempts: 1
-  chinesesubfinder:
-    image: allanpk716/chinesesubfinder:v0.46.3
-    container_name: chinesesubfinder
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-      - homepage.group=未分类
-      - homepage.name=字幕搜索
-      - homepage.icon=https://cdn.jsdelivr.net/gh/ChineseSubFinder/ChineseSubFinder@master/logo/logo.PNG
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:19035
-      - homepage.description=字幕搜索
-    environment:
-      TZ: Asia/Shanghai
-      PUID: ${SHELKEN_PUID}
-      PGID: ${SHELKEN_PGID}
-      PERMS: "true"
-    volumes:
-      - "${CSF_CONFIG}:/config" # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径"
-      - "${V1_VIDEO}:/media"
-      # - /volume1/Video/Movies:/media/电影
-      # "- /volume1/Video/TVShows:/media/连续剧    # 请修改为你"的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
-      - "${CSF_BROWSER}:/root/.cache/rod/browser" # 容器重启后无需再次下载 chrome，除非 go-rod 更新
-    ports:
-      - "19035:19035"
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # chinesesubfinder:
+  #   image: allanpk716/chinesesubfinder:v0.46.3
+  #   container_name: chinesesubfinder
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=false
+  #     - homepage.group=未分类
+  #     - homepage.name=字幕搜索
+  #     - homepage.icon=https://cdn.jsdelivr.net/gh/ChineseSubFinder/ChineseSubFinder@master/logo/logo.PNG
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:19035
+  #     - homepage.description=字幕搜索
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     PUID: ${SHELKEN_PUID}
+  #     PGID: ${SHELKEN_PGID}
+  #     PERMS: "true"
+  #   volumes:
+  #     - "${CSF_CONFIG}:/config" # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径"
+  #     - "${V1_VIDEO}:/media"
+  #     # - /volume1/Video/Movies:/media/电影
+  #     # "- /volume1/Video/TVShows:/media/连续剧    # 请修改为你"的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
+  #     - "${CSF_BROWSER}:/root/.cache/rod/browser" # 容器重启后无需再次下载 chrome，除非 go-rod 更新
+  #   ports:
+  #     - "19035:19035"
+  #   deploy:
+  #     replicas: 1
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   clash:
     image: dreamacro/clash:latest
     container_name: clash
