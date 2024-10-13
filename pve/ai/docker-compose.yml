@@ -240,7 +240,7 @@ services:
         condition: on-failure
         max_attempts: 1
   ollama-webui:
-    image: ghcr.io/ollama-webui/ollama-webui:main
+    image: ghcr.io/open-webui/open-webui:main
     container_name: ollama-webui
     networks:
       - homelab
