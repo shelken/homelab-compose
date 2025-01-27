@@ -160,7 +160,7 @@ services:
       - homelab
     restart: unless-stopped
     labels:
-      - com.centurylinklabs.watchtower.enable=false
+      - com.centurylinklabs.watchtower.enable=true
       - homepage.group=AI
       - homepage.name=lobe-chat
       - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
