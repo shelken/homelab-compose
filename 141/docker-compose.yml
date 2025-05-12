@@ -536,6 +536,7 @@ services:
       TZ: Asia/Shanghai
       DOMAIN: ${VAULTWARDEN_DOMAIN}
       ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
+      SIGNUPS_ALLOWED: "false"
     volumes:
       - "${VAULTWARDEN_DATA_DIR}:/data"
     ports:
