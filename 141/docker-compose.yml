@@ -535,6 +535,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       DOMAIN: ${VAULTWARDEN_DOMAIN}
+      ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
     volumes:
       - "${VAULTWARDEN_DATA_DIR}:/data"
     ports:
