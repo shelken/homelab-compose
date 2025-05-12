@@ -23,6 +23,7 @@ services:
       - TZ=Asia/Shanghai
     ports:
       - "5245:5244"
+      - "5246:5246"
     restart: unless-stopped
   ani-rss:
     image: wushuo894/ani-rss
