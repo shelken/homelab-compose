@@ -520,6 +520,34 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    networks:
+      - homelab
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=密码管理
+      - homepage.name=vaultwarden
+      - homepage.icon=vaultwarden.png
+      - homepage.description=vaultwarden
+    environment:
+      TZ: Asia/Shanghai
+      DOMAIN: ${VAULTWARDEN_DOMAIN}
+    volumes:
+      - "${VAULTWARDEN_DATA_DIR}:/data"
+    ports:
+      - "6400:80"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   wallos:
     image: bellamy/wallos:latest
     container_name: wallos
