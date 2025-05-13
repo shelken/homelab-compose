@@ -191,7 +191,7 @@ services:
         condition: on-failure
         max_attempts: 1
   headscale-ui:
-    image: goodieshq/headscale-admin:latest
+    image: goodieshq/headscale-admin:0.1.12b
     container_name: headscale-ui
     networks:
       - homelab
