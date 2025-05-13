@@ -213,6 +213,62 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  wg-easy:
+    image: ghcr.io/wg-easy/wg-easy:14
+    container_name: wg-easy
+    networks:
+      - homelab
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=wg-easy
+      - homepage.icon=wireguard.png
+      - homepage.description=wg-easy
+    environment:
+      # Change Language:
+      # (Supports: en, ua, ru, tr, no, pl, fr, de, ca, es, ko, vi, nl, is, pt, chs, cht, it, th, hi)
+      - LANG=chs
+      # ⚠️ Required:
+      # Change this to your host's public address
+      - WG_HOST=${WG_HOST}
+
+      # Optional:
+      # - PASSWORD_HASH=$$2y$$10$$hBCoykrB95WSzuV4fafBzOHWKu9sbyVa34GJr8VV5R/pIelfEMYyG # (needs double $$, hash of 'foobar123'; see "How_to_generate_an_bcrypt_hash.md" for generate the hash)
+      # - PORT=51821
+      # - WG_PORT=51820
+      # - WG_CONFIG_PORT=92820
+      # - WG_DEFAULT_ADDRESS=10.8.0.x
+      # - WG_DEFAULT_DNS=1.1.1.1
+      # - WG_MTU=1420
+      # - WG_ALLOWED_IPS=192.168.15.0/24, 10.0.1.0/24
+      # - WG_PERSISTENT_KEEPALIVE=25
+      # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
+      # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
+      # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
+      # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
+      # - UI_TRAFFIC_STATS=true
+      # - UI_CHART_TYPE=0 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
+    volumes:
+      - ${WG_DATA_DIR}:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      # - "127.0.0.1:51821:51821/tcp"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   # headscale-webui:
   #   image: ghcr.io/ifargle/headscale-webui:latest
   #   container_name: headscale-webui
