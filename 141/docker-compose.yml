@@ -94,7 +94,7 @@ services:
     environment:
       TZ: Asia/Shanghai
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -125,7 +125,7 @@ services:
     ports:
       - "5000:5000"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -429,7 +429,7 @@ services:
       - "22000:22000/udp"
       - "21027:21027/udp"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -627,7 +627,7 @@ services:
       - homepage.name=zerotier-141
       - homepage.icon=zerotier.png
       - homepage.href=https://my.zerotier.com
-      - homepage.description=141 zerotier
+      - homepage.description=用于vps和家庭网络互通
     environment:
       TZ: Asia/Shanghai
     volumes:
