@@ -263,7 +263,7 @@ services:
       - "53:53/udp"
       # - "5533:53/tcp"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -395,7 +395,7 @@ services:
     ports:
       - "5231:5231"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
