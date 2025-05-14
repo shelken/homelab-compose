@@ -178,7 +178,7 @@ services:
     environment:
       TZ: Asia/Shanghai
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -495,7 +495,7 @@ services:
     # ports:
     #   - '80:80'
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -534,7 +534,7 @@ services:
       - "22000:22000/udp"
       - "21027:21027/udp"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -562,7 +562,7 @@ services:
     ports:
       - "4567:4567"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s

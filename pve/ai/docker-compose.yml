@@ -33,7 +33,7 @@ services:
     ports:
       - "3006:3000"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -86,7 +86,7 @@ services:
     ports:
       - "5000:5000"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -168,7 +168,7 @@ services:
     ports:
       - "6570:8000"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -231,7 +231,7 @@ services:
       ADMIN_IDS: "${OLLAMA_BOT_ADMIN_IDS}"
       TOKEN: "${OLLAMA_BOT_TOKEN}"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
