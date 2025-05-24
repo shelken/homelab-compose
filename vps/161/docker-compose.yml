@@ -34,6 +34,21 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
+  dhp:
+    image: registry:2
+    container_name: dhp
+    volumes:
+      # 挂载数据目录 (可选)
+      # - ./mirror:/var/lib/registry
+      # 配置时区 (可选)
+      - /etc/localtime:/etc/localtime:ro
+    # ports:
+    #   - 5000:5000
+    environment:
+      - REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io
+    networks:
+      - homelab
+    restart: unless-stopped
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
