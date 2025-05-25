@@ -172,6 +172,8 @@ services:
     image: ghcr.io/tale/headplane:0.5.10
     container_name: headplane
     restart: unless-stopped
+    networks:
+      - homelab
     # ports:
     #   - '3000:3000'
     volumes:
