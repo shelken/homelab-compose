@@ -139,12 +139,12 @@ services:
         condition: on-failure
         max_attempts: 1
   headscale:
-    image: headscale/headscale:0.22
+    image: headscale/headscale:0.26
     container_name: headscale
     networks:
       - homelab
     restart: unless-stopped
-    command: headscale serve
+    command: serve
     labels:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=网络
