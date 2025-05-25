@@ -1,0 +1,73 @@
+volumes:
+  mosdns-log:
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    # ports:
+      # - "9090:9090"
+    depends_on:
+      - mosdns
+    volumes:
+      - ${MOSDNS_DATA_DIR}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    depends_on:
+      - prometheus
+      - loki
+    ports:
+      - "4000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ${MOSDNS_DATA_DIR}/grafana:/var/lib/grafana
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    # ports:
+      # - "3100:3100"
+    # command: -config.file=/etc/loki/local-config.yaml
+  vector:
+    image: timberio/vector:latest-alpine
+    container_name: vector
+    # ports:
+      # - "8686:8686"
+    depends_on:
+      - loki
+      - mosdns
+    volumes:
+      - ${MOSDNS_DATA_DIR}/vector/config.yaml:/etc/vector/vector.yaml
+      - mosdns-log:/logs:ro
+  mosdns:
+    image: ghcr.io/shelken/mosdns:latest
+    container_name: mosdns
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=网络
+      - homepage.name=mosdns
+      - homepage.icon=azure-dns.png
+      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5533
+      - homepage.description=dns服务
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      # - ${MOSDNS_DATA_DIR}/mosdns/config:/etc/mosdns
+      - mosdns-log:/logs:rw
+    ports:
+      - "53:53/udp"
+      # - "8338:8338/tcp"
+      # - "5533:53/tcp"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
