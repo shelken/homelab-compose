@@ -257,13 +257,105 @@ services:
       - homepage.description=dns服务
     environment:
       TZ: Asia/Shanghai
-    volumes:
-      - "${MOSDNS_CUSTOM_HOSTS}:/etc/mosdns/hosts/custom"
     ports:
       - "53:53/udp"
-      # - "5533:53/tcp"
+      # - "8338:8338/tcp"
     deploy:
-      replicas: 0
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+    logging:
+      options:
+        max-size: "80m"
+        max-file: "3"
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    networks:
+      - homelab
+    restart: unless-stopped
+    # ports:
+      # - "9090:9090"
+    # depends_on:
+      # - mosdns
+    volumes:
+      - ${PROMETHEUS_CONFIG_DIR}:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    networks:
+      - homelab
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+      - loki
+    ports:
+      - "4000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ${GRAFANA_DATA_DIR}:/var/lib/grafana
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    networks:
+      - homelab
+    restart: unless-stopped
+    volumes:
+      - ${LOKI_CONFIG_DIR}:/etc/loki
+    # ports:
+      # - "3100:3100"
+    command: -config.file=/etc/loki/config.yaml
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
+  vector:
+    image: timberio/vector:latest-alpine
+    container_name: vector
+    networks:
+      - homelab
+    restart: unless-stopped
+    # ports:
+      # - "8686:8686"
+    depends_on:
+      - loki
+      - mosdns
+    volumes:
+      - ${VECTOR_CONFIG_DIR}:/etc/vector
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      replicas: 1
       update_config:
         parallelism: 1
         delay: 3s
