@@ -299,6 +299,13 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+      - homepage.group=监控
+      - homepage.name=grafana
+      - homepage.icon=grafana.png
+      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:4000
+      - homepage.description=grafana
     networks:
       - homelab
     restart: unless-stopped
