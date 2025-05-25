@@ -175,7 +175,7 @@ services:
     # ports:
     #   - '3000:3000'
     volumes:
-      # - './config.yaml:/etc/headplane/config.yaml'
+      - '${HEADPLANE_CONFIG_DIR}/config.yaml:/etc/headplane/config.yaml'
       # This should match headscale.config_path in your config.yaml
       - '${HEADSCALE_CONFIG_DIR}/config.yaml:/etc/headscale/config.yaml'
 
