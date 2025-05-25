@@ -20,6 +20,15 @@ services:
       - ${MOSDNS_DATA_DIR}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -35,6 +44,15 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - ${MOSDNS_DATA_DIR}/grafana:/var/lib/grafana
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   loki:
     image: grafana/loki:latest
     container_name: loki
@@ -44,6 +62,15 @@ services:
     # ports:
       # - "3100:3100"
     # command: -config.file=/etc/loki/local-config.yaml
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   vector:
     image: timberio/vector:latest-alpine
     container_name: vector
@@ -58,6 +85,15 @@ services:
     volumes:
       - ${MOSDNS_DATA_DIR}/vector/config.yaml:/etc/vector/vector.yaml
       - mosdns-log:/logs:ro
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   mosdns:
     image: ghcr.io/shelken/mosdns:latest
     container_name: mosdns
