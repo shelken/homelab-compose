@@ -75,64 +75,64 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  ct:
-    image: cloudflare/cloudflared:latest
-    container_name: ct
-    networks:
-      - homelab
-    restart: unless-stopped
-    command: "tunnel --no-autoupdate run --token ${CT_TOKEN} --protocol http2"
-    secrets:
-      - ct-token
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=网络
-      - homepage.name=Cloudflare Tunnel 141
-      - homepage.icon=cloudflare-zero-trust.png
-      - homepage.href=https://one.dash.cloudflare.com
-      - homepage.description=cloudflare-tunnel
-    environment:
-      TZ: Asia/Shanghai
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
-  dufs:
-    image: sigoden/dufs
-    container_name: dufs
-    networks:
-      - homelab
-    restart: unless-stopped
-    command: "/data -A -a shelken:${DUFS_PASSWORD}@/:rw"
-    secrets:
-      - dufs-password
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=Dufs
-      - homepage.name=Box文件
-      - homepage.icon=https://gcore.jsdelivr.net/gh/sigoden/dufs@main/assets/favicon.ico
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5000
-      - homepage.description=Box文件, 包含了/data目录下的文件
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - "${DUFS_DATA_DIR}:/data"
-    ports:
-      - "5000:5000"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # ct:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: ct
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   command: "tunnel --no-autoupdate run --token ${CT_TOKEN} --protocol http2"
+  #   secrets:
+  #     - ct-token
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=网络
+  #     - homepage.name=Cloudflare Tunnel 141
+  #     - homepage.icon=cloudflare-zero-trust.png
+  #     - homepage.href=https://one.dash.cloudflare.com
+  #     - homepage.description=cloudflare-tunnel
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
+  # dufs:
+  #   image: sigoden/dufs
+  #   container_name: dufs
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   command: "/data -A -a shelken:${DUFS_PASSWORD}@/:rw"
+  #   secrets:
+  #     - dufs-password
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=Dufs
+  #     - homepage.name=Box文件
+  #     - homepage.icon=https://gcore.jsdelivr.net/gh/sigoden/dufs@main/assets/favicon.ico
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5000
+  #     - homepage.description=Box文件, 包含了/data目录下的文件
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - "${DUFS_DATA_DIR}:/data"
+  #   ports:
+  #     - "5000:5000"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   home-assistant:
     image: homeassistant/home-assistant:stable
     container_name: home-assistant
@@ -467,68 +467,68 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  slash:
-    image: yourselfhosted/slash:latest
-    container_name: slash
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=未分类
-      - homepage.name=slash
-      - homepage.icon=https://cdn.jsdelivr.net/gh/yourselfhosted/slash@main/docs/assets/logo.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5231
-      - homepage.description=slash
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - "${SLASH_DATA_DIR}:/var/opt/slash"
-    ports:
-      - "5231:5231"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
-  syncthing:
-    image: lscr.io/linuxserver/syncthing:latest
-    container_name: syncthing
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=文件同步
-      - homepage.name=syncthing-141
-      - homepage.icon=syncthing.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
-      - homepage.description=hk1box-141
-    environment:
-      TZ: Asia/Shanghai
-      PUID: 0
-      PGID: 0
-    volumes:
-      - "${SYNCTHING_CONFIG}:/config"
-      - "${SYNCTHING_BACKUP_MAIN_DIR}:/syncthing-141/data"
-    ports:
-      - "8384:8384"
-      - "22000:22000/tcp"
-      - "22000:22000/udp"
-      - "21027:21027/udp"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # slash:
+  #   image: yourselfhosted/slash:latest
+  #   container_name: slash
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=未分类
+  #     - homepage.name=slash
+  #     - homepage.icon=https://cdn.jsdelivr.net/gh/yourselfhosted/slash@main/docs/assets/logo.png
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5231
+  #     - homepage.description=slash
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - "${SLASH_DATA_DIR}:/var/opt/slash"
+  #   ports:
+  #     - "5231:5231"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
+  # syncthing:
+  #   image: lscr.io/linuxserver/syncthing:latest
+  #   container_name: syncthing
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=文件同步
+  #     - homepage.name=syncthing-141
+  #     - homepage.icon=syncthing.png
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
+  #     - homepage.description=hk1box-141
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     PUID: 0
+  #     PGID: 0
+  #   volumes:
+  #     - "${SYNCTHING_CONFIG}:/config"
+  #     - "${SYNCTHING_BACKUP_MAIN_DIR}:/syncthing-141/data"
+  #   ports:
+  #     - "8384:8384"
+  #     - "22000:22000/tcp"
+  #     - "22000:22000/udp"
+  #     - "21027:21027/udp"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   # traefik:
   #   image: traefik:v3.0
   #   container_name: traefik
@@ -643,36 +643,36 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  wallos:
-    image: bellamy/wallos:latest
-    container_name: wallos
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-      - homepage.group=未分类
-      - homepage.name=订阅管理
-      - homepage.icon=bluewallet.png
-      - homepage.description=wallos订阅管理
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8282
-      - homepage.instance.public.href=https://wallos.${HOME_DOMAIN}
-    environment:
-      TZ: Asia/Shanghai
-    ports:
-      - 8282:80 
-    volumes:
-      - "${WALLOS_DATA_DIR}:/var/www/html/db"
-      - "${WALLOS_LOGO_DIR}:/var/www/html/images/uploads/logos"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # wallos:
+  #   image: bellamy/wallos:latest
+  #   container_name: wallos
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=false
+  #     - homepage.group=未分类
+  #     - homepage.name=订阅管理
+  #     - homepage.icon=bluewallet.png
+  #     - homepage.description=wallos订阅管理
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8282
+  #     - homepage.instance.public.href=https://wallos.${HOME_DOMAIN}
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   ports:
+  #     - 8282:80 
+  #   volumes:
+  #     - "${WALLOS_DATA_DIR}:/var/www/html/db"
+  #     - "${WALLOS_LOGO_DIR}:/var/www/html/images/uploads/logos"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
