@@ -12,7 +12,7 @@
 - Prometheus
 - Grafana
 - vector
-- loki
+- loki(v3.5)
 
 ## 使用镜像
 

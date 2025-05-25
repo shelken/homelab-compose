@@ -12,14 +12,20 @@ sources:
     include:
       - /logs/mosdns.log
     read_from: beginning
+  mosdns-log-docker:
+    type: docker_logs
+    docker_host: unix:///var/run/docker.sock
+    include_images:
+      - shelken/mosdns:test
+      - shelken/mosdns:latest
+      - ghcr.io/shelken/mosdns:latest
 
 transforms:
   mosdns-input:
     type: filter
     inputs:
-      - mosdns-log-file
-    condition: |
-      .file == "/logs/mosdns.log"      
+      - mosdns-log-docker
+    condition: "true"
 
   mosdns-data:
     type: remap
