@@ -278,7 +278,7 @@ services:
       # - PORT=51821
       # - WG_PORT=51820
       # - WG_CONFIG_PORT=92820
-      # - WG_DEFAULT_ADDRESS=10.8.0.x
+      - WG_DEFAULT_ADDRESS=10.8.0.x
       # - WG_DEFAULT_DNS=1.1.1.1
       # - WG_MTU=1420
       - WG_ALLOWED_IPS=10.8.0.0/24, 192.168.0.0/24, 192.168.6.0/24
@@ -295,7 +295,7 @@ services:
       - "51820:51820/udp"
       # - "127.0.0.1:51821:51821/tcp"
     deploy:
-      replicas: 0
+      replicas: 1
       update_config:
         parallelism: 1
         delay: 3s
