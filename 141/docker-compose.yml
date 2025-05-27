@@ -258,6 +258,8 @@ services:
     environment:
       TZ: Asia/Shanghai
       PRIVATE_DNS_SERVER: ${PRIVATE_DNS_SERVER}
+      ECS_LOCAL_IPV4: ${ECS_LOCAL_IPV4}
+      ECS_LOCAL_IPV6: ${ECS_LOCAL_IPV6}
     ports:
       - "53:53/udp"
       # - "8338:8338/tcp"
