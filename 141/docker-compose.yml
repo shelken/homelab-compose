@@ -64,7 +64,7 @@ services:
       - "${CADDY_CONFIG_DIR}:/config"
     ports:
       - '80:80'
-      # - "443:443/udp"
+      - "443:443/udp"
       - "443:443"
     deploy:
       replicas: 1

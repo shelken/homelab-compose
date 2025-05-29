@@ -24,6 +24,7 @@ services:
     ports:
       - '80:80'
       - '443:443'
+      - '443:443/udp'
     deploy:
       replicas: 1
       update_config:
