@@ -202,7 +202,7 @@ services:
         limits:
           memory: 1G
   homepage:
-    image: gethomepage/homepage:v1.3.1
+    image: gethomepage/homepage:v1.3.2
     container_name: homepage
     networks:
       - homelab
