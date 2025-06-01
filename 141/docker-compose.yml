@@ -202,7 +202,7 @@ services:
         limits:
           memory: 1G
   homepage:
-    image: ghcr.io/gethomepage/homepage:v1.3.1
+    image: gethomepage/homepage:v1.3.1
     container_name: homepage
     networks:
       - homelab
