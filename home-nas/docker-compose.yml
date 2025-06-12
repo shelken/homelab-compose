@@ -25,6 +25,15 @@ services:
       - "5245:5244"
       - "5246:5246"
     restart: unless-stopped
+    deploy:
+      replicas: 0
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
   ani-rss:
     image: wushuo894/ani-rss
     container_name: ani-rss
@@ -161,31 +170,31 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  ct:
-    image: cloudflare/cloudflared:latest
-    container_name: ct
-    networks:
-      - homelab
-    restart: unless-stopped
-    command: "tunnel --no-autoupdate run --token ${CT_TOKEN} --protocol http2"
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=网络
-      - homepage.name=Cloudflare Tunnel NAS
-      - homepage.icon=cloudflare-zero-trust.png
-      - homepage.href=https://one.dash.cloudflare.com
-      - homepage.description=cloudflare-tunnel-home
-    environment:
-      TZ: Asia/Shanghai
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # ct:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: ct
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   command: "tunnel --no-autoupdate run --token ${CT_TOKEN} --protocol http2"
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=网络
+  #     - homepage.name=Cloudflare Tunnel NAS
+  #     - homepage.icon=cloudflare-zero-trust.png
+  #     - homepage.href=https://one.dash.cloudflare.com
+  #     - homepage.description=cloudflare-tunnel-home
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   # ddns:
   #   image: ghcr.io/zebradil/cloudflare-dynamic-dns:4.0.2
   #   container_name: ddns

@@ -191,36 +191,36 @@ services:
 
       # If you are using the Docker integration, mount the Docker socket
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
-  lobe-chat:
-    image: lobehub/lobe-chat
-    container_name: lobe-chat
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - homepage.group=AI
-      - homepage.name=lobe-chat
-      - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
-      - homepage.href=https://${LOBE_CHAT_DOMAIN}
-      - homepage.description=lobe-chat
-    environment:
-      TZ: Asia/Shanghai
-      ACCESS_CODE: "${CNW_CODE}" # 使用的code
-      OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
-      GOOGLE_API_KEY: ${GEMINI_API_KEY:-key}
-    # ports:
-    #   - '3026:3210'
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # lobe-chat:
+  #   image: lobehub/lobe-chat
+  #   container_name: lobe-chat
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=true
+  #     - homepage.group=AI
+  #     - homepage.name=lobe-chat
+  #     - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
+  #     - homepage.href=https://${LOBE_CHAT_DOMAIN}
+  #     - homepage.description=lobe-chat
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     ACCESS_CODE: "${CNW_CODE}" # 使用的code
+  #     OPENAI_PROXY_URL: ${OPENAI_API_BASE_URL}/v1 # cloudflare 代理地址
+  #     OPENAI_API_KEY: ${OPENAI_API_KEY:-sk} # openai api key
+  #     GOOGLE_API_KEY: ${GEMINI_API_KEY:-key}
+  #   # ports:
+  #   #   - '3026:3210'
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
