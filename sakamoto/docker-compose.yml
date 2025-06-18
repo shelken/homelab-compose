@@ -1,6 +1,8 @@
 networks:
   homelab:
     driver: bridge
+volumes:
+  model-cache:
 
 services:
   # blinko:
@@ -106,6 +108,15 @@ services:
       start_period: 30s
       timeout: 5s
       retries: 10
+    deploy:
+      replicas: ${ENABLE_SEAFILE:-1}
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 1
 
   memcached:
     image: ${SEAFILE_MEMCACHED_IMAGE:-docker.seafile.top/seafileltd/memcached:1.6.29}
@@ -114,6 +125,8 @@ services:
     networks:
       - homelab
     entrypoint: memcached -m 256
+    deploy:
+      replicas: ${ENABLE_SEAFILE:-1}
   seafile:
     image: ${SEAFILE_IMAGE:-docker.seafile.top/seafileltd/seafile-pro-mc:12.0-latest}
     container_name: seafile
@@ -159,6 +172,8 @@ services:
         condition: service_healthy
       memcached:
         condition: service_started
+    deploy:
+      replicas: ${ENABLE_SEAFILE:-1}
       # elasticsearch:
       #   condition: service_started
 
@@ -185,6 +200,8 @@ services:
     restart: unless-stopped
     healthcheck:
       disable: false
+    deploy:
+      replicas: ${ENABLE_IMMICH:-1}
 
   immich-machine-learning:
     container_name: immich-machine-learning
@@ -201,6 +218,8 @@ services:
     restart: unless-stopped
     healthcheck:
       disable: false
+    deploy:
+      replicas: ${ENABLE_IMMICH:-1}
 
   immich-redis:
     container_name: immich-redis
@@ -208,6 +227,8 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
     restart: unless-stopped
+    deploy:
+      replicas: ${ENABLE_IMMICH:-1}
 
   immich-postgres:
     container_name: immich-postgres
@@ -223,3 +244,5 @@ services:
       # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
       - ${IMMICH_DB_DATA_DIR}:/var/lib/postgresql/data
     restart: unless-stopped
+    deploy:
+      replicas: ${ENABLE_IMMICH:-1}
