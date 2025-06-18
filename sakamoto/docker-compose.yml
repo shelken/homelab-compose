@@ -215,6 +215,8 @@ services:
       - model-cache:/cache
     environment:
       - TZ=Asia/Shanghai
+      - HTTPS_PROXY=${PROXY_HTTPS_PROXY:-}
+      - HTTP_PROXY=${PROXY_HTTPS_PROXY:-}
     restart: unless-stopped
     healthcheck:
       disable: false
