@@ -48,7 +48,7 @@ services:
         condition: on-failure
         max_attempts: 1
   caddy:
-    image: ghcr.io/shelken/caddy:latest
+    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
     container_name: caddy
     networks:
       - homelab
@@ -301,6 +301,9 @@ services:
       - homepage.icon=azure-dns.png
       # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5533
       - homepage.description=dns服务
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/mosdns/hosts.txt:/etc/mosdns/hosts.txt:ro
+      - ${BASE_DOCKER_DATA_DIR}/mosdns/short_cache.txt:/etc/mosdns/short_cache.txt:ro
     environment:
       TZ: Asia/Shanghai
       PRIVATE_DNS_SERVER: ${PRIVATE_DNS_SERVER}
