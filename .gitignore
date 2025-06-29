@@ -9,3 +9,7 @@ tmp/**
 ansible
 
 sakamoto/.env
+apps/**/.env
+apps/**/data
+
+quick.sh
