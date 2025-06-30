@@ -216,91 +216,91 @@ services:
   #     restart_policy:
   #       condition: on-failure
   #       max_attempts: 1
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    networks:
-      - homelab
-    restart: unless-stopped
-    command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
-    labels:
-      - homepage.group=容器更新
-      - homepage.name=${WATCHTOWER_SLACK_IDENTIFIER}
-      - homepage.icon=watchtower.png
-      - homepage.description=watchtower
-    environment:
-      TZ: Asia/Shanghai
-      WATCHTOWER_NOTIFICATIONS: slack
-      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${WATCHTOWER_SLACK_HOOK_URL}
-      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${WATCHTOWER_SLACK_IDENTIFIER}
-      WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
-  wg-easy:
-    image: ghcr.io/wg-easy/wg-easy:14
-    container_name: wg-easy
-    networks:
-      - homelab
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-      - NET_RAW
-    sysctls:
-      - net.ipv4.ip_forward=1
-      - net.ipv4.conf.all.src_valid_mark=1
-    restart: unless-stopped
-    labels:
-      - homepage.group=网络
-      - homepage.name=wg-easy
-      - homepage.icon=wireguard.png
-      - homepage.description=wg-easy
-    environment:
-      # Change Language:
-      # (Supports: en, ua, ru, tr, no, pl, fr, de, ca, es, ko, vi, nl, is, pt, chs, cht, it, th, hi)
-      - LANG=chs
-      # ⚠️ Required:
-      # Change this to your host's public address
-      - WG_HOST=${WG_HOST}
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: watchtower
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
+  #   labels:
+  #     - homepage.group=容器更新
+  #     - homepage.name=${WATCHTOWER_SLACK_IDENTIFIER}
+  #     - homepage.icon=watchtower.png
+  #     - homepage.description=watchtower
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     WATCHTOWER_NOTIFICATIONS: slack
+  #     WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${WATCHTOWER_SLACK_HOOK_URL}
+  #     WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${WATCHTOWER_SLACK_IDENTIFIER}
+  #     WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
+  # wg-easy:
+  #   image: ghcr.io/wg-easy/wg-easy:14
+  #   container_name: wg-easy
+  #   networks:
+  #     - homelab
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #     - NET_RAW
+  #   sysctls:
+  #     - net.ipv4.ip_forward=1
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #   restart: unless-stopped
+  #   labels:
+  #     - homepage.group=网络
+  #     - homepage.name=wg-easy
+  #     - homepage.icon=wireguard.png
+  #     - homepage.description=wg-easy
+  #   environment:
+  #     # Change Language:
+  #     # (Supports: en, ua, ru, tr, no, pl, fr, de, ca, es, ko, vi, nl, is, pt, chs, cht, it, th, hi)
+  #     - LANG=chs
+  #     # ⚠️ Required:
+  #     # Change this to your host's public address
+  #     - WG_HOST=${WG_HOST}
 
-      # Optional:
-      - PASSWORD_HASH=${WG_PASSWORD_HASH} # Hash of the password to use for authentication
-      # - PORT=51821
-      # - WG_PORT=51820
-      # - WG_CONFIG_PORT=92820
-      - WG_DEFAULT_ADDRESS=10.8.0.x
-      # - WG_DEFAULT_DNS=1.1.1.1
-      # - WG_MTU=1420
-      - WG_ALLOWED_IPS=10.8.0.0/24, 192.168.0.0/24, 192.168.6.0/24
-      # - WG_PERSISTENT_KEEPALIVE=25
-      # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
-      # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
-      # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
-      # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
-      # - UI_TRAFFIC_STATS=true
-      # - UI_CHART_TYPE=0 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
-    volumes:
-      - ${WG_DATA_DIR}:/etc/wireguard
-    ports:
-      - "51820:51820/udp"
-      # - "127.0.0.1:51821:51821/tcp"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  #     # Optional:
+  #     - PASSWORD_HASH=${WG_PASSWORD_HASH} # Hash of the password to use for authentication
+  #     # - PORT=51821
+  #     # - WG_PORT=51820
+  #     # - WG_CONFIG_PORT=92820
+  #     - WG_DEFAULT_ADDRESS=10.8.0.x
+  #     # - WG_DEFAULT_DNS=1.1.1.1
+  #     # - WG_MTU=1420
+  #     - WG_ALLOWED_IPS=10.8.0.0/24, 192.168.0.0/24, 192.168.6.0/24
+  #     # - WG_PERSISTENT_KEEPALIVE=25
+  #     # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
+  #     # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
+  #     # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
+  #     # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
+  #     # - UI_TRAFFIC_STATS=true
+  #     # - UI_CHART_TYPE=0 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
+  #   volumes:
+  #     - ${WG_DATA_DIR}:/etc/wireguard
+  #   ports:
+  #     - "51820:51820/udp"
+  #     # - "127.0.0.1:51821:51821/tcp"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   # headscale-webui:
   #   image: ghcr.io/ifargle/headscale-webui:latest
   #   container_name: headscale-webui
