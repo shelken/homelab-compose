@@ -16,8 +16,8 @@
   packageRules: [
     {
       "datasources": ["docker"],
-      "matchPackageNames": ["/^registry$/", "shlink", "memos"]
-      "enabled": false
+      "matchPackageNames": ["/^registry$/", "shlink", "memos"],
+      "enabled": false,
     },
     {
       matchDatasources: ["docker"],
