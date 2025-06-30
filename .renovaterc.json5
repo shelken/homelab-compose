@@ -20,12 +20,6 @@
       "enabled": false,
     },
     {
-      matchDatasources: ["docker"],
-      matchPackagePatterns: [".*"],
-      matchCurrentValue: ".*(latest|stable|release)$",
-      pinDigests: true,
-    },
-    {
       matchUpdateTypes: ["major"],
       semanticCommitType: "feat",
       commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
