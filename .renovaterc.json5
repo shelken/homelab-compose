@@ -15,8 +15,8 @@
   ignorePaths: ["apps/seafile/**", "pve/**", "home-nas/**", "base/**"],
   packageRules: [
     {
-      "datasources": ["docker"],
-      "matchPackageNames": ["/^registry$/", "shlink", "memos"],
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/^registry$/", "/shlink$/", "/memos$/"],
       "enabled": false,
     },
     {
