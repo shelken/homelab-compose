@@ -4,7 +4,7 @@ networks:
 
 services:
   seafile-mysql:
-    image: ${SEAFILE_DB_IMAGE:-docker.seafile.top/seafileltd/mariadb:10.11}
+    image: mariadb:10.11
     container_name: seafile-mysql
     restart: unless-stopped
     networks:
@@ -41,7 +41,7 @@ services:
         max_attempts: 1
 
   memcached:
-    image: ${SEAFILE_MEMCACHED_IMAGE:-docker.seafile.top/seafileltd/memcached:1.6.29}
+    image: memcached:1.6.29
     container_name: seafile-memcached
     restart: unless-stopped
     networks:
@@ -50,7 +50,7 @@ services:
     deploy:
       replicas: 1
   seafile:
-    image: ${SEAFILE_IMAGE:-docker.seafile.top/seafileltd/seafile-pro-mc:12.0-latest}
+    image: seafileltd/seafile-pro-mc:12.0-latest
     container_name: seafile
     restart: unless-stopped
     networks:

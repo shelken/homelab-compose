@@ -12,13 +12,17 @@
   dependencyDashboard: true,
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   schedule: ["every day"],
-  // ignorePaths: ["**/*.sops.*"],
+  ignorePaths: ["apps/seafile/**"],
   packageRules: [
     {
       matchDatasources: ["docker"],
       matchPackagePatterns: [".*"],
-      matchCurrentValue: "^(latest|stable)$",
+      matchCurrentValue: ".*(latest|stable|release)$",
       pinDigests: true,
+    },
+    {
+      matchDatasources: ["docker"],
+      fileMatch: ["^(vps|141|apps)(/.*)?/docker-compose\\.ya?ml$"],
     },
     {
       matchUpdateTypes: ["major"],
