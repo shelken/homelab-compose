@@ -183,6 +183,7 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/mosdns/hosts.txt:/etc/mosdns/hosts.txt:ro
       - ${BASE_DOCKER_DATA_DIR}/mosdns/short_cache.txt:/etc/mosdns/short_cache.txt:ro
+      - ${BASE_DOCKER_DATA_DIR}/mosdns/router.txt:/etc/mosdns/router.txt:ro
     environment:
       TZ: Asia/Shanghai
       PRIVATE_DNS_SERVER: ${PRIVATE_DNS_SERVER}
