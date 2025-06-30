@@ -15,9 +15,15 @@
   ignorePaths: ["apps/seafile/**", "pve/**", "home-nas/**", "base/**"],
   packageRules: [
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["/^registry$/", "/shlink$/", "/memos$/"],
-      "enabled": false,
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/^registry$/",
+        "/shlink$/",
+        "/memos$/",
+        "ghcr.io/immich-app/postgres",
+        "mysql",
+      ],
+      enabled: false,
     },
     {
       matchUpdateTypes: ["major"],
