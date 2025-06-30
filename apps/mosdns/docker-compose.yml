@@ -96,7 +96,7 @@ services:
         condition: on-failure
         max_attempts: 1
   mosdns:
-    image: ghcr.io/shelken/mosdns:latest@sha256:9e4b9e7517a6b660f2cc903a19b257b1852d5b3344794e3ea334ff00ae677ac2
+    image: ghcr.io/shelken/mosdns:latest@sha256:dd67b9966d6f170286b05946ccf61b91def3e0ef2fb71b2c7c33279ed0a2901b
     container_name: mosdns
     networks:
       - mosdns-net
