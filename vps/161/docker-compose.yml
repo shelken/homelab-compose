@@ -49,7 +49,7 @@ services:
       - homelab
     restart: unless-stopped
   dockerproxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest@sha256:9e4b9e7517a6b660f2cc903a19b257b1852d5b3344794e3ea334ff00ae677ac2
     container_name: dockerproxy
     restart: unless-stopped
     networks:
