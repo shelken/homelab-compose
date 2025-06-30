@@ -11,7 +11,7 @@
   ],
   dependencyDashboard: true,
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
-  schedule: ["every day"],
+  schedule: ["every weekend"],
   ignorePaths: ["apps/seafile/**"],
   packageRules: [
     {
