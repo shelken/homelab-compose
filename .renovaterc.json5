@@ -13,7 +13,7 @@
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   schedule: ["every weekend"],
   ignorePaths: ["apps/seafile/**"],
-  includePaths: ["^(vps|141|apps)(/.*)?/docker-compose\\.ya?ml$"],
+  includePaths: ["(vps|141|apps)/**"],
   packageRules: [
     {
       matchDatasources: ["docker"],
