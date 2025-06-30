@@ -169,7 +169,7 @@ services:
         condition: on-failure
         max_attempts: 1
   mosdns:
-    image: ghcr.io/shelken/mosdns:latest
+    image: ghcr.io/shelken/mosdns:latest@sha256:9e4b9e7517a6b660f2cc903a19b257b1852d5b3344794e3ea334ff00ae677ac2
     container_name: mosdns
     networks:
       - homelab
