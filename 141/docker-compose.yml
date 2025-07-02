@@ -12,8 +12,12 @@ services:
   caddy:
     image: ghcr.io/caddybuilds/caddy-cloudflare:2.10
     container_name: caddy
-    networks:
-      - homelab
+    network_mode: host
+    # This bypasses network isolation and makes IPv6 easier (optional; see below)
+    cap_drop: [all]
+    # Drop all Linux capabilities (optional but recommended)
+    security_opt: [no-new-privileges:true]
+    # Another protection to restrict superuser privileges (optional but recommended)
     restart: unless-stopped
     labels:
       - homepage.group=网络
@@ -32,10 +36,10 @@ services:
       - "${CADDY_SITE_DIR}:/srv"
       - "${CADDY_DATA_DIR}:/data"
       - "${CADDY_CONFIG_DIR}:/config"
-    ports:
-      - '80:80'
-      - "443:443/udp"
-      - "443:443"
+    # ports:
+    #   - '80:80'
+    #   - "443:443/udp"
+    #   - "443:443"
     deploy:
       replicas: 1
       update_config:
@@ -55,6 +59,10 @@ services:
     # - "1.x.y" to pin the specific version 1.x.y
     network_mode: host
     # This bypasses network isolation and makes IPv6 easier (optional; see below)
+    cap_drop: [all]
+    # Drop all Linux capabilities (optional but recommended)
+    security_opt: [no-new-privileges:true]
+    # Another protection to restrict superuser privileges (optional but recommended)
     restart: always
     # Restart the updater after reboot
     # user: "1000:1000"
@@ -62,10 +70,6 @@ services:
     # You can change the two numbers based on your need.
     read_only: true
     # Make the container filesystem read-only (optional but recommended)
-    cap_drop: [all]
-    # Drop all Linux capabilities (optional but recommended)
-    security_opt: [no-new-privileges:true]
-    # Another protection to restrict superuser privileges (optional but recommended)
     environment:
       - TZ=Asia/Shanghai
       - CLOUDFLARE_API_TOKEN=${CADDY_CLOUDFLARE_API_TOKEN}
