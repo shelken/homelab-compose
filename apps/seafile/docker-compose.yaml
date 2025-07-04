@@ -6,7 +6,7 @@ services:
   seafile-mysql:
     image: mariadb:10.11
     container_name: seafile-mysql
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     environment:

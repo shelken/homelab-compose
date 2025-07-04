@@ -11,7 +11,7 @@ services:
       - homelab
     # network_mode: host
     command: "server /data --console-address :9001"
-    restart: unless-stopped
+    restart: always
     environment:
       TZ: Asia/Shanghai
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}

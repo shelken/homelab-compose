@@ -312,7 +312,7 @@ services:
     container_name: mysql8
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     command:
       [
         "--character-set-server=utf8mb4",
