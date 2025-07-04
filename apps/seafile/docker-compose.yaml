@@ -59,6 +59,8 @@ services:
       - "4444:80"
     volumes:
       - ${SEAFILE_VOLUME:-/opt/seafile-data}:/shared
+    tmpfs:
+      - /shared/logs
     environment:
       - DB_HOST=${SEAFILE_MYSQL_DB_HOST:-db}
       - DB_PORT=${SEAFILE_MYSQL_DB_PORT:-3306}
