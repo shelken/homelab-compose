@@ -1,0 +1,21 @@
+networks:
+  homelab:
+    external: true
+services:
+  # ref: https://github.com/distribution/distribution/blob/v2.8.3/docs/configuration.md
+  # ref: https://docs.docker.com/docker-hub/image-library/mirror
+  mirror-k8s:
+    image: "registry:2.8.3"
+    container_name: "mirror-k8s"
+    restart: "always"
+    networks:
+      - homelab
+    environment:
+      REGISTRY_LOG_LEVEL: debug
+      REGISTRY_PROXY_REMOTEURL: https://registry.k8s.io
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${MIRROR_DATA_DIR:?MIRROR_DATA_DIR}/k8s/data:/var/lib/registry"
+      - "../config.yaml:/etc/docker/registry/config.yml"
+    ports:
+      - "5005:5000"

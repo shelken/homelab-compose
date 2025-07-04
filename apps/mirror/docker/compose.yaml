@@ -1,0 +1,22 @@
+networks:
+  homelab:
+    external: true
+services:
+  # ref: https://github.com/distribution/distribution/blob/v2.8.3/docs/configuration.md
+  # ref: https://docs.docker.com/docker-hub/image-library/mirror
+  mirror-docker:
+    image: "registry:2.8.3"
+    container_name: "mirror-docker"
+    restart: "always"
+    networks:
+      - homelab
+    environment:
+      REGISTRY_LOG_LEVEL: debug
+      REGISTRY_PROXY_REMOTEURL: https://registry-1.docker.io
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${MIRROR_DATA_DIR:?MIRROR_DATA_DIR}/docker/data:/var/lib/registry"
+      - "../config.yaml:/etc/docker/registry/config.yml"
+    ports:
+      - "5006:5000"
+
