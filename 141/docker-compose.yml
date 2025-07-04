@@ -144,36 +144,36 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  memos:
-    image: neosmemo/memos:0.21.0
-    container_name: memos
-    networks:
-      - homelab
-    restart: unless-stopped
-    #command: --metric=false
-    labels:
-      - com.centurylinklabs.watchtower.monitor-only=false
-      - homepage.group=文章
-      - homepage.name=Memos
-      - homepage.icon=memos.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5230
-      - homepage.instance.public.href=https://memos.${HOME_DOMAIN}
-      - homepage.description=备忘录，笔记
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - "${MEMOS_DATA_DIR}:/var/opt/memos"
-    ports:
-      - "5230:5230"
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # memos:
+  #   image: neosmemo/memos:0.21.0
+  #   container_name: memos
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   #command: --metric=false
+  #   labels:
+  #     - com.centurylinklabs.watchtower.monitor-only=false
+  #     - homepage.group=文章
+  #     - homepage.name=Memos
+  #     - homepage.icon=memos.png
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5230
+  #     - homepage.instance.public.href=https://memos.${HOME_DOMAIN}
+  #     - homepage.description=备忘录，笔记
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - "${MEMOS_DATA_DIR}:/var/opt/memos"
+  #   ports:
+  #     - "5230:5230"
+  #   deploy:
+  #     replicas: 1
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   mosdns:
     image: ghcr.io/shelken/mosdns:latest@sha256:560cec4e0ba6b303db826f8985fc36bad51757628a587fbf497eb3bbc1c43844
     container_name: mosdns
