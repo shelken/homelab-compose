@@ -192,7 +192,7 @@ services:
       - ${BASE_DOCKER_DATA_DIR}/mosdns/router.txt:/etc/mosdns/router.txt:ro
     environment:
       TZ: Asia/Shanghai
-      PRIVATE_DNS_SERVER: ${PRIVATE_DNS_SERVER}
+      # PRIVATE_DNS_SERVER: ${PRIVATE_DNS_SERVER}
       ECS_LOCAL_IPV4: ${ECS_LOCAL_IPV4}
       ECS_LOCAL_IPV6: ${ECS_LOCAL_IPV6}
     ports:
