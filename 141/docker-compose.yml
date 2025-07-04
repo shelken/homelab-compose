@@ -476,35 +476,35 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    networks:
-      - homelab
-    restart: unless-stopped
-    command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --remove-volumes --cleanup"
-    labels:
-      - homepage.group=容器更新
-      - homepage.name=watchtower-141
-      - homepage.icon=watchtower.png
-      - homepage.description=watchtower
-    environment:
-      TZ: Asia/Shanghai
-      WATCHTOWER_NOTIFICATIONS: slack
-      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${WATCHTOWER_SLACK_HOOK_URL}
-      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${WATCHTOWER_SLACK_IDENTIFIER}
-      WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: watchtower
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --remove-volumes --cleanup"
+  #   labels:
+  #     - homepage.group=容器更新
+  #     - homepage.name=watchtower-141
+  #     - homepage.icon=watchtower.png
+  #     - homepage.description=watchtower
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     WATCHTOWER_NOTIFICATIONS: slack
+  #     WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${WATCHTOWER_SLACK_HOOK_URL}
+  #     WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${WATCHTOWER_SLACK_IDENTIFIER}
+  #     WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   zerotier:
     image: zerotier/zerotier:1.14.2
     container_name: zerotier
