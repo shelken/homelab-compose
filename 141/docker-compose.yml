@@ -119,9 +119,13 @@ services:
   home-assistant:
     image: homeassistant/home-assistant:2025.6
     container_name: home-assistant
-    # networks:
-    #   - homelab
-    network_mode: host
+    networks:
+      - homelab
+    #network_mode: host
+    ports:
+      - 8123:8123
+      - 5353:5353
+      - 21064:21064
     restart: unless-stopped
     labels:
       - homepage.group=智能家居
