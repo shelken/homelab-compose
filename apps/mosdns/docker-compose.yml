@@ -72,7 +72,7 @@ services:
         condition: on-failure
         max_attempts: 1
   vector:
-    image: timberio/vector:0.47.0-alpine
+    image: timberio/vector:0.48.0-alpine
     container_name: vector
     networks:
       - mosdns-net
