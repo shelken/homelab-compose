@@ -77,7 +77,7 @@ services:
         condition: on-failure
         max_attempts: 1
   sub-converter:
-    image: shelken/subconverter:latest@sha256:320ec20bcb7ada65a0bd365dd1657dc7951b343d508e4b7065db334e4e7101b3
+    image: shelken/subconverter:latest
     container_name: sub-converter
     networks:
       - homelab
