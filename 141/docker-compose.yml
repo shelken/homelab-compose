@@ -168,7 +168,7 @@ services:
     ports:
       - "5520:3000"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
