@@ -150,32 +150,32 @@ services:
       resources:
         limits:
           memory: 1G
-  homepage:
-    image: gethomepage/homepage:v1.3.2
-    container_name: homepage
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-    environment:
-      TZ: Asia/Shanghai
-      LOG_LEVEL: debug
-      HOMEPAGE_ALLOWED_HOSTS: "*"
-    volumes:
-      - "${HOMEPAGE_CONFIG}:/app/config"
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - "5520:3000"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # homepage:
+  #   image: gethomepage/homepage:v1.3.2
+  #   container_name: homepage
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - com.centurylinklabs.watchtower.enable=false
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     LOG_LEVEL: debug
+  #     HOMEPAGE_ALLOWED_HOSTS: "*"
+  #   volumes:
+  #     - "${HOMEPAGE_CONFIG}:/app/config"
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   ports:
+  #     - "5520:3000"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   # memos:
   #   image: neosmemo/memos:0.21.0
   #   container_name: memos
@@ -404,43 +404,43 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  shlink:
-    image: shlinkio/shlink:4.4.6
-    container_name: shlink
-    depends_on:
-      - mysql8
-    networks:
-      - homelab
-    restart: unless-stopped
-    labels:
-      - homepage.group=未分类
-      - homepage.name=短链接
-      - homepage.icon=shlink.png
-      - homepage.href=https://app.shlink.io/
-      - homepage.description=短链接管理
-    environment:
-      TZ: Asia/Shanghai
-      DEFAULT_DOMAIN: ${SHLINK_DOMAIN}
-      IS_HTTPS_ENABLED: "true"
-      GEOLITE_LICENSE_KEY: ${GEOLITE_LICENSE_KEY}
-      SKIP_INITIAL_GEOLITE_DOWNLOAD: "true"
-      DB_DRIVER: mysql
-      DB_NAME: shlink
-      DB_USER: root
-      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      DB_HOST: mysql8
-      # SHELL_VERBOSITY: 3
-    ports:
-      - "7580:8080"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # shlink:
+  #   image: shlinkio/shlink:4.4.6
+  #   container_name: shlink
+  #   depends_on:
+  #     - mysql8
+  #   networks:
+  #     - homelab
+  #   restart: unless-stopped
+  #   labels:
+  #     - homepage.group=未分类
+  #     - homepage.name=短链接
+  #     - homepage.icon=shlink.png
+  #     - homepage.href=https://app.shlink.io/
+  #     - homepage.description=短链接管理
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     DEFAULT_DOMAIN: ${SHLINK_DOMAIN}
+  #     IS_HTTPS_ENABLED: "true"
+  #     GEOLITE_LICENSE_KEY: ${GEOLITE_LICENSE_KEY}
+  #     SKIP_INITIAL_GEOLITE_DOWNLOAD: "true"
+  #     DB_DRIVER: mysql
+  #     DB_NAME: shlink
+  #     DB_USER: root
+  #     DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     DB_HOST: mysql8
+  #     # SHELL_VERBOSITY: 3
+  #   ports:
+  #     - "7580:8080"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   uptime-kuma:
     image: louislam/uptime-kuma:1.23.16-debian
     container_name: uptime-kuma
