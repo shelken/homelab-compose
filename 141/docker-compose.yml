@@ -367,7 +367,7 @@ services:
     ports:
       - "6306:3306"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -433,7 +433,7 @@ services:
     ports:
       - "7580:8080"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
