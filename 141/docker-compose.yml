@@ -189,6 +189,24 @@ services:
       options:
         max-size: "80m"
         max-file: "3"
+  node-exporter:
+    command:
+      - '--path.rootfs=/host/root'
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.udev.data=/host/root/run/udev/data'
+      - '--web.listen-address=0.0.0.0:9100'
+      - >-
+        --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+    image: quay.io/prometheus/node-exporter:v1.9.0
+    network_mode: host
+    ports:
+      - '192.168.6.141:9100:9100'
+    restart: always
+    volumes:
+      - /:/host/root:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
   prometheus:
     image: prom/prometheus:v3.4.2
     container_name: prometheus
@@ -285,40 +303,6 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  mysql8:
-    image: mysql:8.4.5
-    container_name: mysql8
-    networks:
-      - homelab
-    restart: always
-    command:
-      [
-        "--character-set-server=utf8mb4",
-        "--collation-server=utf8mb4_unicode_ci",
-        "--default-time-zone=+8:00",
-      ]
-    labels:
-      - homepage.group=未分类
-      - homepage.name=mysql8-141
-      - homepage.icon=mysql.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
-      - homepage.description=目前为shlink提供服务
-    environment:
-      TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - "${MYSQL8_DATA_DIR}:/var/lib/mysql"
-    ports:
-      - "6306:3306"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
   portainer:
     image: portainer/portainer-ce:2.31.3
     container_name: portainer
@@ -340,7 +324,7 @@ services:
     ports:
       - "9000:9000"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -417,35 +401,35 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 1
-  zerotier:
-    image: zerotier/zerotier:1.14.2
-    container_name: zerotier
-    network_mode: host
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - SYS_ADMIN
-    devices:
-      - /dev/net/tun
-    labels:
-      - homepage.group=网络
-      - homepage.name=zerotier-141
-      - homepage.icon=zerotier.png
-      - homepage.href=https://my.zerotier.com
-      - homepage.description=用于vps和家庭网络互通
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - "${ZEROTIER_DIR}:/var/lib/zerotier-one"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 1
+  # zerotier:
+  #   image: zerotier/zerotier:1.14.2
+  #   container_name: zerotier
+  #   network_mode: host
+  #   restart: unless-stopped
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_ADMIN
+  #   devices:
+  #     - /dev/net/tun
+  #   labels:
+  #     - homepage.group=网络
+  #     - homepage.name=zerotier-141
+  #     - homepage.icon=zerotier.png
+  #     - homepage.href=https://my.zerotier.com
+  #     - homepage.description=用于vps和家庭网络互通
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - "${ZEROTIER_DIR}:/var/lib/zerotier-one"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
   # alist3:
   #   image: "xhofe/alist:latest"
   #   labels:
@@ -811,6 +795,40 @@ services:
   #     WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 1
+  # mysql8:
+  #   image: mysql:8.4.5
+  #   container_name: mysql8
+  #   networks:
+  #     - homelab
+  #   restart: always
+  #   command:
+  #     [
+  #       "--character-set-server=utf8mb4",
+  #       "--collation-server=utf8mb4_unicode_ci",
+  #       "--default-time-zone=+8:00",
+  #     ]
+  #   labels:
+  #     - homepage.group=未分类
+  #     - homepage.name=mysql8-141
+  #     - homepage.icon=mysql.png
+  #     # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
+  #     - homepage.description=目前为shlink提供服务
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   volumes:
+  #     - "${MYSQL8_DATA_DIR}:/var/lib/mysql"
+  #   ports:
+  #     - "6306:3306"
   #   deploy:
   #     replicas: 0
   #     update_config:
