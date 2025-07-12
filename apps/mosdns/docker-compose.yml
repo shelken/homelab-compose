@@ -51,7 +51,7 @@ services:
         condition: on-failure
         max_attempts: 1
   loki:
-    image: grafana/loki:3.5.1
+    image: grafana/loki:3.5.2
     container_name: loki
     networks:
       - mosdns-net
