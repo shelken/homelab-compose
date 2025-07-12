@@ -4,20 +4,35 @@ networks:
 
 services:
   cloudflare-ddns:
-    image: hotio/cloudflareddns:latest@sha256:4ac7bb50b4559197a74d8d23677f3c63ad1a382615961e79f81ca56913285e0b
+    image: favonia/cloudflare-ddns:1.15.1
     container_name: ddns
+    # Choose the appropriate tag based on your need:
+    # - "latest" for the latest stable version (which could become 2.x.y
+    #   in the future and break things)
+    # - "1" for the latest stable version whose major version is 1
+    # - "1.x.y" to pin the specific version 1.x.y
+    network_mode: host
+    # This bypasses network isolation and makes IPv6 easier (optional; see below)
+    cap_drop: [all]
+    # Drop all Linux capabilities (optional but recommended)
+    security_opt: [no-new-privileges:true]
+    # Another protection to restrict superuser privileges (optional but recommended)
     restart: always
+    # Restart the updater after reboot
+    user: "1000:1000"
+    # Run the updater with specific user and group IDs (in that order).
+    # You can change the two numbers based on your need.
+    read_only: true
+    # Make the container filesystem read-only (optional but recommended)
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Asia/Shanghai
-      - CF_APITOKEN=${CF_APITOKEN}
-      - DETECTION_MODE=${DETECTION_MODE:-curl-ipw.cn}
-      - INTERVAL=300
-      - LOG_LEVEL=3
-      - CF_HOSTS=${CF_HOSTS}
-      - CF_ZONES=${CF_ZONES}
-      - CF_RECORDTYPES=${CF_RECORDTYPES}
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - DOMAINS=${DOMAINS}
+      - PROXIED=false # cf 代理
+      - IP4_PROVIDER=none # 禁用ipv4
+      - UPDATE_CRON=@every 5m # 更新间隔
+      # - IP6_PROVIDER="local.iface:en0" # 本地接口
+      - IP6_PROVIDER="cloudflare.trace" # 外部提供商，默认为Cloudflare trace
     deploy:
       replicas: 1
       update_config:
