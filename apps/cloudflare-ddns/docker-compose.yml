@@ -13,6 +13,7 @@ services:
       - PGID=1000
       - TZ=Asia/Shanghai
       - CF_APITOKEN=${CF_APITOKEN}
+      - DETECTION_MODE=${DETECTION_MODE:-curl-ipw.cn}
       - INTERVAL=300
       - LOG_LEVEL=3
       - CF_HOSTS=${CF_HOSTS}
