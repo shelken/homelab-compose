@@ -108,7 +108,7 @@ services:
       - IP4_PROVIDER=none # 禁用ipv4
       - UPDATE_CRON=@every 5m # 更新间隔
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
