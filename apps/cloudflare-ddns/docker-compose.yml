@@ -4,7 +4,7 @@ networks:
 
 services:
   cloudflare-ddns:
-    image: hotio/cloudflareddns:latest@sha256
+    image: hotio/cloudflareddns:latest@sha256:4ac7bb50b4559197a74d8d23677f3c63ad1a382615961e79f81ca56913285e0b
     container_name: ddns
     restart: always
     user: "1000:1000"
