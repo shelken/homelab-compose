@@ -120,8 +120,8 @@ services:
   home-assistant:
     image: homeassistant/home-assistant:2025.6
     container_name: home-assistant
-    networks:
-      - homelab
+    # networks:
+    #   - homelab
     network_mode: host
     ports:
       - 8123:8123
