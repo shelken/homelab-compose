@@ -8,7 +8,7 @@ services:
     networks:
       - homelab
     # network_mode: host
-    restart: unless-stopped
+    restart: always
     command: 'bash'
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -44,7 +44,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
 
 networks:
   homelab:

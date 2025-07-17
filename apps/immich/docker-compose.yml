@@ -29,7 +29,7 @@ services:
     depends_on:
       - immich-redis
       - immich-postgres
-    restart: unless-stopped
+    restart: always
     healthcheck:
       disable: false
     deploy:
@@ -51,11 +51,18 @@ services:
       - TZ=Asia/Shanghai
       - HTTPS_PROXY=${PROXY_HTTPS_PROXY:-}
       - HTTP_PROXY=${PROXY_HTTPS_PROXY:-}
-    restart: unless-stopped
+    restart: always
     healthcheck:
       disable: false
     deploy:
       replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 
   immich-redis:
     networks:
@@ -64,9 +71,16 @@ services:
     image: valkey/valkey:8-bookworm@sha256:facc1d2c3462975c34e10fccb167bfa92b0e0dbd992fc282c29a61c3243afb11
     healthcheck:
       test: redis-cli ping || exit 1
-    restart: unless-stopped
+    restart: always
     deploy:
       replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 
   immich-postgres:
     networks:
@@ -83,6 +97,13 @@ services:
     volumes:
       # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
       - ${IMMICH_DB_DATA_DIR}:/var/lib/postgresql/data
-    restart: unless-stopped
+    restart: always
     deploy:
       replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3

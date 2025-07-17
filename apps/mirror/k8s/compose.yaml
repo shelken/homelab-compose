@@ -7,7 +7,7 @@ services:
   mirror-k8s:
     image: "registry:2.8.3"
     container_name: "mirror-k8s"
-    restart: "always"
+    restart: always
     networks:
       - homelab
     environment:
@@ -19,3 +19,12 @@ services:
       - "../config.yaml:/etc/docker/registry/config.yml"
     ports:
       - "5005:5000"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3

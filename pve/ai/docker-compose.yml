@@ -15,7 +15,7 @@ services:
     networks:
       - homelab
       - ai
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=AI
@@ -40,11 +40,11 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     environment:
@@ -64,13 +64,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   dufs:
     image: sigoden/dufs
     container_name: dufs
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     command: "/data -A -a shelken:${DUFS_PASSWORD}@/:rw"
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -93,14 +93,14 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   # geminiprochat:
   #   image: ghcr.io/babaohuang/geminiprochat:main
   #   container_name: geminiprochat
   #   networks:
   #     - homelab
   #     - ai
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
   #     - homepage.group=AI
@@ -122,14 +122,14 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # gemini-proxy:
   #   image: zhu327/gemini-openai-proxy:latest
   #   container_name: gemini-proxy
   #   networks:
   #     - homelab
   #     - ai
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
   #     - homepage.group=AI
@@ -149,14 +149,14 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   kimi-free-api:
     image: vinlic/kimi-free-api:latest
     container_name: kimi-free-api
     networks:
       - homelab
       - ai
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=AI
@@ -175,14 +175,14 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   # lobe-chat:
   #   image: lobehub/lobe-chat
   #   container_name: lobe-chat
   #   networks:
   #     - homelab
   #     - ai
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
   #     - homepage.group=AI
@@ -205,7 +205,7 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   ollama-telegram:
     container_name: ollama-telegram
     build:
@@ -215,7 +215,7 @@ services:
       - homelab
       - ai
       - ollama
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=flase
       - homepage.group=AI
@@ -238,7 +238,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   ollama-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: ollama-webui
@@ -246,7 +246,7 @@ services:
       - homelab
       - ai
       - ollama
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=AI
@@ -271,7 +271,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   # tg-bot-collections:
   #   build:
   #     context: ${TG_BOT_BUILD_PATH}
@@ -280,7 +280,7 @@ services:
   #   networks:
   #     - homelab
   #     - ai
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=false
   #     - homepage.group=AI
@@ -299,13 +299,13 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup"
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -329,4 +329,4 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3

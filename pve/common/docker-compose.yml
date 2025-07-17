@@ -10,7 +10,7 @@ services:
   #   container_name: bytebase
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   command: --data /var/opt/bytebase --port 8080
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=false
@@ -33,11 +33,11 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     environment:
@@ -57,13 +57,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   dufs:
     image: sigoden/dufs
     container_name: dufs
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     command: '/data -A -a shelken:${DUFS_PASSWORD}@/:rw'
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -86,13 +86,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   n8n:
     image: docker.n8n.io/n8nio/n8n:1.31.0
     container_name: n8n
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=未分类
@@ -121,12 +121,12 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   scrypted:
     image: koush/scrypted
     container_name: scrypted
     network_mode: host
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=智能家居
@@ -150,7 +150,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
       resources:
         reservations:
           memory: "1024m"
@@ -161,7 +161,7 @@ services:
     container_name: syncthing
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=文件同步
@@ -189,13 +189,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -219,4 +219,4 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3

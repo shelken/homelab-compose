@@ -8,7 +8,7 @@ services:
     container_name: prometheus
     networks:
       - mosdns-net
-    restart: unless-stopped
+    restart: always
     # ports:
       # - "9090:9090"
     depends_on:
@@ -25,13 +25,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   grafana:
     image: grafana/grafana:12.0.2
     container_name: grafana
     networks:
       - mosdns-net
-    restart: unless-stopped
+    restart: always
     depends_on:
       - prometheus
       - loki
@@ -49,13 +49,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   loki:
     image: grafana/loki:3.5.2
     container_name: loki
     networks:
       - mosdns-net
-    restart: unless-stopped
+    restart: always
     volumes:
       - ${MOSDNS_DATA_DIR}/loki/config.yaml:/etc/loki/local-config.yaml
       # - mosdns-log:/logs:ro
@@ -70,13 +70,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   vector:
     image: timberio/vector:0.48.0-alpine
     container_name: vector
     networks:
       - mosdns-net
-    restart: unless-stopped
+    restart: always
     # ports:
       # - "8686:8686"
     depends_on:
@@ -94,13 +94,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   mosdns:
     image: ghcr.io/shelken/mosdns:latest
     container_name: mosdns
     networks:
       - mosdns-net
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=网络
@@ -125,7 +125,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
     logging:
       options:
         max-size: "80m"

@@ -7,7 +7,7 @@ services:
   mirror-docker:
     image: "registry:2.8.3"
     container_name: "mirror-docker"
-    restart: "always"
+    restart: always
     networks:
       - homelab
     environment:
@@ -19,4 +19,13 @@ services:
       - "../config.yaml:/etc/docker/registry/config.yml"
     ports:
       - "5006:5000"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 

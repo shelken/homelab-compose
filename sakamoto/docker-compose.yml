@@ -38,7 +38,7 @@ volumes:
   #     DATABASE_URL: postgresql://postgres:${BLINKO_POSTGRES_PASSWORD}@blinko-postgres:5432/postgres
   #   ports:
   #     - "5230:1111"
-  #   restart: unless-stopped
+  #   restart: always
   #   logging:
   #     options:
   #       max-size: "10m"
@@ -57,11 +57,11 @@ volumes:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # blinko-postgres:
   #   image: postgres:14
   #   container_name: blinko-postgres
-  #   restart: unless-stopped
+  #   restart: always
   #   # ports:
   #   #   - 5435:5432
   #   networks:

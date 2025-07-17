@@ -7,14 +7,7 @@ services:
     image: ghcr.io/caddybuilds/caddy-cloudflare:2.10
     container_name: caddy
     network_mode: host
-    # This bypasses network isolation and makes IPv6 easier (optional; see below)
-    cap_drop: [all]
-    cap_add:
-      - NET_BIND_SERVICE
-    # Drop all Linux capabilities (optional but recommended)
-    security_opt: [no-new-privileges:true]
-    # Another protection to restrict superuser privileges (optional but recommended)
-    restart: unless-stopped
+    restart: always
     environment:
       TZ: Asia/Shanghai
       MAIN_DOMAIN: ${MAIN_DOMAIN}
@@ -24,3 +17,12 @@ services:
       - "${DOCKER_DATA_DIR}/caddy/site:/srv"
       - "${DOCKER_DATA_DIR}/caddy/data:/data"
       - "${DOCKER_DATA_DIR}/caddy/config:/config"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3

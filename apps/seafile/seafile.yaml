@@ -2,7 +2,7 @@ services:
   seafile-mysql:
     image: ${SEAFILE_DB_IMAGE:-docker.seafile.top/seafileltd/mariadb:10.11}
     container_name: seafile-mysql
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     environment:
@@ -30,7 +30,7 @@ services:
   memcached:
     image: ${SEAFILE_MEMCACHED_IMAGE:-docker.seafile.top/seafileltd/memcached:1.6.29}
     container_name: seafile-memcached
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     entrypoint: memcached -m 256
@@ -39,7 +39,7 @@ services:
   # elasticsearch:
   #   image: ${SEAFILE_ELASTICSEARCH_IMAGE:-elasticsearch:8.15.0}
   #   container_name: seafile-elasticsearch
-  #   restart: unless-stopped
+  #   restart: always
   #   networks:
   #     - seafile
   #   environment:
@@ -58,7 +58,7 @@ services:
   seafile:
     image: ${SEAFILE_IMAGE:-docker.seafile.top/seafileltd/seafile-pro-mc:12.0-latest}
     container_name: seafile
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     ports:

@@ -38,21 +38,28 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
 
   memcached:
     image: memcached:1.6.29
     container_name: seafile-memcached
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     entrypoint: memcached -m 256
     deploy:
       replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
   seafile:
     image: seafileltd/seafile-pro-mc:12.0-latest
     container_name: seafile
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     ports:
@@ -98,3 +105,10 @@ services:
         condition: service_started
     deploy:
       replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3

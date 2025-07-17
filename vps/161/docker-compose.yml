@@ -4,7 +4,7 @@ services:
     container_name: mosdns
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - homepage.group=网络
       - homepage.name=mosdns
@@ -26,7 +26,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
     logging:
       options:
         max-size: "80m"
@@ -36,7 +36,7 @@ services:
     container_name: caddy
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - homepage.group=网络
       - homepage.name=vps-161-caddy
@@ -64,7 +64,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   dhp:
     image: registry:2.8.3
     container_name: dhp
@@ -79,11 +79,20 @@ services:
       - REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest@sha256:9e4b9e7517a6b660f2cc903a19b257b1852d5b3344794e3ea334ff00ae677ac2
     container_name: dockerproxy
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     environment:
@@ -107,13 +116,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   sub-converter:
     image: shelken/subconverter:latest
     container_name: sub-converter
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - homepage.group=网络
       - homepage.name=订阅转换
@@ -137,14 +146,14 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   derp:
     image: fredliang/derper:v1.84.2
     container_name: derp
     networks:
       - homelab
     # network_mode: host
-    restart: unless-stopped
+    restart: always
     labels:
       - homepage.group=网络
       - homepage.name=derp服务
@@ -170,13 +179,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   headscale:
     image: headscale/headscale:0.26
     container_name: headscale
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     command: serve
     labels:
       - homepage.group=网络
@@ -199,12 +208,12 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   headplane:
     # I recommend you pin the version to a specific release
     image: ghcr.io/tale/headplane:0.6.0
     container_name: headplane
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     # ports:
@@ -219,12 +228,21 @@ services:
 
       # If you are using the Docker integration, mount the Docker socket
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
   # lobe-chat:
   #   image: lobehub/lobe-chat
   #   container_name: lobe-chat
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - homepage.group=AI
   #     - homepage.name=lobe-chat
@@ -247,13 +265,13 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # watchtower:
   #   image: containrrr/watchtower
   #   container_name: watchtower
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
   #   labels:
   #     - homepage.group=容器更新
@@ -276,7 +294,7 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # wg-easy:
   #   image: ghcr.io/wg-easy/wg-easy:14
   #   container_name: wg-easy
@@ -289,7 +307,7 @@ services:
   #   sysctls:
   #     - net.ipv4.ip_forward=1
   #     - net.ipv4.conf.all.src_valid_mark=1
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - homepage.group=网络
   #     - homepage.name=wg-easy
@@ -332,7 +350,7 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # headscale-webui:
   #   image: ghcr.io/ifargle/headscale-webui:latest
   #   container_name: headscale-webui
@@ -340,7 +358,7 @@ services:
   #     - headscale
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - homepage.group=网络
   #     - homepage.name=headscale-webui
@@ -370,7 +388,7 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
 
 networks:
   homelab:

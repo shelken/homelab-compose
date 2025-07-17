@@ -24,7 +24,7 @@ services:
     ports:
       - "5245:5244"
       - "5246:5246"
-    restart: unless-stopped
+    restart: always
     deploy:
       replicas: 0
       update_config:
@@ -33,7 +33,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   ani-rss:
     image: wushuo894/ani-rss
     container_name: ani-rss
@@ -41,7 +41,7 @@ services:
       - homelab
     dns:
       - 223.5.5.5
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=媒体管理
@@ -69,7 +69,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   # AutoBangumi:
   #   image: estrellaxd/auto_bangumi:3.1.13
   #   container_name: AutoBangumi
@@ -77,7 +77,7 @@ services:
   #     - homelab
   #   dns:
   #     - 223.5.5.5
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=false
   #     - homepage.group=媒体管理
@@ -104,13 +104,13 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # chinesesubfinder:
   #   image: allanpk716/chinesesubfinder:v0.46.3
   #   container_name: chinesesubfinder
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=false
   #     - homepage.group=未分类
@@ -139,13 +139,13 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   clash:
     image: dreamacro/clash:latest
     container_name: clash
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=网络
@@ -169,13 +169,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   # ct:
   #   image: cloudflare/cloudflared:latest
   #   container_name: ct
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   command: "tunnel --no-autoupdate run --token ${CT_TOKEN} --protocol http2"
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
@@ -194,12 +194,12 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # ddns:
   #   image: ghcr.io/zebradil/cloudflare-dynamic-dns:4.0.2
   #   container_name: ddns
   #   network_mode: host
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=false
   #     - homepage.group=网络
@@ -224,11 +224,11 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
-    restart: unless-stopped
+    restart: always
     networks:
       - homelab
     environment:
@@ -248,12 +248,12 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   home-assistant:
     image: homeassistant/home-assistant:stable
     container_name: home-assistant
     network_mode: host
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=智能家居
@@ -275,7 +275,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
       resources:
         limits:
           memory: 1G
@@ -284,7 +284,7 @@ services:
   #   container_name: melody
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
   #     - homepage.group=未分类
@@ -306,7 +306,7 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   # navidrome:
   #   # image: deluan/navidrome:0.49.0
   #   image: deluan/navidrome:latest
@@ -314,7 +314,7 @@ services:
   #   user: "${SHELKEN_PUID}:${SHELKEN_PGID}"
   #   networks:
   #     - homelab
-  #   restart: unless-stopped
+  #   restart: always
   #   labels:
   #     - com.centurylinklabs.watchtower.enable=true
   #     - homepage.group=媒体
@@ -345,12 +345,12 @@ services:
   #       order: stop-first
   #     restart_policy:
   #       condition: on-failure
-  #       max_attempts: 1
+  #       max_attempts: 3
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
     network_mode: host
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=媒体
@@ -375,13 +375,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:amd64-latest
     container_name: qbittorrent
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       #   - com.centurylinklabs.watchtower.enable=true
       - homepage.group=媒体管理
@@ -420,13 +420,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   resilio-sync:
     image: lscr.io/linuxserver/resilio-sync:latest
     container_name: resilio-sync
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=文件同步
@@ -454,13 +454,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   restic-server:
     image: restic/rest-server:0.13.0
     container_name: restic-server
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=文件同步
@@ -482,12 +482,12 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   scrypted:
     image: koush/scrypted
     container_name: scrypted
     network_mode: host
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=智能家居
@@ -511,7 +511,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
       resources:
         reservations:
           memory: "1024m"
@@ -522,7 +522,7 @@ services:
     container_name: syncthing
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=文件同步
@@ -550,13 +550,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   tachidesk:
     image: ghcr.io/suwayomi/tachidesk:v0.7.0
     container_name: tachidesk
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=false
       - homepage.group=书籍
@@ -578,7 +578,7 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
       resources:
         limits:
           memory: 1G
@@ -587,7 +587,7 @@ services:
     container_name: watchtower
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup"
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -611,13 +611,13 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
   yacd:
     image: haishanh/yacd:master
     container_name: yacd
     networks:
       - homelab
-    restart: unless-stopped
+    restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - homepage.group=网络
@@ -638,4 +638,4 @@ services:
         order: stop-first
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 3
