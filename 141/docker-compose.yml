@@ -200,7 +200,7 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
   prometheus:
-    image: prom/prometheus:v3.4.2
+    image: prom/prometheus:v3.5.0
     container_name: prometheus
     networks:
       - homelab
