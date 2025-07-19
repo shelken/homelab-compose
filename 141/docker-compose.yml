@@ -102,7 +102,7 @@ services:
       - UPDATE_CRON=@every 5m # 更新间隔
       - IP6_PROVIDER=url:https://6.ipw.cn # 外部提供商，默认为Cloudflare trace
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -288,35 +288,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-  portainer:
-    image: portainer/portainer-ce:2.31.3
-    container_name: portainer
-    networks:
-      - homelab
-    restart: always
-    labels:
-      - homepage.group=容器管理
-      - homepage.name=141
-      - homepage.icon=portainer.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9000
-      - homepage.instance.public.href=https://port.${HOME_DOMAIN}
-      - homepage.description=portainer
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - "${PORTAINER_DATA_DIR}:/data"
-    ports:
-      - "9000:9000"
-    deploy:
-      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -824,6 +795,35 @@ services:
   #     - "${MYSQL8_DATA_DIR}:/var/lib/mysql"
   #   ports:
   #     - "6306:3306"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 3
+  # portainer:
+  #   image: portainer/portainer-ce:2.31.3
+  #   container_name: portainer
+  #   networks:
+  #     - homelab
+  #   restart: always
+  #   labels:
+  #     - homepage.group=容器管理
+  #     - homepage.name=141
+  #     - homepage.icon=portainer.png
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9000
+  #     - homepage.instance.public.href=https://port.${HOME_DOMAIN}
+  #     - homepage.description=portainer
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - "${PORTAINER_DATA_DIR}:/data"
+  #   ports:
+  #     - "9000:9000"
   #   deploy:
   #     replicas: 0
   #     update_config:
