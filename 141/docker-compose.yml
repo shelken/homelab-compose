@@ -169,7 +169,7 @@ services:
       REMOTE_DNS_SERVER_2: ${REMOTE_DNS_SERVER_2}
     ports:
       - "53:53/udp"
-      # - "8338:8338/tcp"
+      - "8338:8338/tcp"
     deploy:
       replicas: 1
       update_config:
