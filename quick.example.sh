@@ -45,16 +45,15 @@ for APP in "${APPS[@]}"; do
         cp "$ENV_EXAMPLE" "$ENV_FILE"
         echo "已为 $APP 创建.env，请修改 $ENV_FILE 后重新运行脚本。"
         exit 1
-      else
-        echo "$ENV_EXAMPLE 不存在，无法创建.env"
-        exit 1
       fi
     fi
 
-    # 检查.env文件是否包含{}
-    if grep -q '{}' "$ENV_FILE"; then
-      echo "$ENV_FILE 文件中包含 {}，请修改后再运行。"
-      exit 1
+    if [[ -f "$ENV_FILE" ]]; then
+      # 检查.env文件是否包含{}
+      if grep -q '{}' "$ENV_FILE"; then
+        echo "$ENV_FILE 文件中包含 {}，请修改后再运行。"
+        exit 1
+      fi
     fi
 
     echo "启动 $APP 服务..."
