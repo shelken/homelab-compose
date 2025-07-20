@@ -145,7 +145,7 @@ services:
         limits:
           memory: 1G
   mosdns:
-    image: ghcr.io/shelken/mosdns:v3.0.0
+    image: shelken/mosdns:v3.0.0
     container_name: mosdns
     networks:
       - homelab
