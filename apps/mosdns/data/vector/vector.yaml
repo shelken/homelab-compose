@@ -70,7 +70,7 @@ transforms:
         .domain = query_parts[0]
         .record = query_parts[2]
         .address = query_parts[5]
-      }      
+      }
 
 sinks:
   # 同步到 loki，根据实际情况修改 endpoint 的值
