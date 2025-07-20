@@ -212,7 +212,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -242,7 +242,7 @@ services:
     volumes:
       - ${GRAFANA_DATA_DIR}:/var/lib/grafana
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -262,7 +262,7 @@ services:
       # - "3100:3100"
     command: -config.file=/etc/loki/config.yaml
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
