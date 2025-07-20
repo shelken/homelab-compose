@@ -145,7 +145,7 @@ services:
         limits:
           memory: 1G
   mosdns:
-    image: ghcr.io/shelken/mosdns:latest
+    image: ghcr.io/shelken/mosdns:v3.0.0
     container_name: mosdns
     networks:
       - homelab
@@ -157,9 +157,7 @@ services:
       # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5533
       - homepage.description=dns服务
     volumes:
-      - ${BASE_DOCKER_DATA_DIR}/mosdns/hosts.txt:/etc/mosdns/hosts.txt:ro
-      - ${BASE_DOCKER_DATA_DIR}/mosdns/short_cache.txt:/etc/mosdns/short_cache.txt:ro
-      - ${BASE_DOCKER_DATA_DIR}/mosdns/router.txt:/etc/mosdns/router.txt:ro
+      - ${BASE_DOCKER_DATA_DIR}/mosdns/hosts.txt:/etc/mosdns/selfhost.txt:ro
     environment:
       TZ: Asia/Shanghai
       PRIVATE_DNS_SERVER: ${PRIVATE_DNS_SERVER}
