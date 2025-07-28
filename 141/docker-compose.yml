@@ -182,6 +182,7 @@ services:
         max-size: "80m"
         max-file: "3"
   node-exporter:
+    container_name: node-exporter
     command:
       - '--path.rootfs=/host/root'
       - '--path.procfs=/host/proc'
@@ -197,79 +198,6 @@ services:
       - /:/host/root:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
-  prometheus:
-    image: prom/prometheus:v3.5.0
-    container_name: prometheus
-    networks:
-      - homelab
-    restart: always
-    # ports:
-      # - "9090:9090"
-    # depends_on:
-      # - mosdns
-    volumes:
-      - ${PROMETHEUS_CONFIG_DIR}:/etc/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-  grafana:
-    image: grafana/grafana:12.0.2
-    container_name: grafana
-    labels:
-      - homepage.group=监控
-      - homepage.name=grafana
-      - homepage.icon=grafana.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:4000
-      - homepage.description=grafana
-    networks:
-      - homelab
-    restart: always
-    depends_on:
-      - prometheus
-      - loki
-    ports:
-      - "4000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    volumes:
-      - ${GRAFANA_DATA_DIR}:/var/lib/grafana
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-  loki:
-    image: grafana/loki:3.5.2
-    container_name: loki
-    networks:
-      - homelab
-    restart: always
-    volumes:
-      - ${LOKI_CONFIG_DIR}:/etc/loki
-    # ports:
-      # - "3100:3100"
-    command: -config.file=/etc/loki/config.yaml
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   vector:
     image: timberio/vector:0.48.0-alpine
     container_name: vector
@@ -333,38 +261,111 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
-  vaultwarden:
-    image: vaultwarden/server:1.34.1
-    container_name: vaultwarden
-    networks:
-      - homelab
-    restart: always
-    labels:
-      - homepage.group=密码管理
-      - homepage.name=vaultwarden
-      - homepage.icon=vaultwarden.png
-      - homepage.description=vaultwarden
-    environment:
-      TZ: Asia/Shanghai
-      DOMAIN: ${VAULTWARDEN_DOMAIN}
-      ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
-      SIGNUPS_ALLOWED: "false"
-      PUSH_ENABLED: "true"
-      PUSH_INSTALLATION_ID: ${PUSH_INSTALLATION_ID}
-      PUSH_INSTALLATION_KEY: ${PUSH_INSTALLATION_KEY}
-    volumes:
-      - "${VAULTWARDEN_DATA_DIR}:/data"
-    ports:
-      - "6400:80"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
+  # prometheus:
+  #   image: prom/prometheus:v3.5.0
+  #   container_name: prometheus
+  #   networks:
+  #     - homelab
+  #   restart: always
+  #   # ports:
+  #     # - "9090:9090"
+  #   # depends_on:
+  #     # - mosdns
+  #   volumes:
+  #     - ${PROMETHEUS_CONFIG_DIR}:/etc/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 3
+  # grafana:
+  #   image: grafana/grafana:12.0.2
+  #   container_name: grafana
+  #   labels:
+  #     - homepage.group=监控
+  #     - homepage.name=grafana
+  #     - homepage.icon=grafana.png
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:4000
+  #     - homepage.description=grafana
+  #   networks:
+  #     - homelab
+  #   restart: always
+  #   depends_on:
+  #     - prometheus
+  #     - loki
+  #   ports:
+  #     - "4000:3000"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #   volumes:
+  #     - ${GRAFANA_DATA_DIR}:/var/lib/grafana
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 3
+  # loki:
+  #   image: grafana/loki:3.5.2
+  #   container_name: loki
+  #   networks:
+  #     - homelab
+  #   restart: always
+  #   volumes:
+  #     - ${LOKI_CONFIG_DIR}:/etc/loki
+  #   # ports:
+  #     # - "3100:3100"
+  #   command: -config.file=/etc/loki/config.yaml
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 3
+  # vaultwarden:
+  #   image: vaultwarden/server:1.34.1
+  #   container_name: vaultwarden
+  #   networks:
+  #     - homelab
+  #   restart: always
+  #   labels:
+  #     - homepage.group=密码管理
+  #     - homepage.name=vaultwarden
+  #     - homepage.icon=vaultwarden.png
+  #     - homepage.description=vaultwarden
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #     DOMAIN: ${VAULTWARDEN_DOMAIN}
+  #     ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
+  #     SIGNUPS_ALLOWED: "false"
+  #     PUSH_ENABLED: "true"
+  #     PUSH_INSTALLATION_ID: ${PUSH_INSTALLATION_ID}
+  #     PUSH_INSTALLATION_KEY: ${PUSH_INSTALLATION_KEY}
+  #   volumes:
+  #     - "${VAULTWARDEN_DATA_DIR}:/data"
+  #   ports:
+  #     - "6400:80"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 3
   # zerotier:
   #   image: zerotier/zerotier:1.14.2
   #   container_name: zerotier
