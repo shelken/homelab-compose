@@ -75,6 +75,8 @@ services:
       # - ./mirror:/var/lib/registry
       # 配置时区 (可选)
       - /etc/localtime:/etc/localtime:ro
+      - "${DATA_BASE_DIR}/dhp/data:/var/lib/registry"
+      - "../../apps/mirror/config.yaml:/etc/docker/registry/config.yml"
     # ports:
     #   - 5000:5000
     environment:
