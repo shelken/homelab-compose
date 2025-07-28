@@ -207,7 +207,7 @@ services:
     # ports:
       # - "8686:8686"
     depends_on:
-      - loki
+      # - loki
       - mosdns
     volumes:
       - ${VECTOR_CONFIG_DIR}:/etc/vector
