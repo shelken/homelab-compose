@@ -133,7 +133,7 @@ services:
     volumes:
       - "${HASS_CONFIG_DIR}:/config"
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
