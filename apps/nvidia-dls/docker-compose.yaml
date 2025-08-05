@@ -18,7 +18,7 @@ services:
     environment:
       <<: *dls-variables
     ports:
-      - "5100:5100"
+      - "5100:443"
     volumes:
       # - /opt/docker/fastapi-dls/cert:/app/cert
       - ${DOCKER_DATA_DIR}/nvidia-dls/db:/app/database
