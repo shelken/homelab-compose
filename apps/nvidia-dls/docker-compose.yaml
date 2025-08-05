@@ -1,0 +1,24 @@
+networks:
+  homelab:
+    external: true
+
+x-dls-variables: &dls-variables
+  TZ: Asia/Shanghai  # REQUIRED, set your timezone correctly on fastapi-dls AND YOUR CLIENTS !!!
+  DLS_URL: nvidia-dls.${MAIN_DOMAIN} # REQUIRED, change to your ip or hostname
+  DLS_PORT: 5100
+  LEASE_EXPIRE_DAYS: 90
+  DATABASE: sqlite:////app/database/db.sqlite
+  DEBUG: false
+
+services:
+  nvidia-dls:
+    image: collinwebdesigns/fastapi-dls:1.5.4
+    container_name: nvidia-dls
+    restart: always
+    environment:
+      <<: *dls-variables
+    ports:
+      - "5100:5100"
+    volumes:
+      # - /opt/docker/fastapi-dls/cert:/app/cert
+      - ${DOCKER_DATA_DIR}/nvidia-dls/db:/app/database
