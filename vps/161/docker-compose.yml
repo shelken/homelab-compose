@@ -154,9 +154,9 @@ services:
   derp:
     image: fredliang/derper:v1.84.2
     container_name: derp
-    networks:
-      - homelab
-    # network_mode: host
+    # networks:
+    #   - homelab
+    network_mode: host
     restart: always
     labels:
       - homepage.group=网络
@@ -172,8 +172,8 @@ services:
       DERP_VERIFY_CLIENTS: "false"
     volumes:
       - "/var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock"
-    ports:
-      - 3478:3478/udp
+    # ports:
+    #   - 3478:3478/udp
     deploy:
       replicas: 1
       update_config:
