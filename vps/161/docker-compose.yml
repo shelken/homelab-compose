@@ -168,13 +168,12 @@ services:
       TZ: Asia/Shanghai
       DERP_DOMAIN: ${DERP_DOMAIN}
       DERP_ADDR: ":8666"
-      DERP_VERIFY_CLIENTS: "true"
+      DERP_STUN_PORT: "3478"
+      DERP_VERIFY_CLIENTS: "false"
     volumes:
       - "/var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock"
     ports:
-     #- 127.0.0.1:8680:80
       - 3478:3478/udp
-     #- 127.0.0.1:8666:8666
     deploy:
       replicas: 1
       update_config:
