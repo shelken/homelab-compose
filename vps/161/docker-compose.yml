@@ -57,7 +57,7 @@ services:
       - '80:80'
       - '443:443'
       - '443:443/udp'
-      - '100.96.0.3:2019:2019/tcp'
+      - '${DEPLOY_HOST}:2019:2019/tcp'
     deploy:
       replicas: 1
       update_config:
