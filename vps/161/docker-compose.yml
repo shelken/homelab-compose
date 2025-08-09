@@ -204,7 +204,7 @@ services:
       - '127.0.0.1:9090:9090'
       - '127.0.0.1:8080:8080'
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
@@ -232,7 +232,7 @@ services:
       # If you are using the Docker integration, mount the Docker socket
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
     deploy:
-      replicas: 1
+      replicas: 0
       update_config:
         parallelism: 1
         delay: 3s
