@@ -110,40 +110,6 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
-  home-assistant:
-    image: homeassistant/home-assistant:2025.7
-    container_name: home-assistant
-    # networks:
-    #   - homelab
-    network_mode: host
-    ports:
-      - 8123:8123
-      - 5353:5353
-      - 21064:21064
-    restart: always
-    labels:
-      - homepage.group=智能家居
-      - homepage.name=HASS
-      - homepage.icon=home-assistant-alt.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
-      - homepage.instance.public.href=https://hass.${HOME_DOMAIN}
-      - homepage.description=home-assistant
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - "${HASS_CONFIG_DIR}:/config"
-    deploy:
-      replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-      resources:
-        limits:
-          memory: 1G
   mosdns:
     image: shelken/mosdns:v3.0.1
     container_name: mosdns
@@ -261,6 +227,40 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+  # home-assistant:
+  #   image: homeassistant/home-assistant:2025.7
+  #   container_name: home-assistant
+  #   # networks:
+  #   #   - homelab
+  #   network_mode: host
+  #   ports:
+  #     - 8123:8123
+  #     - 5353:5353
+  #     - 21064:21064
+  #   restart: always
+  #   labels:
+  #     - homepage.group=智能家居
+  #     - homepage.name=HASS
+  #     - homepage.icon=home-assistant-alt.png
+  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
+  #     - homepage.instance.public.href=https://hass.${HOME_DOMAIN}
+  #     - homepage.description=home-assistant
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - "${HASS_CONFIG_DIR}:/config"
+  #   deploy:
+  #     replicas: 0
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 3s
+  #       order: stop-first
+  #     restart_policy:
+  #       condition: on-failure
+  #       max_attempts: 3
+  #     resources:
+  #       limits:
+  #         memory: 1G
   # prometheus:
   #   image: prom/prometheus:v3.5.0
   #   container_name: prometheus
