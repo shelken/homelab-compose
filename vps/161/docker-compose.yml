@@ -152,7 +152,7 @@ services:
         condition: on-failure
         max_attempts: 3
   derp:
-    image: fredliang/derper:v1.84.2
+    image: fredliang/derper:v1.86.2
     container_name: derp
     # networks:
     #   - homelab
