@@ -126,9 +126,6 @@ services:
       - ${BASE_DOCKER_DATA_DIR}/mosdns/hosts.txt:/etc/mosdns/rules/selfhost.txt:ro
     environment:
       TZ: Asia/Shanghai
-      PRIVATE_DNS_SERVER: ${PRIVATE_DNS_SERVER}
-      ECS_LOCAL_IPV4: ${ECS_LOCAL_IPV4}
-      ECS_LOCAL_IPV6: ${ECS_LOCAL_IPV6}
       REMOTE_DNS_SERVER_1: ${REMOTE_DNS_SERVER_1}
       REMOTE_DNS_SERVER_2: ${REMOTE_DNS_SERVER_2}
     ports:
