@@ -198,20 +198,11 @@ services:
       - homepage.name=Uptime-Kuma-Public
       - homepage.icon=uptime-kuma.png
       - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:6300
-      - homepage.instance.public.href=https://stats.${HOME_DOMAIN}
+      - homepage.instance.public.href=https://stats.${MAIN_DOMAIN}
       - homepage.description=状态监测
       - homepage.widget.type=uptimekuma
       - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:6300
       - homepage.widget.slug=public
-      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
-      - "traefik.http.routers.uptime-kuma.service=uptime-kuma"
-      - "traefik.http.routers.uptime-kuma.rule=Host(`stats.${HOME_DOMAIN}`)"
-      - "traefik.enable=true"
-      - "traefik.http.routers.uptime-kuma.entrypoints=https"
-      - "traefik.http.routers.uptime-kuma.tls=true"
-      - "traefik.http.routers.uptime-kuma.tls.certresolver=myresolver"
-      - "traefik.http.routers.uptime-kuma.tls.domains[0].main=${HOME_DOMAIN}"
-      - "traefik.http.routers.uptime-kuma.tls.domains[0].sans=*.${HOME_DOMAIN}"
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -243,7 +234,7 @@ services:
   #     - homepage.name=HASS
   #     - homepage.icon=home-assistant-alt.png
   #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
-  #     - homepage.instance.public.href=https://hass.${HOME_DOMAIN}
+  #     - homepage.instance.public.href=https://hass.${MAIN_DOMAIN}
   #     - homepage.description=home-assistant
   #   environment:
   #     TZ: Asia/Shanghai
@@ -403,16 +394,8 @@ services:
   #     - homepage.name=云盘
   #     - homepage.icon=https://cdn.jsdelivr.net/gh/alist-org/logo@main/logo.svg
   #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5245
-  #     - homepage.instance.public.href=https://drive3.${HOME_DOMAIN}
+  #     - homepage.instance.public.href=https://drive3.${MAIN_DOMAIN}
   #     - homepage.description=mine-alist3
-  #     - "traefik.http.routers.alist3.service=alist3"
-  #     - "traefik.http.routers.alist3.rule=Host(`drive3.${HOME_DOMAIN}`)"
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.alist3.entrypoints=https"
-  #     - "traefik.http.routers.alist3.tls=true"
-  #     - "traefik.http.routers.alist3.tls.certresolver=myresolver"
-  #     - "traefik.http.routers.alist3.tls.domains[0].main=${HOME_DOMAIN}"
-  #     - "traefik.http.routers.alist3.tls.domains[0].sans=*.${HOME_DOMAIN}"
   #   container_name: alist3
   #   networks:
   #     - homelab
@@ -551,7 +534,7 @@ services:
   #     - homepage.icon=bluewallet.png
   #     - homepage.description=wallos订阅管理
   #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8282
-  #     - homepage.instance.public.href=https://wallos.${HOME_DOMAIN}
+  #     - homepage.instance.public.href=https://wallos.${MAIN_DOMAIN}
   #   environment:
   #     TZ: Asia/Shanghai
   #   ports:
@@ -686,7 +669,7 @@ services:
   #     - homepage.name=Memos
   #     - homepage.icon=memos.png
   #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5230
-  #     - homepage.instance.public.href=https://memos.${HOME_DOMAIN}
+  #     - homepage.instance.public.href=https://memos.${MAIN_DOMAIN}
   #     - homepage.description=备忘录，笔记
   #   environment:
   #     TZ: Asia/Shanghai
@@ -814,7 +797,7 @@ services:
   #     - homepage.name=141
   #     - homepage.icon=portainer.png
   #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9000
-  #     - homepage.instance.public.href=https://port.${HOME_DOMAIN}
+  #     - homepage.instance.public.href=https://port.${MAIN_DOMAIN}
   #     - homepage.description=portainer
   #   environment:
   #     TZ: Asia/Shanghai
