@@ -213,6 +213,7 @@ services:
         delay: 3s
         order: stop-first
       restart_policy:
+        condition: on-failure
         max_attempts: 3
   # home-assistant:
   #   image: homeassistant/home-assistant:2025.7
