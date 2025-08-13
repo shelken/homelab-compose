@@ -27,13 +27,6 @@ services:
     restart: always
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   ani-rss:
     image: wushuo894/ani-rss
     container_name: ani-rss
@@ -63,13 +56,6 @@ services:
       - "7789:7789"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   # AutoBangumi:
   #   image: estrellaxd/auto_bangumi:3.1.13
   #   container_name: AutoBangumi
@@ -163,13 +149,6 @@ services:
       - "9090:9090"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   # ct:
   #   image: cloudflare/cloudflared:latest
   #   container_name: ct
@@ -242,13 +221,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   home-assistant:
     image: homeassistant/home-assistant:stable
     container_name: home-assistant
@@ -269,13 +241,6 @@ services:
       - "${HASS_CONFIG_DIR}:/config"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
       resources:
         limits:
           memory: 1G
@@ -369,13 +334,6 @@ services:
       - "${SELF_MAIN_MUSIC}:/volume1/Music/music:ro"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:amd64-latest
     container_name: qbittorrent
@@ -414,13 +372,6 @@ services:
       - "6881:6881/udp"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   resilio-sync:
     image: lscr.io/linuxserver/resilio-sync:latest
     container_name: resilio-sync
@@ -448,13 +399,6 @@ services:
       - "55555:55555"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   restic-server:
     image: restic/rest-server:0.13.0
     container_name: restic-server
@@ -476,13 +420,6 @@ services:
       - "5376:8000"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   scrypted:
     image: koush/scrypted
     container_name: scrypted
@@ -505,13 +442,6 @@ services:
     #   - '80:80'
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
       resources:
         reservations:
           memory: "1024m"
@@ -544,13 +474,6 @@ services:
       - "21027:21027/udp"
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   tachidesk:
     image: ghcr.io/suwayomi/tachidesk:v0.7.0
     container_name: tachidesk
@@ -572,13 +495,6 @@ services:
       - "4567:4567"
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
       resources:
         limits:
           memory: 1G
@@ -605,13 +521,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   yacd:
     image: haishanh/yacd:master
     container_name: yacd
@@ -632,10 +541,3 @@ services:
       - "7080:80"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3

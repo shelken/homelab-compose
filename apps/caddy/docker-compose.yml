@@ -19,10 +19,3 @@ services:
       - "${DOCKER_DATA_DIR}/caddy/config:/config"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3

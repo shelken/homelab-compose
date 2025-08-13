@@ -56,13 +56,6 @@ services:
       disable: false
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
 
   immich-redis:
     networks:
@@ -74,13 +67,6 @@ services:
     restart: always
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
 
   immich-postgres:
     networks:
@@ -100,10 +86,3 @@ services:
     restart: always
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3

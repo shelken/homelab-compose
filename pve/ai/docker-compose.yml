@@ -34,13 +34,6 @@ services:
       - "3006:3000"
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
@@ -58,13 +51,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   dufs:
     image: sigoden/dufs
     container_name: dufs
@@ -87,13 +73,6 @@ services:
       - "5000:5000"
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   # geminiprochat:
   #   image: ghcr.io/babaohuang/geminiprochat:main
   #   container_name: geminiprochat
@@ -169,13 +148,6 @@ services:
       - "6570:8000"
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   # lobe-chat:
   #   image: lobehub/lobe-chat
   #   container_name: lobe-chat
@@ -232,13 +204,6 @@ services:
       TOKEN: "${OLLAMA_BOT_TOKEN}"
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   ollama-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: ollama-webui
@@ -265,13 +230,6 @@ services:
       - "11435:8080"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   # tg-bot-collections:
   #   build:
   #     context: ${TG_BOT_BUILD_PATH}
@@ -323,10 +281,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3

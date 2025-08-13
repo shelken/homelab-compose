@@ -21,13 +21,6 @@ services:
       # - "8338:8338/tcp"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
     logging:
       options:
         max-size: "80m"
@@ -60,13 +53,6 @@ services:
       - '${DEPLOY_HOST}:2019:2019/tcp'
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   dhp:
     image: registry:2.8.3
     container_name: dhp
@@ -86,13 +72,6 @@ services:
     restart: always
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest@sha256:9e4b9e7517a6b660f2cc903a19b257b1852d5b3344794e3ea334ff00ae677ac2
     container_name: dockerproxy
@@ -114,13 +93,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   sub-converter:
     image: shelken/subconverter:latest
     container_name: sub-converter
@@ -144,13 +116,6 @@ services:
     #   - '6688:25500'
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   derp:
     image: fredliang/derper:v1.86.2
     container_name: derp
@@ -176,13 +141,6 @@ services:
     #   - 3478:3478/udp
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   headscale:
     image: headscale/headscale:0.26
     container_name: headscale
@@ -205,13 +163,6 @@ services:
       - '127.0.0.1:8080:8080'
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   headplane:
     # I recommend you pin the version to a specific release
     image: ghcr.io/tale/headplane:0.6.0
@@ -233,13 +184,6 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
     deploy:
       replicas: 0
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   # lobe-chat:
   #   image: lobehub/lobe-chat
   #   container_name: lobe-chat

@@ -35,10 +35,3 @@ services:
       - IP6_PROVIDER=url:https://6.ipw.cn # 外部提供商，默认为Cloudflare trace
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3

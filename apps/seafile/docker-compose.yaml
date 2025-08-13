@@ -32,13 +32,6 @@ services:
       retries: 10
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
 
   memcached:
     image: memcached:1.6.29
@@ -49,13 +42,6 @@ services:
     entrypoint: memcached -m 256
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
   seafile:
     image: seafileltd/seafile-pro-mc:12.0-latest
     container_name: seafile
@@ -105,10 +91,3 @@ services:
         condition: service_started
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 3s
-        order: stop-first
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
