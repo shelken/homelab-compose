@@ -1,0 +1,25 @@
+networks:
+  homelab:
+    external: true
+
+# volumes:
+#   icloudpd_config:
+#     name: icloudpd_config
+
+services:
+  icloudpd:
+    container_name: icloudpd
+    networks:
+      - homelab
+    environment:
+      - TZ=Asia/Shanghai
+      - user=shelken
+    image: boredazfcuk/icloudpd
+    healthcheck:
+      test: /usr/local/bin/healthcheck.sh
+      start_period: 30s
+    restart: always
+    volumes:
+      # - icloudpd_config:/config
+      - ./icloudpd.conf:/config/icloudpd.conf:ro
+      - /Volumes/sakamoto-data/media/Photo/icloudpd/shelken:/home/shelken/iCloud/

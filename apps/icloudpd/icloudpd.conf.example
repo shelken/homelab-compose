@@ -1,0 +1,34 @@
+# DOCKER_DATA_DIR=  
+apple_id={}
+
+# 仅下载最近几张照片，整数
+#recent_only=
+
+# 相册
+#photo_album="all albums"
+#skip_album=""
+
+skip_check=true
+icloud_china=true
+auth_china=true
+keep_unicode=true
+auto_delete=true
+
+#folder_structure={:%Y/%m/%d}
+# Permissions for directories and files
+#directory_permissions=750
+#file_permissions=640
+
+# Additional command line options to pass to iCloud Photo Downloader eg: --auto-delete --set-exif-datetime
+# command_line_options="--auto-delete"
+
+# Syncronisation interval. 21600=6hr, 43200=12hr, 86400=24hr
+#synchronisation_interval=86400
+
+# Set the number of days before 2FA expires to start sending notifications
+#notification_days=7
+
+notification_type=Bark
+notification_title="iCloud 图片下载"
+bark_device_key={}
+bark_server=api.day.app
