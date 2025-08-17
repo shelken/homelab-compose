@@ -2,9 +2,9 @@ networks:
   homelab:
     external: true
 
-# volumes:
-#   icloudpd_config:
-#     name: icloudpd_config
+volumes:
+  icloudpd_config:
+    name: icloudpd_config
 
 services:
   icloudpd:
@@ -20,6 +20,6 @@ services:
       start_period: 30s
     restart: always
     volumes:
-      # - icloudpd_config:/config
+      - icloudpd_config:/config
       - ./icloudpd.conf:/config/icloudpd.conf:ro
       - /Volumes/sakamoto-data/media/Photo/icloudpd/shelken:/home/shelken/iCloud/

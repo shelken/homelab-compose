@@ -10,6 +10,7 @@ ansible
 
 sakamoto/.env
 apps/**/.env
+apps/**/icloudpd.conf
 apps/**/data
 
 quick.sh
