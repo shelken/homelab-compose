@@ -1,5 +1,6 @@
 # DOCKER_DATA_DIR=  
 apple_id={}
+user=shelken
 
 # 仅下载最近几张照片，整数
 #recent_only=

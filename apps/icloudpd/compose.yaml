@@ -13,7 +13,6 @@ services:
       - homelab
     environment:
       - TZ=Asia/Shanghai
-      - user=shelken
     image: boredazfcuk/icloudpd
     healthcheck:
       test: /usr/local/bin/healthcheck.sh
@@ -21,5 +20,5 @@ services:
     restart: always
     volumes:
       - icloudpd_config:/config
-      - ./icloudpd.conf:/config/icloudpd.conf:ro
+      - ./icloudpd.conf:/config/icloudpd.conf
       - /Volumes/sakamoto-data/media/Photo/icloudpd/shelken:/home/shelken/iCloud/
