@@ -1,9 +1,10 @@
 # DOCKER_DATA_DIR=  
+debug_logging=false
 apple_id={}
 user=shelken
 
 # 仅下载最近几张照片，整数
-#recent_only=
+recent_only=
 
 # 相册
 #photo_album="all albums"
@@ -24,14 +25,14 @@ auto_delete=true
 # command_line_options="--auto-delete"
 
 # Syncronisation interval. 21600=6hr, 43200=12hr, 86400=24hr
-#synchronisation_interval=86400
+download_interval=43200
 
 # Set the number of days before 2FA expires to start sending notifications
 #notification_days=7
 
-notification_type=Bark
-notification_title="iCloud 图片下载"
 bark_device_key={}
 bark_server=api.day.app
+notification_type=bark
+notification_title="iCloud Photo"
 
 ## custom end
