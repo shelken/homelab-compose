@@ -34,19 +34,30 @@ services:
     restart: always
     command: 
       - icloudpd
-      - --directory /data
-      - --username ${APPLE_ID}
-      - --cookie-directory /config
-      - --domain cn
+      - --directory 
+      - /data
+      - --username
+      - ${APPLE_ID}
+      - --cookie-directory
+      - /config
+      - --domain
+      - cn
       - --no-progress-bar
-      - --size original
-      - --keep-unicode-in-filenames true
+      - --size
+      - original
+      - --keep-unicode-in-filenames
+      - "true"
       - --auto-delete
-      - --folder-structure {:%Y/%m/%d}
-      - --log-level debug
-      - --watch-with-interval 3600
-      - --mfa-provider webui
-      - --password-provider webui
+      - --folder-structure
+      - "{:%Y/%m/%d}"
+      - --log-level
+      - debug
+      - --watch-with-interval
+      - "3600"
+      - --mfa-provider
+      - webui
+      - --password-provider
+      - webui
     ports:
       - "5123:8080"
     volumes:
