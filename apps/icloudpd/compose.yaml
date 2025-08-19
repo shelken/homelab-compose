@@ -32,6 +32,7 @@ services:
       - TZ=Asia/Shanghai
     image: icloudpd/icloudpd:latest
     restart: always
+    privileged: true
     command: 
       - icloudpd
       - --directory 
