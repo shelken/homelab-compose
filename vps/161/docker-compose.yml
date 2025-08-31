@@ -73,7 +73,7 @@ services:
     deploy:
       replicas: 1
   dockerproxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:latest@sha256:9e4b9e7517a6b660f2cc903a19b257b1852d5b3344794e3ea334ff00ae677ac2
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest@sha256:44538370af9103858aa387860f355bed72e7f4e15380ef829b53ed4e154cedcd
     container_name: dockerproxy
     restart: always
     networks:
