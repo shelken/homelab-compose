@@ -22,7 +22,7 @@ services:
       - POST=1 # Disallow any POST operations (effectively read-only)
       # - VOLUMES=1
       # - IMAGES=1
-      # - INFO=1
+      - INFO=1
       # - NETWORKS=1
     ports:
       - "${DOCKER_PROXY_HOST:-127.0.0.1}:2575:2375"
