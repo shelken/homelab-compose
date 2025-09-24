@@ -117,6 +117,22 @@ services:
       options:
         max-size: "80m"
         max-file: "3"
+  netalertx:
+    image: ghcr.io/jokob-sk/netalertx:latest
+    container_name: netalertx
+    network_mode: host
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      PORT: 20211
+    volumes:
+      - "${BASE_DOCKER_DATA_DIR}/netalertx/config:/app/config"
+      - "${BASE_DOCKER_DATA_DIR}/netalertx/db:/app/db"
+      - type: tmpfs
+        target: /app/api
+      # - "${BASE_DOCKER_DATA_DIR}/netalertx/log:/app/log"
+    deploy:
+      replicas: 1
   node-exporter:
     container_name: node-exporter
     command:
