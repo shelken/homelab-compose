@@ -4,7 +4,7 @@ networks:
 
 services:
   netalertx:
-    image: ghcr.io/jokob-sk/netalertx:latest
+    image: ghcr.io/jokob-sk/netalertx:25.8.6
     container_name: netalertx
     network_mode: host
     restart: always
