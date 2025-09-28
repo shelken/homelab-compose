@@ -29,7 +29,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
-      replicas: 1
+      replicas: 0
       
   caddy:
     image: caddybuilds/caddy-cloudflare:2.10
@@ -132,7 +132,7 @@ services:
         target: /app/api
       # - "${BASE_DOCKER_DATA_DIR}/netalertx/log:/app/log"
     deploy:
-      replicas: 1
+      replicas: 0
   node-exporter:
     container_name: node-exporter
     command:
