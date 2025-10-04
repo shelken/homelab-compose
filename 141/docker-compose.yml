@@ -118,7 +118,7 @@ services:
         max-size: "80m"
         max-file: "3"
   netalertx:
-    image: ghcr.io/jokob-sk/netalertx:25.8.6
+    image: ghcr.io/jokob-sk/netalertx:25.10.1
     container_name: netalertx
     network_mode: host
     restart: always
