@@ -117,7 +117,7 @@ services:
     deploy:
       replicas: 1
   derp:
-    image: fredliang/derper:v1.86.2
+    image: fredliang/derper:v1.88.3
     container_name: derp
     # networks:
     #   - homelab
