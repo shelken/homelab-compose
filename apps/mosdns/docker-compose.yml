@@ -4,7 +4,7 @@ networks:
 
 services:
   mosdns:
-    image: ghcr.io/shelken/mosdns:latest
+    image: ghcr.io/shelken/mosdns:rolling
     container_name: mosdns
     networks:
       - mosdns-net

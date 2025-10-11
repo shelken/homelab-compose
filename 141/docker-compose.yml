@@ -91,7 +91,7 @@ services:
     deploy:
       replicas: 1
   mosdns:
-    image: shelken/mosdns:3.1.0
+    image: ghcr.io/shelken/mosdns:rolling
     container_name: mosdns
     networks:
       - homelab
