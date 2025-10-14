@@ -107,6 +107,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       SELF_DNS_SERVER_UDP: ${SELF_DNS_SERVER_UDP}
+      ENABLE_AD_BLOCK: ${ENABLE_AD_BLOCK}
     ports:
       - "53:53/udp"
       - "8338:8338/tcp"
