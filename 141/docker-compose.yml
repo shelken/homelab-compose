@@ -106,8 +106,7 @@ services:
       - ${BASE_DOCKER_DATA_DIR}/mosdns/hosts.txt:/etc/mosdns/rules/selfhost.txt:ro
     environment:
       TZ: Asia/Shanghai
-      REMOTE_DNS_SERVER_1: ${REMOTE_DNS_SERVER_1}
-      REMOTE_DNS_SERVER_2: ${REMOTE_DNS_SERVER_2}
+      SELF_DNS_SERVER_UDP: ${SELF_DNS_SERVER_UDP}
     ports:
       - "53:53/udp"
       - "8338:8338/tcp"
