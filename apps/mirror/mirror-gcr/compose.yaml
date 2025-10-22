@@ -5,7 +5,7 @@ services:
   # ref: https://github.com/distribution/distribution/blob/v2.8.3/docs/configuration.md
   # ref: https://docs.docker.com/docker-hub/image-library/mirror
   # 来自google对dockerhub的镜像
-  mirror-docker:
+  mirror-gcr:
     image: "registry:2.8.3"
     container_name: "mirror-gcr"
     restart: always
