@@ -1,0 +1,24 @@
+networks:
+  homelab:
+    external: true
+services:
+  # ref: https://github.com/distribution/distribution/blob/v2.8.3/docs/configuration.md
+  # ref: https://docs.docker.com/docker-hub/image-library/mirror
+  # 来自google对dockerhub的镜像
+  mirror-docker:
+    image: "registry:2.8.3"
+    container_name: "mirror-gcr"
+    restart: always
+    networks:
+      - homelab
+    environment:
+      REGISTRY_LOG_LEVEL: debug
+      REGISTRY_PROXY_REMOTEURL: https://mirror.gcr.io
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${MIRROR_DATA_DIR:?MIRROR_DATA_DIR}/mirror-gcr/data:/var/lib/registry"
+      - "../config.yaml:/etc/docker/registry/config.yml"
+    ports:
+      - "5003:5000"
+    deploy:
+      replicas: 1

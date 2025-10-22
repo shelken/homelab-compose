@@ -47,10 +47,10 @@ services:
       - "${CADDY_DATA_DIR}:/data"
       - "${CADDY_CONFIG_DIR}:/config"
     ports:
-      - '80:80'
-      - '443:443'
-      - '443:443/udp'
-      - '${DEPLOY_HOST}:2019:2019/tcp'
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "${DEPLOY_HOST}:2019:2019/tcp"
     deploy:
       replicas: 1
   dhp:
@@ -141,49 +141,49 @@ services:
     #   - 3478:3478/udp
     deploy:
       replicas: 1
-  headscale:
-    image: headscale/headscale:0.26
-    container_name: headscale
-    networks:
-      - homelab
-    restart: always
-    command: serve
-    labels:
-      - homepage.group=网络
-      - homepage.name=headscale
-      - homepage.icon=tailscale.png
-      - homepage.href=https://${HEADSCALE_DOMAIN}
-      - homepage.description=headscale
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - "${HEADSCALE_CONFIG_DIR}:/etc/headscale/"
-    ports:
-      - '127.0.0.1:9090:9090'
-      - '127.0.0.1:8080:8080'
-    deploy:
-      replicas: 0
-  headplane:
-    # I recommend you pin the version to a specific release
-    image: ghcr.io/tale/headplane:0.6.0
-    container_name: headplane
-    restart: always
-    networks:
-      - homelab
-    # ports:
-    #   - '3000:3000'
-    volumes:
-      - '${HEADPLANE_CONFIG_DIR}/config.yaml:/etc/headplane/config.yaml'
-      # This should match headscale.config_path in your config.yaml
-      - '${HEADSCALE_CONFIG_DIR}/config.yaml:/etc/headscale/config.yaml'
+  # headscale:
+  #   image: headscale/headscale:0.26
+  #   container_name: headscale
+  #   networks:
+  #     - homelab
+  #   restart: always
+  #   command: serve
+  #   labels:
+  #     - homepage.group=网络
+  #     - homepage.name=headscale
+  #     - homepage.icon=tailscale.png
+  #     - homepage.href=https://${HEADSCALE_DOMAIN}
+  #     - homepage.description=headscale
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     - "${HEADSCALE_CONFIG_DIR}:/etc/headscale/"
+  #   ports:
+  #     - '127.0.0.1:9090:9090'
+  #     - '127.0.0.1:8080:8080'
+  #   deploy:
+  #     replicas: 0
+  # headplane:
+  #   # I recommend you pin the version to a specific release
+  #   image: ghcr.io/tale/headplane:0.6.0
+  #   container_name: headplane
+  #   restart: always
+  #   networks:
+  #     - homelab
+  #   # ports:
+  #   #   - '3000:3000'
+  #   volumes:
+  #     - '${HEADPLANE_CONFIG_DIR}/config.yaml:/etc/headplane/config.yaml'
+  #     # This should match headscale.config_path in your config.yaml
+  #     - '${HEADSCALE_CONFIG_DIR}/config.yaml:/etc/headscale/config.yaml'
 
-      # Headplane stores its data in this directory
-      - '${HEADPLANE_DATA_DIR}:/var/lib/headplane'
+  #     # Headplane stores its data in this directory
+  #     - '${HEADPLANE_DATA_DIR}:/var/lib/headplane'
 
-      # If you are using the Docker integration, mount the Docker socket
-      - '/var/run/docker.sock:/var/run/docker.sock:ro'
-    deploy:
-      replicas: 0
+  #     # If you are using the Docker integration, mount the Docker socket
+  #     - '/var/run/docker.sock:/var/run/docker.sock:ro'
+  #   deploy:
+  #     replicas: 0
   # lobe-chat:
   #   image: lobehub/lobe-chat
   #   container_name: lobe-chat
@@ -318,7 +318,7 @@ services:
   #     HS_SERVER: http://headscale:8080
   #     DOMAIN_NAME: http://headscale-webui:5000
   #     SCRIPT_NAME: /admin
-  #     AUTH_TYPE: 
+  #     AUTH_TYPE:
   #     LOG_LEVEL: info
   #   env_file:
   #     - ./headscale-ui.env
