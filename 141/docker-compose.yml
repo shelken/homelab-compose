@@ -169,7 +169,7 @@ services:
     deploy:
       replicas: 1
   uptime-kuma:
-    image: louislam/uptime-kuma:1.23.16-debian
+    image: louislam/uptime-kuma:1.23.17-debian
     container_name: uptime-kuma
     networks:
       - homelab
