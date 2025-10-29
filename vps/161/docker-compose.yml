@@ -25,6 +25,27 @@ services:
       options:
         max-size: "80m"
         max-file: "3"
+  node-exporter:
+    container_name: node-exporter
+    command:
+      - "--path.rootfs=/host/root"
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.udev.data=/host/root/run/udev/data"
+      - "--web.listen-address=0.0.0.0:9100"
+      - >-
+        --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+    image: prom/node-exporter:v1.9.1
+    # network_mode: host
+    restart: always
+    ports:
+      - "${DEPLOY_HOST}:9100:9100/tcp"
+    volumes:
+      - /:/host/root:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+    deploy:
+      replicas: 1
   caddy:
     image: ghcr.io/caddybuilds/caddy-cloudflare:2.10
     container_name: caddy
@@ -112,8 +133,8 @@ services:
       API_TOKEN: password
     # volumes:
     #   - "${DATA_DIR}:/base/profiles"
-    # ports:
-    #   - '6688:25500'
+    ports:
+      - "127.0.0.1:25500:25500/tcp"
     deploy:
       replicas: 1
   derp:
