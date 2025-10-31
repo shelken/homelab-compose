@@ -12,7 +12,7 @@ x-dls-variables: &dls-variables
 
 services:
   nvidia-dls:
-    image: collinwebdesigns/fastapi-dls:2.0.2
+    image: collinwebdesigns/fastapi-dls:2.0.3
     container_name: nvidia-dls
     restart: always
     environment:
