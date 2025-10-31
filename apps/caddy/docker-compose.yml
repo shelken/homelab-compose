@@ -4,7 +4,7 @@ networks:
 
 services:
   caddy:
-    image: ghcr.io/caddybuilds/caddy-cloudflare:2.10
+    image: ghcr.io/shelken/caddy:2.10.2
     container_name: caddy
     network_mode: host
     restart: always

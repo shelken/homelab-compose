@@ -30,9 +30,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
       replicas: 0
-      
+
   caddy:
-    image: caddybuilds/caddy-cloudflare:2.10
+    image: ghcr.io/shelken/caddy:2.10.2
     container_name: caddy
     network_mode: host
     restart: always
@@ -136,11 +136,11 @@ services:
   node-exporter:
     container_name: node-exporter
     command:
-      - '--path.rootfs=/host/root'
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.udev.data=/host/root/run/udev/data'
-      - '--web.listen-address=0.0.0.0:9100'
+      - "--path.rootfs=/host/root"
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.udev.data=/host/root/run/udev/data"
+      - "--web.listen-address=0.0.0.0:9100"
       - >-
         --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
     image: prom/node-exporter:v1.9.1
@@ -159,7 +159,7 @@ services:
       - homelab
     restart: always
     # ports:
-      # - "8686:8686"
+    # - "8686:8686"
     depends_on:
       # - loki
       - mosdns
@@ -512,7 +512,7 @@ services:
   #   environment:
   #     TZ: Asia/Shanghai
   #   ports:
-  #     - 8282:80 
+  #     - 8282:80
   #   volumes:
   #     - "${WALLOS_DATA_DIR}:/var/www/html/db"
   #     - "${WALLOS_LOGO_DIR}:/var/www/html/images/uploads/logos"
@@ -546,7 +546,7 @@ services:
   #     restart_policy:
   #       condition: on-failure
   #       max_attempts: 3
-    # ct:
+  # ct:
   #   image: cloudflare/cloudflared:latest
   #   container_name: ct
   #   networks:
