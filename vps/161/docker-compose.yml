@@ -126,6 +126,11 @@ services:
       - homepage.icon=docker-moby.png
       - homepage.href=https://${SUB_CONVERTER_DOMAIN:-www.google.com}
       - homepage.description=订阅转换
+    cap_drop:
+      - ALL
+    user: "1000:1000"
+    security_opt:
+      - no-new-privileges:true
     environment:
       TZ: Asia/Shanghai
       MANAGED_PREFIX: https://${SUB_CONVERTER_DOMAIN:-www.google.com}
