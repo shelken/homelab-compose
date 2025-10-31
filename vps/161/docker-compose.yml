@@ -115,7 +115,7 @@ services:
     deploy:
       replicas: 1
   sub-converter:
-    image: shelken/subconverter:latest
+    image: ghcr.io/shelken/subconverter:1.6.0
     container_name: sub-converter
     networks:
       - homelab
