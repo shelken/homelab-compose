@@ -153,7 +153,7 @@ services:
     deploy:
       replicas: 1
   vector:
-    image: timberio/vector:0.50.0-alpine
+    image: timberio/vector:0.51.0-alpine
     container_name: vector
     networks:
       - homelab
