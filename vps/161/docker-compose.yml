@@ -37,6 +37,8 @@ services:
         --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
     image: prom/node-exporter:v1.10.2
     # network_mode: host
+    networks:
+      - homelab
     restart: always
     ports:
       - "${DEPLOY_HOST}:9100:9100/tcp"
