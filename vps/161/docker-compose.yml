@@ -365,4 +365,6 @@ services:
 
 networks:
   homelab:
+    name: homelab
     driver: bridge
+    enable_ipv6: true
