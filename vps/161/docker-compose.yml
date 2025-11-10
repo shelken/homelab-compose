@@ -117,7 +117,7 @@ services:
     deploy:
       replicas: 1
   sub-converter:
-    image: ghcr.io/shelken/subconverter:1.6.0
+    image: ghcr.io/shelken/subconverter:1.7.0
     container_name: sub-converter
     networks:
       - homelab
@@ -130,7 +130,6 @@ services:
       - homepage.description=订阅转换
     cap_drop:
       - ALL
-    user: "1000:1000"
     security_opt:
       - no-new-privileges:true
     environment:
