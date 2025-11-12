@@ -62,8 +62,9 @@ services:
       - homepage.group=VPS
       - homepage.name=vps-caddy
       - homepage.icon=caddy.svg
-      - homepage.href=https://${MAIN_DOMAIN:-www.google.com}
       - homepage.description=vps反向代理
+      - homepage.widget.type=caddy
+      - homepage.widget.url=http://${DEPLOY_HOST}:2019
     environment:
       TZ: Asia/Shanghai
       MAIN_DOMAIN: ${MAIN_DOMAIN}
