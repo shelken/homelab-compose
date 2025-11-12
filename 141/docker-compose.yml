@@ -15,6 +15,11 @@ services:
     image: tecnativa/docker-socket-proxy:latest@sha256:3400c429c5f9e1b21d62130fb93b16e2e772d4fb7695bd52fc2b743800b9fe9e
     container_name: dockerproxy
     restart: always
+    labels:
+      - homepage.group=tvbox
+      - homepage.name=docker-proxy
+      - homepage.icon=docker-moby.svg
+      - homepage.description=
     networks:
       - homelab
     environment:
@@ -39,13 +44,12 @@ services:
     network_mode: host
     restart: always
     labels:
-      - homepage.group=网络
+      - homepage.group=tvbox
       - homepage.name=tvbox-caddy
-      - homepage.icon=caddy.png
-      - homepage.href=https://${MAIN_DOMAIN:-caddyserver.com/docs/}
+      - homepage.icon=caddy.svg
       - homepage.description=tvbox反向代理
       - homepage.widget.type=caddy
-      - homepage.widget.url=http://${CADDY_HOST:-caddy}:2019
+      - homepage.widget.url=http://tvbox.lan:2019
     environment:
       TZ: Asia/Shanghai
       MAIN_DOMAIN: ${MAIN_DOMAIN}
@@ -63,6 +67,11 @@ services:
       replicas: 1
   cloudflare-ddns:
     image: favonia/cloudflare-ddns:1.15.1
+    labels:
+      - homepage.group=tvbox
+      - homepage.name=DDNS
+      - homepage.icon=cloudflare.svg
+      - homepage.description=
     container_name: ddns
     # Choose the appropriate tag based on your need:
     # - "latest" for the latest stable version (which could become 2.x.y
@@ -99,10 +108,9 @@ services:
       - homelab
     restart: always
     labels:
-      - homepage.group=网络
+      - homepage.group=tvbox
       - homepage.name=mosdns
       - homepage.icon=azure-dns.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5533
       - homepage.description=dns服务
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/mosdns/hosts.txt:/etc/mosdns/rules/selfhost.txt:ro
@@ -119,24 +127,13 @@ services:
       options:
         max-size: "80m"
         max-file: "3"
-  netalertx:
-    image: ghcr.io/jokob-sk/netalertx:25.10.1
-    container_name: netalertx
-    network_mode: host
-    restart: always
-    environment:
-      TZ: Asia/Shanghai
-      PORT: 20211
-    volumes:
-      - "${BASE_DOCKER_DATA_DIR}/netalertx/config:/app/config"
-      - "${BASE_DOCKER_DATA_DIR}/netalertx/db:/app/db"
-      - type: tmpfs
-        target: /app/api
-      # - "${BASE_DOCKER_DATA_DIR}/netalertx/log:/app/log"
-    deploy:
-      replicas: 0
   node-exporter:
     container_name: node-exporter
+    labels:
+      - homepage.group=tvbox
+      - homepage.name=node-exporter
+      - homepage.icon=docker-moby.svg
+      - homepage.description=
     command:
       - "--path.rootfs=/host/root"
       - "--path.procfs=/host/proc"
@@ -157,6 +154,11 @@ services:
   vector:
     image: timberio/vector:0.51.0-alpine
     container_name: vector
+    labels:
+      - homepage.group=tvbox
+      - homepage.name=vector
+      - homepage.icon=vector.svg
+      - homepage.description=
     networks:
       - homelab
     restart: always
@@ -176,16 +178,14 @@ services:
     networks:
       - homelab
     restart: always
-    labels:
-      - homepage.group=状态汇总
-      - homepage.name=Uptime-Kuma-Public
-      - homepage.icon=uptime-kuma.png
-      - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:6300
-      - homepage.instance.public.href=https://stats.${MAIN_DOMAIN}
-      - homepage.description=状态监测
-      - homepage.widget.type=uptimekuma
-      - homepage.widget.url=http://${DEPLOY_HOST:-127.0.0.1}:6300
-      - homepage.widget.slug=public
+    # labels:
+    #   - homepage.group=tvbox
+    #   - homepage.name=Uptime-Kuma-Public
+    #   - homepage.icon=uptime-kuma.svg
+    #   - homepage.href=http://tvbox.lan:6300
+    #   - homepage.widget.type=uptimekuma
+    #   - homepage.widget.url=http://tvbox.lan:6300
+    #   - homepage.widget.slug=public
     environment:
       TZ: Asia/Shanghai
     volumes:
@@ -194,600 +194,3 @@ services:
       - "6300:3001"
     deploy:
       replicas: 1
-  # home-assistant:
-  #   image: homeassistant/home-assistant:2025.7
-  #   container_name: home-assistant
-  #   # networks:
-  #   #   - homelab
-  #   network_mode: host
-  #   ports:
-  #     - 8123:8123
-  #     - 5353:5353
-  #     - 21064:21064
-  #   restart: always
-  #   labels:
-  #     - homepage.group=智能家居
-  #     - homepage.name=HASS
-  #     - homepage.icon=home-assistant-alt.png
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8123
-  #     - homepage.instance.public.href=https://hass.${MAIN_DOMAIN}
-  #     - homepage.description=home-assistant
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   volumes:
-  #     - "${HASS_CONFIG_DIR}:/config"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  #     resources:
-  #       limits:
-  #         memory: 1G
-  # prometheus:
-  #   image: prom/prometheus:v3.5.0
-  #   container_name: prometheus
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   # ports:
-  #     # - "9090:9090"
-  #   # depends_on:
-  #     # - mosdns
-  #   volumes:
-  #     - ${PROMETHEUS_CONFIG_DIR}:/etc/prometheus
-  #   command:
-  #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # grafana:
-  #   image: grafana/grafana:12.0.2
-  #   container_name: grafana
-  #   labels:
-  #     - homepage.group=监控
-  #     - homepage.name=grafana
-  #     - homepage.icon=grafana.png
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:4000
-  #     - homepage.description=grafana
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   depends_on:
-  #     - prometheus
-  #     - loki
-  #   ports:
-  #     - "4000:3000"
-  #   environment:
-  #     - GF_SECURITY_ADMIN_PASSWORD=admin
-  #   volumes:
-  #     - ${GRAFANA_DATA_DIR}:/var/lib/grafana
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # loki:
-  #   image: grafana/loki:3.5.2
-  #   container_name: loki
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   volumes:
-  #     - ${LOKI_CONFIG_DIR}:/etc/loki
-  #   # ports:
-  #     # - "3100:3100"
-  #   command: -config.file=/etc/loki/config.yaml
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # vaultwarden:
-  #   image: vaultwarden/server:1.34.1
-  #   container_name: vaultwarden
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - homepage.group=密码管理
-  #     - homepage.name=vaultwarden
-  #     - homepage.icon=vaultwarden.png
-  #     - homepage.description=vaultwarden
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     DOMAIN: ${VAULTWARDEN_DOMAIN}
-  #     ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
-  #     SIGNUPS_ALLOWED: "false"
-  #     PUSH_ENABLED: "true"
-  #     PUSH_INSTALLATION_ID: ${PUSH_INSTALLATION_ID}
-  #     PUSH_INSTALLATION_KEY: ${PUSH_INSTALLATION_KEY}
-  #   volumes:
-  #     - "${VAULTWARDEN_DATA_DIR}:/data"
-  #   ports:
-  #     - "6400:80"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # zerotier:
-  #   image: zerotier/zerotier:1.14.2
-  #   container_name: zerotier
-  #   network_mode: host
-  #   restart: always
-  #   cap_add:
-  #     - NET_ADMIN
-  #     - SYS_ADMIN
-  #   devices:
-  #     - /dev/net/tun
-  #   labels:
-  #     - homepage.group=网络
-  #     - homepage.name=zerotier-141
-  #     - homepage.icon=zerotier.png
-  #     - homepage.href=https://my.zerotier.com
-  #     - homepage.description=用于vps和家庭网络互通
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   volumes:
-  #     - "${ZEROTIER_DIR}:/var/lib/zerotier-one"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # alist3:
-  #   image: "xhofe/alist:latest"
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=true
-  #     - homepage.group=媒体管理
-  #     - homepage.name=云盘
-  #     - homepage.icon=https://cdn.jsdelivr.net/gh/alist-org/logo@main/logo.svg
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5245
-  #     - homepage.instance.public.href=https://drive3.${MAIN_DOMAIN}
-  #     - homepage.description=mine-alist3
-  #   container_name: alist3
-  #   networks:
-  #     - homelab
-  #   volumes:
-  #     - "${ALIST3_DATA_DIR}:/opt/alist/data"
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #   ports:
-  #     - "5245:5244"
-  #     - "5246:5246"
-  #   restart: always
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # slash:
-  #   image: yourselfhosted/slash:latest
-  #   container_name: slash
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=true
-  #     - homepage.group=未分类
-  #     - homepage.name=slash
-  #     - homepage.icon=https://cdn.jsdelivr.net/gh/yourselfhosted/slash@main/docs/assets/logo.png
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5231
-  #     - homepage.description=slash
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   volumes:
-  #     - "${SLASH_DATA_DIR}:/var/opt/slash"
-  #   ports:
-  #     - "5231:5231"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # syncthing:
-  #   image: lscr.io/linuxserver/syncthing:latest
-  #   container_name: syncthing
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=true
-  #     - homepage.group=文件同步
-  #     - homepage.name=syncthing-141
-  #     - homepage.icon=syncthing.png
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
-  #     - homepage.description=hk1box-141
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     PUID: 0
-  #     PGID: 0
-  #   volumes:
-  #     - "${SYNCTHING_CONFIG}:/config"
-  #     - "${SYNCTHING_BACKUP_MAIN_DIR}:/syncthing-141/data"
-  #   ports:
-  #     - "8384:8384"
-  #     - "22000:22000/tcp"
-  #     - "22000:22000/udp"
-  #     - "21027:21027/udp"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # traefik:
-  #   image: traefik:v3.0
-  #   container_name: traefik
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   command:
-  #     # - "--log.level=DEBUG"
-  #     - "--api.insecure=false"
-  #     - "--providers.docker=true"
-  #     - "--providers.docker.exposedbydefault=false"
-  #     - "--entryPoints.http.address=:80"
-  #     - "--entryPoints.https.address=:443"
-  #     - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
-  #     - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
-  #     - "--certificatesresolvers.myresolver.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
-  #     - "--certificatesresolvers.myresolver.acme.dnschallenge.resolvers[1]=223.5.5.5:53"
-  #     - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=true
-  #     - homepage.group=网络
-  #     - homepage.name=tvbox-traefik
-  #     - homepage.icon=traefik.png
-  #     - homepage.href=https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example
-  #     - homepage.description=tvbox反向代理
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     CF_DNS_API_TOKEN: ${CADDY_CLOUDFLARE_API_TOKEN}
-  #   volumes:
-  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
-  #     - "${BASE_DOCKER_DATA_DIR}/traefik/letsencrypt:/letsencrypt"
-  #   ports:
-  #     - '80:80'
-  #     - "443:443"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # wallos:
-  #   image: bellamy/wallos:latest
-  #   container_name: wallos
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=false
-  #     - homepage.group=未分类
-  #     - homepage.name=订阅管理
-  #     - homepage.icon=bluewallet.png
-  #     - homepage.description=wallos订阅管理
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8282
-  #     - homepage.instance.public.href=https://wallos.${MAIN_DOMAIN}
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   ports:
-  #     - 8282:80
-  #   volumes:
-  #     - "${WALLOS_DATA_DIR}:/var/www/html/db"
-  #     - "${WALLOS_LOGO_DIR}:/var/www/html/images/uploads/logos"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # headscale-ui:
-  #   image: goodieshq/headscale-admin:0.1.12b
-  #   container_name: headscale-ui
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=false
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   ports:
-  #     - '8370:80'
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # ct:
-  #   image: cloudflare/cloudflared:latest
-  #   container_name: ct
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   command: "tunnel --no-autoupdate run --token ${CT_TOKEN} --protocol http2"
-  #   secrets:
-  #     - ct-token
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=true
-  #     - homepage.group=网络
-  #     - homepage.name=Cloudflare Tunnel 141
-  #     - homepage.icon=cloudflare-zero-trust.png
-  #     - homepage.href=https://one.dash.cloudflare.com
-  #     - homepage.description=cloudflare-tunnel
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # dufs:
-  #   image: sigoden/dufs
-  #   container_name: dufs
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   command: "/data -A -a shelken:${DUFS_PASSWORD}@/:rw"
-  #   secrets:
-  #     - dufs-password
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=true
-  #     - homepage.group=Dufs
-  #     - homepage.name=Box文件
-  #     - homepage.icon=https://gcore.jsdelivr.net/gh/sigoden/dufs@main/assets/favicon.ico
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5000
-  #     - homepage.description=Box文件, 包含了/data目录下的文件
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   volumes:
-  #     - "${DUFS_DATA_DIR}:/data"
-  #   ports:
-  #     - "5000:5000"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # homepage:
-  #   image: gethomepage/homepage:v1.3.2
-  #   container_name: homepage
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - com.centurylinklabs.watchtower.enable=false
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     LOG_LEVEL: debug
-  #     HOMEPAGE_ALLOWED_HOSTS: "*"
-  #   volumes:
-  #     - "${HOMEPAGE_CONFIG}:/app/config"
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  #   ports:
-  #     - "5520:3000"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # memos:
-  #   image: neosmemo/memos:0.21.0
-  #   container_name: memos
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   #command: --metric=false
-  #   labels:
-  #     - com.centurylinklabs.watchtower.monitor-only=false
-  #     - homepage.group=文章
-  #     - homepage.name=Memos
-  #     - homepage.icon=memos.png
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5230
-  #     - homepage.instance.public.href=https://memos.${MAIN_DOMAIN}
-  #     - homepage.description=备忘录，笔记
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   volumes:
-  #     - "${MEMOS_DATA_DIR}:/var/opt/memos"
-  #   ports:
-  #     - "5230:5230"
-  #   deploy:
-  #     replicas: 1
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # shlink:
-  #   image: shlinkio/shlink:4.4.6
-  #   container_name: shlink
-  #   depends_on:
-  #     - mysql8
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - homepage.group=未分类
-  #     - homepage.name=短链接
-  #     - homepage.icon=shlink.png
-  #     - homepage.href=https://app.shlink.io/
-  #     - homepage.description=短链接管理
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     DEFAULT_DOMAIN: ${SHLINK_DOMAIN}
-  #     IS_HTTPS_ENABLED: "true"
-  #     GEOLITE_LICENSE_KEY: ${GEOLITE_LICENSE_KEY}
-  #     SKIP_INITIAL_GEOLITE_DOWNLOAD: "true"
-  #     DB_DRIVER: mysql
-  #     DB_NAME: shlink
-  #     DB_USER: root
-  #     DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #     DB_HOST: mysql8
-  #     # SHELL_VERBOSITY: 3
-  #   ports:
-  #     - "7580:8080"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # watchtower:
-  #   image: containrrr/watchtower
-  #   container_name: watchtower
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   command: "-c --interval ${WATCHTOWER_INTERVAL} --label-enable --remove-volumes --cleanup"
-  #   labels:
-  #     - homepage.group=容器更新
-  #     - homepage.name=watchtower-141
-  #     - homepage.icon=watchtower.png
-  #     - homepage.description=watchtower
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     WATCHTOWER_NOTIFICATIONS: slack
-  #     WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${WATCHTOWER_SLACK_HOOK_URL}
-  #     WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${WATCHTOWER_SLACK_IDENTIFIER}
-  #     WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: ${WATCHTOWER_SLACK_CHANNEL}
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # mysql8:
-  #   image: mysql:8.4.5
-  #   container_name: mysql8
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   command:
-  #     [
-  #       "--character-set-server=utf8mb4",
-  #       "--collation-server=utf8mb4_unicode_ci",
-  #       "--default-time-zone=+8:00",
-  #     ]
-  #   labels:
-  #     - homepage.group=未分类
-  #     - homepage.name=mysql8-141
-  #     - homepage.icon=mysql.png
-  #     # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:8384
-  #     - homepage.description=目前为shlink提供服务
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #   volumes:
-  #     - "${MYSQL8_DATA_DIR}:/var/lib/mysql"
-  #   ports:
-  #     - "6306:3306"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
-  # portainer:
-  #   image: portainer/portainer-ce:2.31.3
-  #   container_name: portainer
-  #   networks:
-  #     - homelab
-  #   restart: always
-  #   labels:
-  #     - homepage.group=容器管理
-  #     - homepage.name=141
-  #     - homepage.icon=portainer.png
-  #     - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:9000
-  #     - homepage.instance.public.href=https://port.${MAIN_DOMAIN}
-  #     - homepage.description=portainer
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - "${PORTAINER_DATA_DIR}:/data"
-  #   ports:
-  #     - "9000:9000"
-  #   deploy:
-  #     replicas: 0
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 3s
-  #       order: stop-first
-  #     restart_policy:
-  #       condition: on-failure
-  #       max_attempts: 3
