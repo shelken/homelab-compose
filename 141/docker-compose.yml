@@ -36,7 +36,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
-      replicas: 0
+      replicas: 1
 
   caddy:
     image: ghcr.io/shelken/caddy:2.10.2
