@@ -6,10 +6,9 @@ services:
       - homelab
     restart: always
     labels:
-      - homepage.group=网络
+      - homepage.group=VPS
       - homepage.name=mosdns
-      - homepage.icon=azure-dns.png
-      # - homepage.href=http://${DEPLOY_HOST:-127.0.0.1}:5533
+      - homepage.icon=azure-dns.svg
       - homepage.description=dns服务
     environment:
       TZ: Asia/Shanghai
@@ -36,6 +35,11 @@ services:
       - >-
         --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
     image: prom/node-exporter:v1.10.2
+    labels:
+      - homepage.group=VPS
+      - homepage.name=node-exporter
+      - homepage.icon=docker-moby.svg
+      - homepage.description=""
     # network_mode: host
     networks:
       - homelab
@@ -55,11 +59,11 @@ services:
       - homelab
     restart: always
     labels:
-      - homepage.group=网络
-      - homepage.name=vps-161-caddy
-      - homepage.icon=caddy.png
+      - homepage.group=VPS
+      - homepage.name=vps-caddy
+      - homepage.icon=caddy.svg
       - homepage.href=https://${MAIN_DOMAIN:-www.google.com}
-      - homepage.description=vps-161反向代理
+      - homepage.description=vps反向代理
     environment:
       TZ: Asia/Shanghai
       MAIN_DOMAIN: ${MAIN_DOMAIN}
@@ -79,6 +83,11 @@ services:
   dhp:
     image: registry:2.8.3
     container_name: dhp
+    labels:
+      - homepage.group=VPS
+      - homepage.name=dhp
+      - homepage.icon=docker-moby.svg
+      - homepage.description="docker镜像registry"
     volumes:
       # 挂载数据目录 (可选)
       # - ./mirror:/var/lib/registry
@@ -101,6 +110,11 @@ services:
     restart: always
     networks:
       - homelab
+    labels:
+      - homepage.group=VPS
+      - homepage.name=docker-proxy
+      - homepage.icon=docker-moby.svg
+      - homepage.description=""
     environment:
       - CONTAINERS=1 # Allow access to viewing containers
       - SERVICES=1 # Allow access to viewing services (necessary when using Docker Swarm)
@@ -123,9 +137,9 @@ services:
       - homelab
     restart: always
     labels:
-      - homepage.group=网络
+      - homepage.group=VPS
       - homepage.name=订阅转换
-      - homepage.icon=docker-moby.png
+      - homepage.icon=docker-moby.svg
       - homepage.href=https://${SUB_CONVERTER_DOMAIN:-www.google.com}
       - homepage.description=订阅转换
     cap_drop:
@@ -151,9 +165,9 @@ services:
     network_mode: host
     restart: always
     labels:
-      - homepage.group=网络
+      - homepage.group=VPS
       - homepage.name=derp服务
-      - homepage.icon=tailscale.png
+      - homepage.icon=tailscale.svg
       - homepage.href=https://${DERP_DOMAIN}
       - homepage.description=derp服务
     environment:
@@ -176,7 +190,7 @@ services:
   #   restart: always
   #   command: serve
   #   labels:
-  #     - homepage.group=网络
+  #     - homepage.group=VPS
   #     - homepage.name=headscale
   #     - homepage.icon=tailscale.png
   #     - homepage.href=https://${HEADSCALE_DOMAIN}
@@ -218,7 +232,7 @@ services:
   #     - homelab
   #   restart: always
   #   labels:
-  #     - homepage.group=AI
+  #     - homepage.group=VPS
   #     - homepage.name=lobe-chat
   #     - homepage.icon=https://cdn.jsdelivr.net/gh/ChatGPTNextWeb/ChatGPT-Next-Web@main/docs/images/icon.svg
   #     - homepage.href=https://${LOBE_CHAT_DOMAIN}
@@ -248,7 +262,7 @@ services:
   #   restart: always
   #   command: '-c --interval ${WATCHTOWER_INTERVAL} --label-enable --cleanup'
   #   labels:
-  #     - homepage.group=容器更新
+  #     - homepage.group=VPS
   #     - homepage.name=${WATCHTOWER_SLACK_IDENTIFIER}
   #     - homepage.icon=watchtower.png
   #     - homepage.description=watchtower
@@ -283,7 +297,7 @@ services:
   #     - net.ipv4.conf.all.src_valid_mark=1
   #   restart: always
   #   labels:
-  #     - homepage.group=网络
+  #     - homepage.group=VPS
   #     - homepage.name=wg-easy
   #     - homepage.icon=wireguard.png
   #     - homepage.description=wg-easy
@@ -334,7 +348,7 @@ services:
   #     - homelab
   #   restart: always
   #   labels:
-  #     - homepage.group=网络
+  #     - homepage.group=VPS
   #     - homepage.name=headscale-webui
   #     - homepage.icon=headscale.png
   #     - homepage.href=${HEADSCALE_ADMIN_DOMAIN}
