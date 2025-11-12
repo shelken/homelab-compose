@@ -39,7 +39,7 @@ services:
       - homepage.group=VPS
       - homepage.name=node-exporter
       - homepage.icon=docker-moby.svg
-      - homepage.description=""
+      - homepage.description=
     # network_mode: host
     networks:
       - homelab
@@ -87,7 +87,7 @@ services:
       - homepage.group=VPS
       - homepage.name=dhp
       - homepage.icon=docker-moby.svg
-      - homepage.description="docker镜像registry"
+      - homepage.description=docker镜像registry
     volumes:
       # 挂载数据目录 (可选)
       # - ./mirror:/var/lib/registry
@@ -114,7 +114,7 @@ services:
       - homepage.group=VPS
       - homepage.name=docker-proxy
       - homepage.icon=docker-moby.svg
-      - homepage.description=""
+      - homepage.description=
     environment:
       - CONTAINERS=1 # Allow access to viewing containers
       - SERVICES=1 # Allow access to viewing services (necessary when using Docker Swarm)
