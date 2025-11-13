@@ -7,6 +7,11 @@ services:
   mirror-k8s:
     image: "registry:2.8.3"
     container_name: "mirror-k8s"
+    labels:
+      - homepage.group=sakamoto
+      - homepage.name=mirror-k8s
+      - homepage.icon=docker-moby.svg
+      - homepage.description=
     restart: always
     networks:
       - homelab

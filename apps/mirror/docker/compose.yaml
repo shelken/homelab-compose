@@ -7,6 +7,11 @@ services:
   mirror-docker:
     image: "registry:2.8.3"
     container_name: "mirror-docker"
+    labels:
+      - homepage.group=sakamoto
+      - homepage.name=mirror-docker
+      - homepage.icon=docker-moby.svg
+      - homepage.description=
     restart: always
     networks:
       - homelab
@@ -21,4 +26,3 @@ services:
       - "5006:5000"
     deploy:
       replicas: 1
-

@@ -6,6 +6,13 @@ services:
   caddy:
     image: ghcr.io/shelken/caddy:2.10.2
     container_name: caddy
+    labels:
+      - homepage.group=sakamoto
+      - homepage.name=caddy
+      - homepage.icon=caddy.svg
+      - homepage.description=
+      - homepage.widget.type=caddy
+      - homepage.widget.url=http://sakamoto.lan:2019
     network_mode: host
     restart: always
     configs:
@@ -127,7 +134,7 @@ configs:
         import internal-access quay.mirror        http://127.0.0.1:5002  empty empty
         import internal-access mirror-gcr.mirror  http://127.0.0.1:5003  empty empty
         import internal-access k8s.mirror         http://127.0.0.1:5005  empty empty
-        import internal-access docker.mirror      http://127.0.0.1:5006  empty empty
+        #import internal-access docker.mirror      http://127.0.0.1:5006  empty empty
         handle {
           abort
         }

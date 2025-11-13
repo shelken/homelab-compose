@@ -3,7 +3,7 @@ networks:
     external: true
 
 x-dls-variables: &dls-variables
-  TZ: Asia/Shanghai  # REQUIRED, set your timezone correctly on fastapi-dls AND YOUR CLIENTS !!!
+  TZ: Asia/Shanghai # REQUIRED, set your timezone correctly on fastapi-dls AND YOUR CLIENTS !!!
   DLS_URL: nvidia-dls.${MAIN_DOMAIN} # REQUIRED, change to your ip or hostname
   DLS_PORT: 443
   LEASE_EXPIRE_DAYS: 90
@@ -14,6 +14,13 @@ services:
   nvidia-dls:
     image: collinwebdesigns/fastapi-dls:2.0.3
     container_name: nvidia-dls
+    labels:
+      - homepage.group=sakamoto
+      - homepage.name=nvidia-dls
+      - homepage.icon=docker-moby.svg
+      - homepage.description=
+    networks:
+      - homelab
     restart: always
     environment:
       <<: *dls-variables

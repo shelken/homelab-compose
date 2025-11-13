@@ -8,6 +8,11 @@ services:
   mirror-gcr:
     image: "registry:2.8.3"
     container_name: "mirror-gcr"
+    labels:
+      - homepage.group=sakamoto
+      - homepage.name=mirror-gcr
+      - homepage.icon=docker-moby.svg
+      - homepage.description=
     restart: always
     networks:
       - homelab
