@@ -19,7 +19,7 @@ services:
       - SERVICES=1 # Allow access to viewing services (necessary when using Docker Swarm)
       - TASKS=1 # Allow access to viewing tasks (necessary when using Docker Swarm)
     ports:
-      - "${DOCKER_PROXY_HOST:-127.0.0.1}:2575:2375"
+      - "2575:2375"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
