@@ -141,7 +141,7 @@ services:
       - homepage.group=VPS
       - homepage.name=订阅转换
       - homepage.icon=docker-moby.svg
-      - homepage.href=https://${SUB_CONVERTER_DOMAIN:-www.google.com}
+      - homepage.href=https://${SUB_CONVERTER_DOMAIN:-www.google.com}/version
       - homepage.description=订阅转换
     cap_drop:
       - ALL
