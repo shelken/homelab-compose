@@ -152,7 +152,7 @@ services:
     deploy:
       replicas: 1
   vector:
-    image: timberio/vector:0.51.0-alpine
+    image: timberio/vector:0.51.1-alpine
     container_name: vector
     labels:
       - homepage.group=tvbox
