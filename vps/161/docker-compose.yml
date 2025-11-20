@@ -64,7 +64,7 @@ services:
       - homepage.icon=caddy.svg
       - homepage.description=vps反向代理
       - homepage.widget.type=caddy
-      - homepage.widget.url=http://${DEPLOY_HOST}:2019
+      - homepage.widget.url=http://ts-node-vps.network.svc:2019
     environment:
       TZ: Asia/Shanghai
       MAIN_DOMAIN: ${MAIN_DOMAIN}
