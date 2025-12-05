@@ -104,7 +104,7 @@ services:
       - homelab
     restart: always
     deploy:
-      replicas: 1
+      replicas: 0
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest@sha256:3400c429c5f9e1b21d62130fb93b16e2e772d4fb7695bd52fc2b743800b9fe9e
     container_name: dockerproxy
