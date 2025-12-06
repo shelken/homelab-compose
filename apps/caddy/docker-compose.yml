@@ -23,7 +23,6 @@ services:
       MAIN_DOMAIN: ${MAIN_DOMAIN}
       CLOUDFLARE_API_TOKEN: ${CADDY_CLOUDFLARE_API_TOKEN}
     volumes:
-      # - "${DOCKER_DATA_DIR}/caddy/Caddyfile:/etc/caddy/Caddyfile"
       - "${DOCKER_DATA_DIR}/caddy/site:/srv"
       - "${DOCKER_DATA_DIR}/caddy/data:/data"
       - "${DOCKER_DATA_DIR}/caddy/config:/config"
@@ -128,18 +127,6 @@ configs:
         }
       }
 
-      *.mirror.{env.MAIN_DOMAIN} {
-        import with-tls
-        import internal-access ghcr.mirror        http://127.0.0.1:5001  empty empty
-        import internal-access quay.mirror        http://127.0.0.1:5002  empty empty
-        import internal-access mirror-gcr.mirror  http://127.0.0.1:5003  empty empty
-        import internal-access k8s.mirror         http://127.0.0.1:5005  empty empty
-        #import internal-access docker.mirror      http://127.0.0.1:5006  empty empty
-        handle {
-          abort
-        }
-      }
-
       *.{env.MAIN_DOMAIN} {
         import with-tls
 
@@ -147,6 +134,12 @@ configs:
         import internal-access minio        http://127.0.0.1:9000       empty empty
         import internal-access nvidia-dls   https://127.0.0.1:5100      empty skip-tls-verify
         import internal-access pve-mine     https://192.168.6.213:8006  empty skip-tls-verify
+
+        import internal-access ghcr-mirror        http://127.0.0.1:5001  empty empty
+        import internal-access quay-mirror        http://127.0.0.1:5002  empty empty
+        import internal-access mirror-gcr-mirror  http://127.0.0.1:5003  empty empty
+        import internal-access k8s-mirror         http://127.0.0.1:5005  empty empty
+        #import internal-access docker-mirror     http://127.0.0.1:5006  empty empty
 
         handle {
           #import to_k8s_external
