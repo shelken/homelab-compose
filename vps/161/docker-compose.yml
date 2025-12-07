@@ -99,7 +99,7 @@ services:
     volumes:
       # CrowdSec 配置和数据
       - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
-      - crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - ./crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
       - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
       # 采集 Caddy 日志
       # - ${CADDY_DATA_DIR}:/var/log/caddy:ro
