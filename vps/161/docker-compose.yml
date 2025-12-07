@@ -93,13 +93,19 @@ services:
       - homepage.icon=crowdsec.svg
       - homepage.description=安全检测
     environment:
-      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/base-http-scenarios crowdsecurity/http-cve"
+      COLLECTIONS: |-
+        crowdsecurity/caddy
+        crowdsecurity/base-http-scenarios
+        crowdsecurity/http-cve
+        crowdsecurity/whitelist-good-actors
       ENROLL_KEY: ${CROWDSEC_ENROLL_KEY}
       ENROLL_INSTANCE_NAME: vps-cc
+      CONSOLE_MANAGEMENT: "true"
     volumes:
       # CrowdSec 配置和数据
       - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
       - ./crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - ./crowdsec/config/console.yaml:/etc/crowdsec/console.yaml:ro
       - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
       # 采集 Caddy 日志
       # - ${CADDY_DATA_DIR}:/var/log/caddy:ro
