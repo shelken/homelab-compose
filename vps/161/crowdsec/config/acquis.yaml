@@ -1,4 +1,0 @@
----
-filename: /var/log/caddy/access.log
-labels:
-  type: caddy
