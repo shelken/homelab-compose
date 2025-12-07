@@ -93,7 +93,7 @@ services:
       - homepage.icon=crowdsec.svg
       - homepage.description=安全检测
     environment:
-      COLLECTIONS: "crowdsecurity/linux crowdsecurity/caddy crowdsecurity/base-http-scenarios crowdsecurity/http-cve"
+      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/base-http-scenarios crowdsecurity/http-cve"
       ENROLL_KEY: ${CROWDSEC_ENROLL_KEY}
       ENROLL_INSTANCE_NAME: vps-cc
     volumes:
