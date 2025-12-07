@@ -108,9 +108,9 @@ services:
       CONSOLE_MANAGEMENT: "true"
     volumes:
       # CrowdSec 配置和数据
-      # - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
+      - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
       - ./crowdsec/config/acquis.d:/etc/crowdsec/acquis.d:ro
-      # - ./crowdsec/config/console.yaml:/etc/crowdsec/console.yaml:ro
+      - ./crowdsec/config/console.yaml:/etc/crowdsec/console.yaml:ro
       - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
       - /var/log:/var/log:ro
     ports:
