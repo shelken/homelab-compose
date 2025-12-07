@@ -103,6 +103,7 @@ services:
         crowdsecurity/wordpress
         crowdsecurity/appsec-virtual-patching
         crowdsecurity/appsec-generic-rules
+        crowdsecurity/appsec-crs
       ENROLL_KEY: ${CROWDSEC_ENROLL_KEY}
       ENROLL_INSTANCE_NAME: vps-cc
       CONSOLE_MANAGEMENT: "true"
