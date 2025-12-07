@@ -1,6 +1,4 @@
 ---
-source: docker
-container_name:
-  - caddy
+filename: /var/log/caddy/access.log
 labels:
-  type: caddy-vps
+  type: caddy

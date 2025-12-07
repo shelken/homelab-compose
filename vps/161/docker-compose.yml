@@ -74,6 +74,7 @@ services:
       - "${CADDY_SITE_DIR}:/srv"
       - "${CADDY_DATA_DIR}:/data"
       - "${CADDY_CONFIG_DIR}:/config"
+      - /var/log/caddy:/var/log/caddy
     ports:
       - "80:80"
       - "443:443"
@@ -99,19 +100,16 @@ services:
         crowdsecurity/base-http-scenarios
         crowdsecurity/http-cve
         crowdsecurity/whitelist-good-actors
+        crowdsecurity/wordpress
       ENROLL_KEY: ${CROWDSEC_ENROLL_KEY}
       ENROLL_INSTANCE_NAME: vps-cc
       CONSOLE_MANAGEMENT: "true"
     volumes:
       # CrowdSec 配置和数据
       # - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
-      - ./crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - ./crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.d/caddy.yaml:ro
       # - ./crowdsec/config/console.yaml:/etc/crowdsec/console.yaml:ro
       - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
-      # 采集 Caddy 日志
-      # - ${CADDY_DATA_DIR}:/var/log/caddy:ro
-      # 或者通过 Docker socket 采集容器日志
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/log:/var/log:ro
     ports:
       - "${DEPLOY_HOST}:8080:8080"  # LAPI 端口（可通过 Tailscale 访问）
