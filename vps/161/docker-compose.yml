@@ -53,7 +53,7 @@ services:
     deploy:
       replicas: 1
   caddy:
-    image: ghcr.io/shelken/caddy:2.10.2
+    image: ghcr.io/shelken/caddy:2.10.2@sha256-7d8ddc8402dd18c85dc9484e6ed5e01fbf021e6aee155926662806bc2e5d02cf
     container_name: caddy
     networks:
       - homelab
@@ -79,6 +79,35 @@ services:
       - "443:443"
       - "443:443/udp"
       - "${DEPLOY_HOST}:2019:2019/tcp"
+    deploy:
+      replicas: 1
+  crowdsec:
+    image: ghcr.io/crowdsecurity/crowdsec:v1.7.0
+    container_name: crowdsec
+    networks:
+      - homelab
+    restart: always
+    labels:
+      - homepage.group=VPS
+      - homepage.name=crowdsec
+      - homepage.icon=crowdsec.svg
+      - homepage.description=安全检测
+    environment:
+      COLLECTIONS: "crowdsecurity/linux crowdsecurity/caddy crowdsecurity/base-http-scenarios crowdsecurity/http-cve"
+      ENROLL_KEY: ${CROWDSEC_ENROLL_KEY}
+      ENROLL_INSTANCE_NAME: vps-cc
+    volumes:
+      # CrowdSec 配置和数据
+      - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
+      - crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
+      # 采集 Caddy 日志
+      # - ${CADDY_DATA_DIR}:/var/log/caddy:ro
+      # 或者通过 Docker socket 采集容器日志
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "127.0.0.1:8080:8080"  # LAPI 端口（可通过 Tailscale 访问）
+      - "127.0.0.1:6060:6060"  # Metrics 端口
     deploy:
       replicas: 1
   dhp:
