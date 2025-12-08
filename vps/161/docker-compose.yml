@@ -184,7 +184,7 @@ services:
       - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/log/caddy:/var/log/caddy:ro
-      - fluent-bit-db:/fluent-bit/db
+      - ${DATA_BASE_DIR}/fluent-bit/db:/fluent-bit/db
     deploy:
       replicas: 1
   sub-converter:
