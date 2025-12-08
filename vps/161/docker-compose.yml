@@ -169,6 +169,24 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     deploy:
       replicas: 1
+  fluent-bit:
+    image: ghcr.io/fluent/fluent-bit:latest
+    container_name: fluent-bit
+    networks:
+      - homelab
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      VICTORIA_LOGS_HOST: ${VICTORIA_LOGS_HOST:?VICTORIA_LOGS_HOST}
+      VICTORIA_LOGS_PORT: ${VICTORIA_LOGS_PORT:-9428}
+      HOSTNAME: vps-cc
+    volumes:
+      - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log/caddy:/var/log/caddy:ro
+      - fluent-bit-db:/fluent-bit/db
+    deploy:
+      replicas: 1
   sub-converter:
     image: ghcr.io/shelken/subconverter:1.7.0
     container_name: sub-converter
