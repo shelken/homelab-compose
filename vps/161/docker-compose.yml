@@ -82,9 +82,9 @@ services:
       - "${DEPLOY_HOST}:2019:2019/tcp"
     deploy:
       replicas: 1
-  crowdsec:
+  crowdsec-agent:
     image: ghcr.io/crowdsecurity/crowdsec:v1.7.3
-    container_name: crowdsec
+    container_name: crowdsec-agent
     networks:
       - homelab
     restart: always
@@ -100,19 +100,16 @@ services:
         crowdsecurity/base-http-scenarios
         crowdsecurity/http-cve
         crowdsecurity/whitelist-good-actors
-        crowdsecurity/wordpress
-        crowdsecurity/appsec-virtual-patching
-        crowdsecurity/appsec-generic-rules
-        crowdsecurity/appsec-crs
-      ENROLL_KEY: ${CROWDSEC_ENROLL_KEY}
-      ENROLL_INSTANCE_NAME: vps-cc
-      CONSOLE_MANAGEMENT: "true"
+        crowdsecurity/vpatch-*
+      DISABLE_LOCAL_API: "true"
+      LOCAL_API_URL: ${CROWDSEC_LOCAL_API_URL:?CROWDSEC_LOCAL_API_URL}
+      AGENT_USERNAME: vps-cc
+      AGENT_PASSWORD: ${CROWDSEC_AGENT_PASSWORD:?CROWDSEC_AGENT_PASSWORD}
     volumes:
       # CrowdSec 配置和数据
-      - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
+      # - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
       - ./crowdsec/config/acquis.d:/etc/crowdsec/acquis.d:ro
-      - ./crowdsec/config/console.yaml:/etc/crowdsec/console.yaml
-      - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
+      # - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
       - /var/log:/var/log:ro
     ports:
       - "${DEPLOY_HOST}:8080:8080"  # LAPI 端口（可通过 Tailscale 访问）
