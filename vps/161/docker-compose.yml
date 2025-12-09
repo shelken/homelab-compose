@@ -111,9 +111,6 @@ services:
       - ./crowdsec/config/acquis.d:/etc/crowdsec/acquis.d:ro
       # - ${DATA_BASE_DIR}/crowdsec/data:/var/lib/crowdsec/data
       - /var/log:/var/log:ro
-    ports:
-      - "${DEPLOY_HOST}:8080:8080"  # LAPI 端口（可通过 Tailscale 访问）
-      - "${DEPLOY_HOST}:6060:6060"  # Metrics 端口
     deploy:
       replicas: 1
   dhp:
