@@ -105,6 +105,7 @@ services:
       LOCAL_API_URL: ${CROWDSEC_LOCAL_API_URL:?CROWDSEC_LOCAL_API_URL}
       AGENT_USERNAME: vps-cc
       AGENT_PASSWORD: ${CROWDSEC_AGENT_PASSWORD:?CROWDSEC_AGENT_PASSWORD}
+      CROWDSEC_BYPASS_DB_VOLUME_CHECK: true
     volumes:
       # CrowdSec 配置和数据
       # - ${DATA_BASE_DIR}/crowdsec/config:/etc/crowdsec
