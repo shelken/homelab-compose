@@ -98,6 +98,9 @@ services:
         crowdsecurity/linux
         crowdsecurity/caddy
         crowdsecurity/http-cve
+        crowdsecurity/appsec-virtual-patching
+        crowdsecurity/appsec-generic-rules
+        crowdsecurity/appsec-crs
       DISABLE_LOCAL_API: "true"
       LOCAL_API_URL: ${CROWDSEC_LOCAL_API_URL:?CROWDSEC_LOCAL_API_URL}
       AGENT_USERNAME: vps-cc
